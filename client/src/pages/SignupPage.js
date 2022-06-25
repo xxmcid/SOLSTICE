@@ -7,40 +7,17 @@ import { Link } from 'react-router-dom';
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
 import { ThemeProvider, createTheme, Button } from '@mui/material';
 import '../styles/common.css';
-import'../styles/loginpage.css';
+import '../styles/loginpage.css';
+import '../styles/signuppage.css';
 
 // MUI Components
 import Box from '@mui/material/Box';
 import { Paper } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import InfoIcon from '@mui/icons-material/Info';
 
-// Custom Components
-import Clock from '../components/Clock';
-
-class LoginPage extends Component {
-
-    constructor(props)
-    {
-        super(props);
-        
-        this.state = {
-            infopagevisible: false
-        };
-    }
-
-    setvisibility()
-    {
-        console.log("setting visibility!!");
-        this.setState({
-            infopagevisible: !this.state.infopagevisible
-        });
-    }
-
+class SignupPage extends Component {
     render()
-    {
-        
-        console.log("Creating main theme palette from MUI");
+    {        
         const theme = createTheme(
         {
           palette: 
@@ -56,19 +33,11 @@ class LoginPage extends Component {
           }
         });
 
-        console.log("Rendering LoginPage");
         return (
                 <ThemeProvider theme={theme}>
                     <div>
                         <div id='header'>
-                            <div id='title'>SOLSTICE</div>
-                            <Clock />
-                            <Button 
-                                id='infobutton' 
-                                variant='contained'
-                                onClick={this.setvisibility.bind(this)}>
-                                <InfoIcon />
-                            </Button>
+                            <div id='signupTitle'>SOLSTICE</div>
                         </div>
                         <Box
                         sx={{
@@ -80,17 +49,8 @@ class LoginPage extends Component {
                             },
                         }}
                         >
-                        { this.state.infopagevisible ? <Paper
-                            id='infoContainer'
-                            variant="outlined"
-                            square 
-                            sx=
-                            {{ 
-                                backgroundColor: 'white',
-                                borderRadius: 5
-                            }}>About</Paper>: null }
                         <Paper 
-                            id='loginContainer'
+                            id='signupContainer'
                             variant="outlined" 
                             square 
                             sx=
@@ -99,8 +59,28 @@ class LoginPage extends Component {
                                 borderRadius: 5
                             }} >
                                 
-                            <div id='signinlabel'>Sign in</div>
+                            <div id='registerlabel'>Sign Up</div>
                             <div id='inputcontainer'>
+                            <div className="label">First Name</div>
+                                <TextField 
+                                    id="firstNameinput" 
+                                    sx=
+                                    {{  
+                                        backgroundColor: theme.palette.primary.light,
+                                        maxWidth: 300,
+                                        borderRadius: 2
+                                    }}
+                                    />
+                                <div className="label">Last Name</div>
+                                <TextField 
+                                    id="lastNameinput" 
+                                    sx=
+                                    {{  
+                                        backgroundColor: theme.palette.primary.light,
+                                        maxWidth: 300,
+                                        borderRadius: 2
+                                    }}
+                                    />   
                                 <div className="label">Email</div>
                                 <TextField 
                                     id="emailinput" 
@@ -124,6 +104,7 @@ class LoginPage extends Component {
                                     />
                             </div>
                             <div id='lowerbuttoncontainer'>
+                                <Link to="/" > Go Back </ Link>
                                     <Button 
                                         variant='contained'
                                         size='large'
@@ -133,24 +114,21 @@ class LoginPage extends Component {
                                             backgroundColor: theme.palette.primary.contrast,
                                             borderRadius: 5
                                         }}>
-                                            Sign in
+                                            Register
                                     </Button>
-                                    <button className='textlink' id='forgotpasslink'>Forgot your password?</button>
+                                    {/* <button className='textlink' id='forgotpasslink'>Forgot your password?</button> */}
                             </div>
-                            <div id='footercontainer'>
-                                <div id='signuplabel'>
-                                    Don't have an account?
-                                        {/* <button className='textlink'id='signuplink'>Sign up now.</button> */}
-                                    <Link to="/signup" > Sign up now. </ Link>
+                            {/* <div id='footercontainer'>
+                                <div id='loginlabel'>
+                                    <button className='textlink'id='signuplink'>Go Back</button>
                                 </div>
-                            </div>
+                            </div> */}
                         </ Paper>
                         </Box>
                     </div>
                 </ThemeProvider>
         );
     }
-
 }
 
-export default LoginPage;
+export default SignupPage;

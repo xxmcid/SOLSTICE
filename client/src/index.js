@@ -10,6 +10,7 @@ import './index.css';
 
 // Pages
 import App from './App';
+import SignupPage from './pages/SignupPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,6 +19,7 @@ root.render(
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
+      <Route path="/signup" element={<SignupPage />} />
     </Routes>
     </BrowserRouter>
   // </React.StrictMode>

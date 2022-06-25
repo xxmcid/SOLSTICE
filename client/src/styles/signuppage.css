@@ -1,0 +1,41 @@
+#signupTitle
+{
+    font-size: xxx-large;
+    margin-left: 575px;
+}
+
+#signupContainer
+{
+    height: 620px;
+    width: 400px;
+    position: fixed;
+    left: 25%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
+}
+
+#registerlabel
+{
+    margin-top: 30px;
+    padding-bottom: 25px;
+    text-align: center;
+    font-size: xxx-large;
+    color: white
+}
+
+#inputcontainer > *
+{
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+    color: white;
+}
+
+#inputcontainer > .label
+{
+    font-size: x-large;
+    padding-bottom: 2%;
+    padding-top: 2%;
+}
