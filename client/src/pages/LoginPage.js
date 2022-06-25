@@ -14,6 +14,8 @@ import Box from '@mui/material/Box';
 import { Paper } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import InfoIcon from '@mui/icons-material/Info';
+import CloseIcon from '@mui/icons-material/Close';
+import Divider from '@mui/material/Divider';
 
 // Custom Components
 import Clock from '../components/Clock';
@@ -78,72 +80,102 @@ class LoginPage extends Component {
                             width: 128,
                             height: 128,
                             },
-                        }}
-                        >
-                        { this.state.infopagevisible ? <Paper
-                            id='infoContainer'
-                            variant="outlined"
-                            square 
-                            sx=
-                            {{ 
-                                backgroundColor: 'white',
-                                borderRadius: 5
-                            }}>About</Paper>: null }
-                        <Paper 
-                            id='loginContainer'
-                            variant="outlined" 
-                            square 
-                            sx=
-                            {{ 
-                                backgroundColor: theme.palette.primary.main,
-                                borderRadius: 5
-                            }} >
-                                
-                            <div id='signinlabel'>Sign in</div>
-                            <div id='inputcontainer'>
-                                <div className="label">Email</div>
-                                <TextField 
-                                    id="emailinput" 
-                                    sx=
-                                    {{  
-                                        backgroundColor: theme.palette.primary.light,
-                                        maxWidth: 300,
-                                        borderRadius: 2
-                                    }}
-                                    />
-                                <div className="label">Password</div>
-                                <TextField
-                                    id="passwordinput"
-                                    type="password"
-                                    sx=
-                                    {{  
-                                        backgroundColor: theme.palette.primary.light, 
-                                        maxWidth: 300,
-                                        borderRadius: 2
-                                    }}
-                                    />
-                            </div>
-                            <div id='lowerbuttoncontainer'>
+                        }}>
+                            { this.state.infopagevisible ? 
+                            <Paper
+                                id='infoContainer'
+                                variant="outlined"
+                                square 
+                                sx=
+                                {{ 
+                                    backgroundColor: 'white',
+                                    borderRadius: 5
+                                }}>
+                                <div id='infoheader'>
+                                    About
                                     <Button 
+                                        id='closebutton' 
                                         variant='contained'
-                                        size='large'
+                                        onClick={this.setvisibility.bind(this)}
                                         sx=
-                                        {{ 
-                                            textTransform: 'none',
-                                            backgroundColor: theme.palette.primary.contrast,
-                                            borderRadius: 5
+                                        {{
+                                            height: 'fit-content',
+                                            borderRadius: 7
                                         }}>
-                                            Sign in
+                                        <CloseIcon />
                                     </Button>
-                                    <button className='textlink' id='forgotpasslink'>Forgot your password?</button>
-                            </div>
-                            <div id='footercontainer'>
-                                <div id='signuplabel'>
-                                    Don't have an account?
-                                    <button className='textlink'id='signuplink'>Sign up now.</button>
                                 </div>
-                            </div>
-                        </ Paper>
+                                <Divider 
+                                    variant='middle'
+                                    sx=
+                                    {{
+                                        borderBottomWidth: 5,
+                                        backgroundColor: 'black',
+                                        marginLeft: 6,
+                                        marginRight: 5 
+                                    }}/>
+                                <div id='infobody'>
+                                    <br />
+                                    Graphics
+                                    <br />
+                                    Background by Material UI, protected by Creative Commons
+                                </div>
+                            </Paper>: null }
+                            <Paper 
+                                id='loginContainer'
+                                variant="outlined" 
+                                square 
+                                sx=
+                                {{ 
+                                    backgroundColor: theme.palette.primary.main,
+                                    borderRadius: 5
+                                }}>
+                                    
+                                <div id='signinlabel'>Sign in</div>
+                                <div id='inputcontainer'>
+                                    <div className="label">Email</div>
+                                    <TextField 
+                                        id="emailinput" 
+                                        sx=
+                                        {{  
+                                            backgroundColor: theme.palette.primary.light,
+                                            maxWidth: 300,
+                                            borderRadius: 2
+                                        }}
+                                        />
+                                    <div className="label">Password</div>
+                                    <TextField
+                                        id="passwordinput"
+                                        type="password"
+                                        sx=
+                                        {{  
+                                            backgroundColor: theme.palette.primary.light, 
+                                            maxWidth: 300,
+                                            borderRadius: 2
+                                        }}
+                                        />
+                                </div>
+                                <div id='lowerbuttoncontainer'>
+                                        <Button 
+                                            variant='contained'
+                                            size='large'
+                                            sx=
+                                            {{ 
+                                                textTransform: 'none',
+                                                backgroundColor: theme.palette.primary.contrast,
+                                                borderRadius: 5
+                                            }}>
+                                                Sign in
+                                        </Button>
+                                        <button className='textlink' id='forgotpasslink'>Forgot your password?</button>
+                                </div>
+                                <div id='footercontainer'>
+                                    <div id='signuplabel'>
+                                        Don't have an account?
+                                        <button className='textlink'id='signuplink'>Sign up now.</button>
+                                    </div>
+                                </div>
+                            </ Paper>
                         </Box>
                     </div>
                 </ThemeProvider>
