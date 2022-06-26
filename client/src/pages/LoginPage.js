@@ -171,8 +171,8 @@ class LoginPage extends Component {
                                 </div>
                                 <div id='footercontainer'>
                                     <div id='signuplabel'>
-                                        Don't have an account?
-                                        <Link to="/signup" >Sign up now.</Link>
+                                        Don't have an account?{'\n'}
+                                        <Link to="/signup" className='textlink'>Sign up now.</Link>
                                     </div>
                                 </div>
                             </ Paper>

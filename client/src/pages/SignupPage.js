@@ -7,13 +7,16 @@ import { Link } from 'react-router-dom';
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
 import { ThemeProvider, createTheme, Button } from '@mui/material';
 import '../styles/common.css';
-import '../styles/loginpage.css';
 import '../styles/signuppage.css';
+import '../styles/loginpage.css';
 
 // MUI Components
 import Box from '@mui/material/Box';
 import { Paper } from '@mui/material';
 import TextField from '@mui/material/TextField';
+
+// Custom Components
+import Clock from '../components/Clock';
 
 class SignupPage extends Component {
     render()
@@ -37,7 +40,8 @@ class SignupPage extends Component {
                 <ThemeProvider theme={theme}>
                     <div>
                         <div id='header'>
-                            <div id='signupTitle'>SOLSTICE</div>
+                            <div id='title'>SOLSTICE</div>
+                            <Clock />
                         </div>
                         <Box
                         sx={{
@@ -104,7 +108,7 @@ class SignupPage extends Component {
                                     />
                             </div>
                             <div id='lowerbuttoncontainer'>
-                                <Link to="/" > Go Back </ Link>
+                                <Link to="/" className='textlink'>Go Back</ Link>
                                     <Button 
                                         variant='contained'
                                         size='large'
@@ -116,13 +120,7 @@ class SignupPage extends Component {
                                         }}>
                                             Register
                                     </Button>
-                                    {/* <button className='textlink' id='forgotpasslink'>Forgot your password?</button> */}
                             </div>
-                            {/* <div id='footercontainer'>
-                                <div id='loginlabel'>
-                                    <button className='textlink'id='signuplink'>Go Back</button>
-                                </div>
-                            </div> */}
                         </ Paper>
                         </Box>
                     </div>

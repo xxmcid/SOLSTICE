@@ -15,7 +15,8 @@
 
 body
 {
-    animation: fadeInAnimation ease 3s;
+    /* Need this animation for initial startup */
+    animation: fadeInAnimation ease 2s;
     animation-iteration-count: 1;
 
     width: 100%;
@@ -54,7 +55,7 @@ body
 
 #infoContainer
 {
-    animation: fadeInAnimation ease 1s;
+    animation: fadeInAnimation ease 500ms;
     animation-iteration-count: 1;
 
     z-index: 1;
@@ -100,6 +101,11 @@ body
     transform: translate(-50%, -50%);
 
     font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
+
+    /* Need same animation from body selector, in case user
+       comes back from signup page */
+    animation: fadeInAnimation ease 2s;
+    animation-iteration-count: 1;
 }
 
 #signinlabel
@@ -145,6 +151,8 @@ body
     color: #49B6FF;
     max-width: fit-content;
     max-height: fit-content;
+
+    text-decoration: none;
 }
 
 #footercontainer
