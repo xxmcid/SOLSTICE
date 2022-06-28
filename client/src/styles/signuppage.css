@@ -30,11 +30,3 @@
     font-size: xxx-large;
     color: white
 }
-
-#inputcontainer > *
-{
-    display: flex;
-    flex-direction: column;
-    margin-left: 50px;
-    color: white;
-}

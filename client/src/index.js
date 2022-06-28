@@ -11,6 +11,7 @@ import './index.css';
 // Pages
 import App from './App';
 import SignupPage from './pages/SignupPage';
+import ForgotPass from './pages/ForgotPass';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +21,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/forgotpassword" element={<ForgotPass />} />
     </Routes>
     </BrowserRouter>
   // </React.StrictMode>

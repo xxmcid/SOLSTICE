@@ -7,7 +7,7 @@ import './styles/common.css';
 // Pages
 import LoginPage from './pages/LoginPage';
 
-// MUI Components
+//Theme Components
 
 
 class App extends React.Component {

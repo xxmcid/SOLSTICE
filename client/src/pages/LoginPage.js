@@ -118,7 +118,7 @@ class LoginPage extends Component {
                                     <br />
                                     Graphics
                                     <br />
-                                    Background by Material UI, protected by Creative Commons
+                                    Background by Material UI, protected by Creative Commons.
                                 </div>
                             </Paper>: null }
                             <Paper 
@@ -131,7 +131,7 @@ class LoginPage extends Component {
                                     borderRadius: 5
                                 }}>
                                     
-                                <div id='signinlabel'>Sign in</div>
+                                <div id='signintitle'>Sign in</div>
                                 <div id='inputcontainer'>
                                     <div className="label">Email</div>
                                     <TextField 
@@ -155,7 +155,7 @@ class LoginPage extends Component {
                                         }}
                                         />
                                 </div>
-                                <div id='lowerbuttoncontainer'>
+                                <div id="lowerbuttoncontainer">
                                         <Button 
                                             variant='contained'
                                             size='large'
@@ -167,7 +167,7 @@ class LoginPage extends Component {
                                             }}>
                                                 Sign in
                                         </Button>
-                                        <button className='textlink' id='forgotpasslink'>Forgot your password?</button>
+                                        <Link to="/forgotpassword" className='textlink'>Forgot your password?</Link>
                                 </div>
                                 <div id='footercontainer'>
                                     <div id='signuplabel'>

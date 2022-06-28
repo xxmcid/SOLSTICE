@@ -108,7 +108,7 @@ body
     animation-iteration-count: 1;
 }
 
-#signinlabel
+#signintitle
 {
     margin-top: 30px;
     padding-bottom: 25px;
@@ -142,7 +142,6 @@ body
     gap: 30px;
 }
 
-/* Forgot password text that's technically a button */
 .textlink
 {
     background: none;

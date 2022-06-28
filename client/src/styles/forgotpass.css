@@ -1,0 +1,42 @@
+#centerheader
+{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
+
+    height: 70px;
+    color:white;
+}
+
+#forgotpasscontainer
+{
+    height: 350px;
+    width: 450px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    animation: fadeInAnimation ease 500ms;
+    animation-iteration-count: 1;
+}
+
+#forgotpasstitle
+{
+    margin-top: 30px;
+    padding-bottom: 10px;
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+}
+
+#linebreak
+{
+    content: "";
+    margin: 2em;
+    display: block;
+    font-size: 5%;
+}

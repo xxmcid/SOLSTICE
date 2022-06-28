@@ -65,47 +65,47 @@ class SignupPage extends Component {
                                 
                             <div id='registerlabel'>Sign Up</div>
                             <div id='inputcontainer'>
-                            <div className="label">First Name</div>
-                                <TextField 
-                                    id="firstNameinput" 
-                                    sx=
-                                    {{  
-                                        backgroundColor: theme.palette.primary.light,
-                                        maxWidth: 300,
-                                        borderRadius: 2
-                                    }}
-                                    />
-                                <div className="label">Last Name</div>
-                                <TextField 
-                                    id="lastNameinput" 
-                                    sx=
-                                    {{  
-                                        backgroundColor: theme.palette.primary.light,
-                                        maxWidth: 300,
-                                        borderRadius: 2
-                                    }}
-                                    />   
-                                <div className="label">Email</div>
-                                <TextField 
-                                    id="emailinput" 
-                                    sx=
-                                    {{  
-                                        backgroundColor: theme.palette.primary.light,
-                                        maxWidth: 300,
-                                        borderRadius: 2
-                                    }}
-                                    />
-                                <div className="label">Password</div>
-                                <TextField
-                                    id="passwordinput"
-                                    type="password"
-                                    sx=
-                                    {{  
-                                        backgroundColor: theme.palette.primary.light, 
-                                        maxWidth: 300,
-                                        borderRadius: 2
-                                    }}
-                                    />
+                                <div className="label">First Name</div>
+                                    <TextField 
+                                        id="firstNameinput" 
+                                        sx=
+                                        {{  
+                                            backgroundColor: theme.palette.primary.light,
+                                            maxWidth: 300,
+                                            borderRadius: 2
+                                        }}
+                                        />
+                                    <div className="label">Last Name</div>
+                                    <TextField 
+                                        id="lastNameinput" 
+                                        sx=
+                                        {{  
+                                            backgroundColor: theme.palette.primary.light,
+                                            maxWidth: 300,
+                                            borderRadius: 2
+                                        }}
+                                        />   
+                                    <div className="label">Email</div>
+                                    <TextField 
+                                        id="emailinput" 
+                                        sx=
+                                        {{  
+                                            backgroundColor: theme.palette.primary.light,
+                                            maxWidth: 300,
+                                            borderRadius: 2
+                                        }}
+                                        />
+                                    <div className="label">Password</div>
+                                    <TextField
+                                        id="passwordinput"
+                                        type="password"
+                                        sx=
+                                        {{  
+                                            backgroundColor: theme.palette.primary.light, 
+                                            maxWidth: 300,
+                                            borderRadius: 2
+                                        }}
+                                        />
                             </div>
                             <div id='lowerbuttoncontainer'>
                                 <Link to="/" className='textlink'>Go Back</ Link>
