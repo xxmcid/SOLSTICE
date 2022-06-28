@@ -31,6 +31,14 @@ class SignupPage extends Component {
               light: '#7F7979',
               dark: '#3D3B3C',
               contrast: '#5F5B6B'
+            },
+
+            lightmode:
+            {
+              main: '#FEFFFE', // Pearl White
+              light: '#E5FCF5', // Light Cyan
+              contrast: '#EADEDA', // Timberwolf
+              black: '#000000' // Black (For Text)
             }
           }
         });

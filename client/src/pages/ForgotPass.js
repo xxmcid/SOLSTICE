@@ -1,6 +1,9 @@
 // Base Import
 import { React, Component } from 'react';
 
+// Routing Imports
+import { Link } from 'react-router-dom';
+
 // Styling Imports
 import '../styles/forgotpass.css';
 
@@ -29,6 +32,14 @@ class ForgotPass extends Component
               light: '#7F7979',
               dark: '#3D3B3C',
               contrast: '#5F5B6B'
+            },
+
+            lightmode:
+            {
+              main: '#FEFFFE', // Pearl White
+              light: '#E5FCF5', // Light Cyan
+              contrast: '#EADEDA', // Timberwolf
+              black: '#000000' // Black (For Text)
             }
           }
         });
@@ -73,17 +84,32 @@ class ForgotPass extends Component
                                 marginBottom: '10%'
                             }}
                         />
-                        <Button 
-                            variant='contained'
-                            size='large'
-                            sx=
-                            {{ 
-                                textTransform: 'none',
-                                backgroundColor: 'black',
-                                borderRadius: 5
-                            }}>
-                                Reset
-                        </Button>
+                        <div id='resetbuttoncontainer'>
+                            <Link to="/" sx={{ textDecoration: 'none', color: 'white' }}>
+                                    <Button 
+                                        variant='contained'
+                                        size='large'
+                                        sx=
+                                        {{ 
+                                            textTransform: 'none',
+                                            backgroundColor: 'black',
+                                            borderRadius: 5
+                                        }}>
+                                            Go Back
+                                    </Button>
+                            </Link>
+                            <Button 
+                                variant='contained'
+                                size='large'
+                                sx=
+                                {{ 
+                                    textTransform: 'none',
+                                    backgroundColor: 'black',
+                                    borderRadius: 5
+                                }}>
+                                    Reset
+                            </Button>
+                        </div>
                     </Paper>
                 </Box>
             </ThemeProvider>

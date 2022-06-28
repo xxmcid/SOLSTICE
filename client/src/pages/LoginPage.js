@@ -5,12 +5,12 @@ import { React, Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
-import { ThemeProvider, createTheme, Button } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material';
 import '../styles/common.css';
 import'../styles/loginpage.css';
 
 // MUI Components
-import { Box, Paper, TextField, Divider }from '@mui/material';
+import { Box, Paper, Button, TextField, Divider }from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -44,13 +44,21 @@ class LoginPage extends Component {
         {
           palette: 
           {
-            // Shades of grey
+            // Dark Mode Palette
             primary: 
             {
               main: '#323031',
               light: '#7F7979',
               dark: '#3D3B3C',
               contrast: '#5F5B6B'
+            },
+
+            lightmode:
+            {
+              main: '#FEFFFE', // Pearl White
+              light: '#E5FCF5', // Light Cyan
+              contrast: '#EADEDA', // Timberwolf
+              black: '#000000' // Black (For Text)
             }
           }
         });
@@ -127,7 +135,7 @@ class LoginPage extends Component {
                                     backgroundColor: theme.palette.primary.main,
                                     borderRadius: 5
                                 }}>
-                                    
+
                                 <div id='signintitle'>Sign in</div>
                                 <div id='inputcontainer'>
                                     <div className="label">Email</div>
