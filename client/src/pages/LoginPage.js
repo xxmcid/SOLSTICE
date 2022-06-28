@@ -10,12 +10,9 @@ import '../styles/common.css';
 import'../styles/loginpage.css';
 
 // MUI Components
-import Box from '@mui/material/Box';
-import { Paper } from '@mui/material';
-import TextField from '@mui/material/TextField';
+import { Box, Paper, TextField, Divider }from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
-import Divider from '@mui/material/Divider';
 
 // Custom Components
 import Clock from '../components/Clock';

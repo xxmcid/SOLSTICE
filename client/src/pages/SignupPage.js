@@ -5,15 +5,14 @@ import { React, Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
-import { ThemeProvider, createTheme, Button } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material';
 import '../styles/common.css';
 import '../styles/signuppage.css';
 import '../styles/loginpage.css';
 
 // MUI Components
 import Box from '@mui/material/Box';
-import { Paper } from '@mui/material';
-import TextField from '@mui/material/TextField';
+import { Paper, Button, TextField } from '@mui/material';
 
 // Custom Components
 import Clock from '../components/Clock';
