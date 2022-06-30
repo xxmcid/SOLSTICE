@@ -72,8 +72,13 @@ class LoginPage extends Component {
                             <Clock />
                             <Button 
                                 id='infobutton' 
-                                variant='contained'
-                                onClick={this.setvisibility.bind(this)}>
+                                variant='string'
+                                onClick={this.setvisibility.bind(this)}
+                                sx=
+                                {{ 
+                                    backgroundColor: 'theme.palette.primary.contrast',
+                                    borderRadius: 5
+                                }}>
                                 <InfoIcon />
                             </Button>
                         </div>
