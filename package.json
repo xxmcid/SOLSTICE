@@ -1,0 +1,21 @@
+{
+  "name": "solstice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "build": "cd client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xxmcid/COP4331G14_Large_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xxmcid/COP4331G14_Large_Project/issues"
+  },
+  "homepage": "https://github.com/xxmcid/COP4331G14_Large_Project#readme"
+}
