@@ -18,6 +18,29 @@ import { Paper, Button, TextField } from '@mui/material';
 import Clock from '../components/Clock';
 
 class SignupPage extends Component {
+
+    constructor(props)
+    {
+        super(props)
+        this.state = {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: ''
+        };
+    }
+
+    handleSignup(e) 
+    {
+        const jsonPayload = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            password: this.state.password
+        };
+        
+    }
+
     render()
     {        
         const theme = createTheme(
@@ -75,6 +98,7 @@ class SignupPage extends Component {
                             <div id='inputcontainer'>
                                 <div className="label">First Name</div>
                                     <TextField 
+                                        onChange={(e) => this.setState({ firstName: e.target.value })}
                                         id="firstNameinput" 
                                         sx=
                                         {{  
@@ -85,6 +109,7 @@ class SignupPage extends Component {
                                         />
                                     <div className="label">Last Name</div>
                                     <TextField 
+                                        onChange={(e) => this.setState({ lastName: e.target.value })}
                                         id="lastNameinput" 
                                         sx=
                                         {{  
@@ -95,6 +120,7 @@ class SignupPage extends Component {
                                         />   
                                     <div className="label">Email</div>
                                     <TextField 
+                                        onChange={(e) => this.setState({ email: e.target.value })}
                                         id="emailinput" 
                                         sx=
                                         {{  
@@ -105,6 +131,7 @@ class SignupPage extends Component {
                                         />
                                     <div className="label">Password</div>
                                     <TextField
+                                        onChange={(e) => this.setState({ password: e.target.value })}
                                         id="passwordinput"
                                         type="password"
                                         sx=
@@ -117,17 +144,18 @@ class SignupPage extends Component {
                             </div>
                             <div id='lowerbuttoncontainer'>
                                 <Link to="/" className='textlink'>Go Back</ Link>
-                                    <Button 
-                                        variant='contained'
-                                        size='large'
-                                        sx=
-                                        {{ 
-                                            textTransform: 'none',
-                                            backgroundColor: theme.palette.primary.contrast,
-                                            borderRadius: 5
-                                        }}>
-                                            Register
-                                    </Button>
+                                <Button 
+                                    variant='contained'
+                                    size='large'
+                                    onClick={this.handleSignup.bind(this)}
+                                    sx=
+                                    {{ 
+                                        textTransform: 'none',
+                                        backgroundColor: theme.palette.primary.contrast,
+                                        borderRadius: 5
+                                    }}>
+                                        Register
+                                </Button>
                             </div>
                         </ Paper>
                         </Box>
