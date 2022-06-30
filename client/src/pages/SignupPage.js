@@ -49,6 +49,7 @@ class SignupPage extends Component {
                         <div id='header'>
                             <div id='title'>SOLSTICE</div>
                             <Clock />
+                            <div></div>
                         </div>
                         <Box
                         sx={{
