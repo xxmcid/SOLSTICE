@@ -136,7 +136,7 @@ class LoginPage extends Component {
                                     borderRadius: 5
                                 }}>
 
-                                <div id='signintitle'>Sign in</div>
+                                <div id='signintitle'>Sign In</div>
                                 <div id='inputcontainer'>
                                     <div className="label">Email</div>
                                     <TextField 

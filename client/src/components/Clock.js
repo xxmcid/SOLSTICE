@@ -45,7 +45,7 @@ class Clock extends Component {
           <div>
             {monthNames[month]} {day}, {year}
           </div>
-          <div>
+          <div className='liveTime'>
             {this.state.date.toLocaleTimeString()}
           </div>
         </div>

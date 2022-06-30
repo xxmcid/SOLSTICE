@@ -11,6 +11,13 @@
     color:white;
 }
 
+#title.large
+{
+    margin-top: 150px;;
+    font-size: xxx-large;
+    font-weight: bold;
+}
+
 #forgotpasscontainer
 {
     height: 350px;

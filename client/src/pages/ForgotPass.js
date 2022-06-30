@@ -49,7 +49,7 @@ class ForgotPass extends Component
         return(
             <ThemeProvider theme={theme}>
                 <div id='centerheader'>
-                    <div id='title'>SOLSTICE</div>
+                    <div id='title' className='large'>SOLSTICE</div>
                 </div>
                 <Box sx={{
                     display: 'flex',
@@ -85,7 +85,7 @@ class ForgotPass extends Component
                             }}
                         />
                         <div id='resetbuttoncontainer'>
-                            <Link to="/" sx={{ textDecoration: 'none', color: 'white' }}>
+                            <Link to="/" sx={{ textDecoration: 'inherit', color: 'white' }}>
                                     <Button 
                                         variant='contained'
                                         size='large'
