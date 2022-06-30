@@ -52,7 +52,7 @@ body
 #clockcontainer
 {
     margin-top: 5px;
-    color: #EFEFEF;
+    color: #efefef;
     text-align: center;
     font-size: large;
 }
@@ -60,6 +60,7 @@ body
 #clockcontainer .liveTime
 {
     margin-top: 3px;
+    color: #ffffff;
     text-align: center;
     font-size: larger;
     font-weight: 500;
