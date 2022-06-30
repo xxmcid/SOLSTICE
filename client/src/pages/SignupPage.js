@@ -38,7 +38,6 @@ class SignupPage extends Component {
             email: this.state.email,
             password: this.state.password
         };
-
         
     }
 

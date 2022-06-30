@@ -76,7 +76,7 @@ class LoginPage extends Component {
                                 onClick={this.setvisibility.bind(this)}
                                 sx=
                                 {{ 
-                                    backgroundColor: 'theme.palette.primary.contrast',
+                                    backgroundColor: theme.palette.primary.contrast,
                                     borderRadius: 5
                                 }}>
                                 <InfoIcon />
