@@ -36,9 +36,9 @@ class Clock extends Component {
       const monthNames = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"];
 
-      var month = this.state.date.getUTCMonth();
-      var day = this.state.date.getUTCDate();
-      var year = this.state.date.getUTCFullYear();
+      let month = this.state.date.getUTCMonth();
+      let day = this.state.date.getUTCDate();
+      let year = this.state.date.getUTCFullYear();
 
       return (
         <div id='clockcontainer'>

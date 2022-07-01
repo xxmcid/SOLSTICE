@@ -1,30 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
-//const morgan = require('morgan');
-//const cors = require('cors');
 const path = require('path');
 
-const app = express();
+// TODO: replace password for MongoDB into a .env file or something similar to not expose it.
 
-// Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+// Connect to MongoDB
+mongoose
+    .connect("mongodb+srv://solstice:cop4331@solstice.tsw0a.mongodb.net/SOLSTICE?retryWrites=true&w=majority")
+    .then(() => {
+        // Initialize express
+        const app = express();
 
-// Set JSON content type
-app.use(express.json())
+        // Have Node serve the files for our built React app
+        app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-app.post('/api/signup', function (req, res) {
-    console.log(req.body);
-    console.log(req);
-    var newUser = {
-        "firstName": req.body.firstName,
-        "lastName": req.body.lastName,
-        "email": req.body.email,
-        "password": req.body.password
-    }
+        // Set JSON content type
+        app.use(express.json())
 
-    res.status(201).json({"status" : "success"});
-});
+        // Import routes (endpoints)
+        const routes = require('./routes');
+        app.use('/api', routes);
 
-const PORT = process.env.PORT || 8080;
-//const routes = require('./routes/api');
-app.listen(PORT, () => {console.log(`Server started on port ${PORT}`)});
+        // Start the server
+        const PORT = process.env.PORT || 8080;
+        app.listen(PORT, () => {console.log(`Server started on port ${PORT}`)});
+    });
