@@ -1,5 +1,6 @@
 // Base Import
 import { React, Component } from 'react';
+import axios from 'axios';
 
 // Routing Imports
 import { Link } from 'react-router-dom';
@@ -39,6 +40,14 @@ class SignupPage extends Component {
             password: this.state.password
         };
 
+        axios
+            .post('../api/signup', jsonPayload)
+            .then(data => {
+                console.log(data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     render()

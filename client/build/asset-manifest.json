@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.60bd3218.css",
+    "main.js": "/static/js/main.07c40a08.js",
+    "static/media/PixelSolarSystem.jpg": "/static/media/PixelSolarSystem.72fe708c1e77b291bf57.jpg",
+    "index.html": "/index.html",
+    "main.60bd3218.css.map": "/static/css/main.60bd3218.css.map",
+    "main.07c40a08.js.map": "/static/js/main.07c40a08.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.60bd3218.css",
+    "static/js/main.07c40a08.js"
+  ]
+}

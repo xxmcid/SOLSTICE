@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "express": "^4.18.1",
+    "mongoose": "^6.4.1",
     "path": "^0.12.7"
   }
 }
