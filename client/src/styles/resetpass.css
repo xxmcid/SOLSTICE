@@ -1,0 +1,62 @@
+#titlecenterheader
+{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
+
+    height: 70px;
+    color:white;
+}
+
+#resetpagetitle.large
+{
+    margin-top: 150px;;
+    font-size: xxx-large;
+    font-weight: bold;
+}
+
+#resetpasscontainer
+{
+    height: 450px;
+    width: 450px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    animation: fadeInAnimation ease 500ms;
+    animation-iteration-count: 1;
+}
+
+#resetpasstitle
+{
+    margin-top: 30px;
+    padding-bottom: 10px;
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+}
+
+#updatebuttoncontainer
+{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#instructprompt
+{
+    margin-bottom: 10%;
+}
+
+#resetlabel
+{
+    padding-bottom: 5px;
+}
+#resetlabelcontainer > *
+{
+    margin-left: 1%; 
+}
