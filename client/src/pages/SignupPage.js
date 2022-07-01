@@ -38,7 +38,7 @@ class SignupPage extends Component {
             email: this.state.email,
             password: this.state.password
         };
-        
+
     }
 
     render()
@@ -66,6 +66,8 @@ class SignupPage extends Component {
           }
         });
 
+        console.log("Rendering Signup Page...");
+        
         return (
                 <ThemeProvider theme={theme}>
                     <div>

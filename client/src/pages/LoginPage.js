@@ -10,12 +10,11 @@ import '../styles/common.css';
 import'../styles/loginpage.css';
 
 // MUI Components
-import { Box, Paper, Button, TextField, Divider }from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
-import CloseIcon from '@mui/icons-material/Close';
+import { Box, Paper, Button, TextField }from '@mui/material';
 
 // Custom Components
-import Clock from '../components/Clock';
+import Header from '../components/Header';
+import Info from '../components/Info';
 
 class LoginPage extends Component {
 
@@ -30,7 +29,7 @@ class LoginPage extends Component {
 
     setvisibility()
     {
-        console.log("setting visibility!!");
+        console.log("Info page visible: " + !this.state.infopagevisible);
         this.setState({
             infopagevisible: !this.state.infopagevisible
         });
@@ -67,21 +66,7 @@ class LoginPage extends Component {
         return (
                 <ThemeProvider theme={theme}>
                     <div>
-                        <div id='header'>
-                            <div id='title'>SOLSTICE</div>
-                            <Clock />
-                            <Button 
-                                id='infobutton' 
-                                variant='string'
-                                onClick={this.setvisibility.bind(this)}
-                                sx=
-                                {{ 
-                                    backgroundColor: theme.palette.primary.contrast,
-                                    borderRadius: 5
-                                }}>
-                                <InfoIcon />
-                            </Button>
-                        </div>
+                        <Header onClick={this.setvisibility.bind(this)} />
                         <Box
                         sx={{
                             display: 'flex',
@@ -91,46 +76,7 @@ class LoginPage extends Component {
                             height: 128,
                             },
                         }}>
-                            { this.state.infopagevisible ? 
-                            <Paper
-                                id='infoContainer'
-                                variant="outlined"
-                                square 
-                                sx=
-                                {{ 
-                                    backgroundColor: 'white',
-                                    borderRadius: 5
-                                }}>
-                                <div id='infoheader'>
-                                    About
-                                    <Button 
-                                        id='closebutton' 
-                                        variant='contained'
-                                        onClick={this.setvisibility.bind(this)}
-                                        sx=
-                                        {{
-                                            height: 'fit-content',
-                                            borderRadius: 7
-                                        }}>
-                                        <CloseIcon />
-                                    </Button>
-                                </div>
-                                <Divider 
-                                    variant='middle'
-                                    sx=
-                                    {{
-                                        borderBottomWidth: 5,
-                                        backgroundColor: 'black',
-                                        marginLeft: 6,
-                                        marginRight: 5 
-                                    }}/>
-                                <div id='infobody'>
-                                    <br />
-                                    Graphics
-                                    <br />
-                                    Background by Material UI, protected by Creative Commons.
-                                </div>
-                            </Paper>: null }
+                            { this.state.infopagevisible ? <Info onClick={this.setvisibility.bind(this)} /> : null }
                             <Paper 
                                 id='loginContainer'
                                 variant="outlined" 

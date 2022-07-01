@@ -20,7 +20,6 @@ class ForgotPass extends Component
 
     render()
     {
-        console.log("Creating main theme palette from MUI");
         const theme = createTheme(
         {
           palette: 
@@ -44,7 +43,7 @@ class ForgotPass extends Component
           }
         });
 
-        console.log("Rendering Forgot Password Page.");
+        console.log("Rendering Forgot Password Page...");
 
         return(
             <ThemeProvider theme={theme}>
@@ -93,7 +92,7 @@ class ForgotPass extends Component
                                         {{ 
                                             textTransform: 'none',
                                             backgroundColor: 'black',
-                                            borderRadius: 5
+                                            borderRadius: 5,
                                         }}>
                                             Go Back
                                     </Button>
