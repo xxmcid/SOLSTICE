@@ -2,9 +2,11 @@
 import { React, Component } from "react";
 
 // MUI Components
-import { Paper, Button, Divider } from "@mui/material";
+import { Paper, Divider, IconButton, Typography, Grid } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
+// Style
+import { mainTheme } from "../mainTheme";
 
 class Info extends Component
 {
@@ -19,44 +21,42 @@ class Info extends Component
     render()
     {
         return(
-            <Paper
-                id='infoContainer'
-                variant="outlined"
-                square 
-                sx=
-                {{ 
-                    backgroundColor: 'white',
-                    borderRadius: 5
+            <Paper id='infoContainer' variant="outlined" square 
+                sx={{ 
+                    padding: 3,
+                    borderRadius: 5, 
+                    backgroundColor: mainTheme.palette.primary.main,
+                    color: mainTheme.palette.primary.contrastText,
                 }}>
-                <div id='infoheader'>
-                    About
-                    <Button 
-                        id='closebutton' 
-                        variant='contained'
-                        onClick={this.state.infopageHandler}
-                        sx=
-                        {{
-                            height: 'fit-content',
-                            borderRadius: 7
-                        }}>
-                        <CloseIcon />
-                    </Button>
-                </div>
-                <Divider 
-                    variant='middle'
-                    sx=
-                    {{
-                        borderBottomWidth: 5,
-                        backgroundColor: 'black',
-                        marginLeft: 6,
-                        marginRight: 5 
-                    }}/>
-                <div id='infobody'>
-                    <br />
+
+                <Grid container alignItems="top">
+                    <Grid item xs>
+                        <Typography variant="h3">About</Typography>
+                    </Grid>
+                    <Grid item>
+                        <IconButton id='closebutton' 
+                            onClick={this.props.onClose}
+                            color="error"
+                            sx={{
+                                borderRadius: 2,
+                                height: 'fit-content',
+                                width: 'fit-content',
+                                float: 'right',
+                            }}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Grid>                    
+                </Grid>
+
+                <Divider color={mainTheme.palette.primary.contrastText} sx= {{ marginTop: 1, marginBottom: 1 }}/>
+
+                <Typography variant="h5">
                     Graphics
-                    <br />
+                </Typography>
+
+                <Typography>
                     Background by Material UI, protected by Creative Commons.
-                </div>
+                </Typography>
             </Paper>
         );
     }
