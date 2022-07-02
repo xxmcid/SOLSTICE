@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
 import { ThemeProvider, createTheme } from '@mui/material';
-import '../styles/common.css';
 import'../styles/loginpage.css';
 
 // MUI Components

@@ -5,9 +5,8 @@ import axios from 'axios';
 // Routing Imports
 import { Link } from 'react-router-dom';
 
-// Styling imports (May not be needed since App.js already imports it, but lets be safe)
+// Styling imports
 import { ThemeProvider, createTheme } from '@mui/material';
-import '../styles/common.css';
 import '../styles/signuppage.css';
 import '../styles/loginpage.css';
 

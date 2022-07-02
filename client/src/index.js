@@ -13,6 +13,7 @@ import App from './App';
 import SignupPage from './pages/SignupPage';
 import ForgotPass from './pages/ForgotPass';
 import ResetPass from './pages/ResetPass';
+import Solstice from './pages/Solstice';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,6 +25,7 @@ root.render(
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/forgotpassword" element={<ForgotPass />} />
       <Route path="/resetpassword" element={<ResetPass/>} />
+      <Route path="/solstice" element={<Solstice />} />
     </Routes>
     </BrowserRouter>
   // </React.StrictMode>

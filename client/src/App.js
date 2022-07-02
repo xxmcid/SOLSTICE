@@ -2,7 +2,6 @@
 import React from 'react';
 
 // Styling imports
-import './styles/common.css';
 
 // Pages
 import LoginPage from './pages/LoginPage';

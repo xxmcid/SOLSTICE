@@ -1,0 +1,19 @@
+#canvaswrapper
+{   
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    z-index: -2;
+}
+
+#addplanetbutton
+{
+    position: absolute;
+    bottom: 2%;
+    left: 3%;
+}
+
+#sidepanel
+{
+    z-index: -1;
+}
