@@ -2,7 +2,6 @@
 import { React, Component } from "react";
 
 // Styling Imports
-import { ThemeProvider, createTheme } from '@mui/material';
 
 // MUI Components
 import { Paper, Divider, IconButton, Typography, Grid } from "@mui/material";
@@ -23,29 +22,6 @@ class Info extends Component
 
     render()
     {
-        const theme = createTheme(
-            {
-              palette: 
-              {
-                // Dark Mode Palette
-                primary: 
-                {
-                  main: '#323031',
-                  light: '#7F7979',
-                  dark: '#3D3B3C',
-                  contrast: '#5F5B6B'
-                },
-    
-                lightmode:
-                {
-                  main: '#FEFFFE', // Pearl White
-                  light: '#E5FCF5', // Light Cyan
-                  contrast: '#EADEDA', // Timberwolf
-                  black: '#000000' // Black (For Text)
-                }
-              }
-            });
-
         return(
             <Paper id='infoContainer' variant="outlined" square 
                 sx={{ 

@@ -2,11 +2,8 @@
 import React from 'react';
 
 // Styling imports
-<<<<<<< HEAD
-=======
 import { ThemeProvider } from '@mui/material';
 import { mainTheme } from './mainTheme'
->>>>>>> 6813a68eabf5c5cb86047e153bc3b8c535b9c7d7
 
 // Pages
 import LoginPage from './pages/LoginPage';
