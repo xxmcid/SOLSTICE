@@ -7,6 +7,12 @@
      }
 }
 
+#errorPrompt
+{
+    color: red;
+    text-align: center;
+}
+
 #signupContainer
 {
     height: 620px;

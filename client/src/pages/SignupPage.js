@@ -24,10 +24,15 @@ class SignupPage extends Component {
     {
         super(props)
         this.state = {
+            // JSON Payload for user credentials
             firstName: '',
             lastName: '',
             email: '',
-            password: ''
+            password: '',
+
+            // page specific states.
+            signuperrorVisible: false,
+            signuperror: ''
         };
     }
 
@@ -46,7 +51,7 @@ class SignupPage extends Component {
                 console.log(data);
             })
             .catch(err => {
-                console.error(err);
+                this.setState({ signuperror: err.message, signuperrorVisible: true });
             });
     }
 
@@ -106,6 +111,7 @@ class SignupPage extends Component {
                             }} >
                                 
                             <div id='registerlabel'>Sign Up</div>
+                            { this.state.signuperrorVisible ? <div id='errorPrompt'>{this.state.signuperror}</div> : null }
                             <div id='inputcontainer'>
                                 <div className="label">First Name</div>
                                     <TextField 
