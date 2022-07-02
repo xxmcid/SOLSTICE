@@ -5,6 +5,7 @@ import { React, Component } from 'react';
 import InfoIcon from '@mui/icons-material/Info';
 import { Button } from '@mui/material';
 import Clock from '../components/Clock';
+import Info from './Info';
 
 
 class Header extends Component
@@ -12,29 +13,38 @@ class Header extends Component
     constructor(props)
     {
         super(props);
+
         this.state = {
-            infopageHandler: this.props.onClick
+            infopagevisible: false
         };
+
+        this.toggleInfoPage = this.toggleInfoPage.bind(this);
     }
 
-    render()
-    {
+    toggleInfoPage() {
+        console.log("Info page visible: " + !this.state.infopagevisible);
+
+        this.setState({
+            infopagevisible: !this.state.infopagevisible
+        });
+    }
+
+
+    render() {
         return(
             <div id='header'>
             <div id='title'>SOLSTICE</div>
             <Clock />
-            <Button 
+            <Button id='infobutton'
                 disableTouchRipple
-                id='infobutton' 
                 variant='string'
-                onClick={this.state.infopageHandler}
-                sx=
-                {{ 
-                    width: 'fit-content',
-                    borderRadius: 5
-                }}>
+                onClick={ this.toggleInfoPage }
+                sx={{ width: 'fit-content', borderRadius: 2 }}>
                 <InfoIcon />
             </Button>
+            { this.state.infopagevisible 
+                ? <Info onClose={ this.toggleInfoPage }/> 
+                : null }
         </div>
         );
     }
