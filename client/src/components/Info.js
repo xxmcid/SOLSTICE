@@ -1,6 +1,8 @@
 // Base Import
 import { React, Component } from "react";
 
+// Styling Imports
+
 // MUI Components
 import { Paper, Divider, IconButton, Typography, Grid } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';

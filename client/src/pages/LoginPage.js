@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
 import { mainTheme } from '../mainTheme';
-import '../styles/common.css';
 import'../styles/loginpage.css';
 
 // MUI Components
@@ -14,7 +13,6 @@ import { Box, Paper, Button, TextField }from '@mui/material';
 
 // Custom Components
 import Header from '../components/Header';
-import Info from '../components/Info';
 
 class LoginPage extends Component {
 

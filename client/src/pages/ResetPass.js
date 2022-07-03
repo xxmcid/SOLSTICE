@@ -2,7 +2,7 @@
 import { React, Component } from 'react';
 
 // Routing Imports
-import { Link } from 'react-router-dom';
+
 
 // Styling Imports
 import '../styles/resetpass.css';
@@ -17,7 +17,6 @@ class ResetPass extends Component
 {
     render()
     {
-        console.log("Creating main theme palette from MUI");
         const theme = createTheme(
         {
           palette: 

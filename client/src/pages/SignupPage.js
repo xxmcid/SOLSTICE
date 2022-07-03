@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
 import { mainTheme } from '../mainTheme'
-import '../styles/common.css';
 import '../styles/signuppage.css';
 import '../styles/loginpage.css';
 
