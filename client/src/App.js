@@ -1,10 +1,6 @@
 // Base Import
 import React from 'react';
 
-// Styling imports
-import { ThemeProvider } from '@mui/material';
-import { mainTheme } from './mainTheme'
-
 // Pages
 import LoginPage from './pages/LoginPage';
 
@@ -21,11 +17,9 @@ class App extends React.Component {
     
     console.log("Pulling render from App.js");
     return (
-      <ThemeProvider theme={mainTheme}>
-        <div className="App">
-            <LoginPage />
-        </div>
-      </ThemeProvider>
+      <div className="App">
+          <LoginPage />
+      </div>
     );
   }
 }

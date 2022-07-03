@@ -1,7 +1,10 @@
 import { createTheme } from "@mui/material";
 
 export const mainTheme = createTheme({
+  
   palette: {
+    mode: 'dark',
+
     // Shades of grey
     primary: {
       main: '#323031',

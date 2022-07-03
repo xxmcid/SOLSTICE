@@ -33,19 +33,17 @@ class Header extends Component
     render() {
         return(
             <div id='header'>
-            <div id='title'>SOLSTICE</div>
-            <Clock />
-            <Button id='infobutton'
-                disableTouchRipple
-                variant='string'
-                onClick={ this.toggleInfoPage }
-                sx={{ width: 'fit-content', borderRadius: 2 }}>
-                <InfoIcon />
-            </Button>
-            { this.state.infopagevisible 
-                ? <Info onClose={ this.toggleInfoPage }/> 
-                : null }
-        </div>
+                <div id='title'>SOLSTICE</div>
+                <Clock />
+                <Button id='infobutton'
+                    disableTouchRipple
+                    variant='string'
+                    onClick={ this.toggleInfoPage }
+                    sx={{ width: 'fit-content', borderRadius: 2 }}>
+                    <InfoIcon />
+                </Button>
+                { this.state.infopagevisible ? <Info onClose={ this.toggleInfoPage }/> : null }
+            </div>
         );
     }
 }

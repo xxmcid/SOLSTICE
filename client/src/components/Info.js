@@ -22,7 +22,7 @@ class Info extends Component
     {
         return(
             <Paper id='infoContainer' variant="outlined" square 
-                sx={{ 
+                sx={{
                     padding: 3,
                     borderRadius: 5, 
                     backgroundColor: mainTheme.palette.primary.main,

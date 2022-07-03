@@ -57,7 +57,7 @@ class LoginPage extends Component {
                         sx=
                         {{ 
                             backgroundColor: mainTheme.palette.primary.main,
-                            borderRadius: 2
+                            borderRadius: 2 
                         }}>
 
                         <div id='signintitle'>Sign In</div>
