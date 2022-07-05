@@ -18,7 +18,6 @@ class SidePanel extends Component
         };
     }
 
-
     render()
     {
         return(

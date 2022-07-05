@@ -5,10 +5,11 @@ import { React, Component } from 'react';
 
 
 // Styling Imports
+import { mainTheme } from '../mainTheme'
 import '../styles/resetpass.css';
 
 // Mui Components
-import { ThemeProvider, createTheme, Paper, TextField, Button } from '@mui/material';
+import { ThemeProvider, Paper, TextField, Button } from '@mui/material';
 import { Box } from '@mui/system';
 
 
@@ -17,32 +18,8 @@ class ResetPass extends Component
 {
     render()
     {
-        const theme = createTheme(
-        {
-          palette: 
-          {
-            // Shades of grey
-            primary: 
-            {
-              main: '#323031',
-              light: '#7F7979',
-              dark: '#3D3B3C',
-              contrast: '#5F5B6B'
-            },
-
-            lightmode:
-            {
-              main: '#FEFFFE', // Pearl White
-              light: '#E5FCF5', // Light Cyan
-              contrast: '#EADEDA', // Timberwolf
-              black: '#000000' // Black (For Text)
-            }
-          }
-        });
-
-
         return(
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={mainTheme}>
                 <div id='titlecenterheader'>
                     <div id='resetpagetitle' className='large'>SOLSTICE</div>
                 </div>

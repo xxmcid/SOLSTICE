@@ -1,9 +1,18 @@
+#masterContainer
+{
+    /* Structure to make sure header and actual canvas don't collide */
+    display: flex;
+    flex-direction: column;
+}
+
 #canvaswrapper
 {   
+    box-sizing: border-box;
     position: fixed;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     z-index: -2;
+    border: solid red 2px;
 }
 
 #addplanetbutton

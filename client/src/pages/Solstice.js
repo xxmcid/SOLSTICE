@@ -4,9 +4,6 @@ import { React, Component } from 'react';
 // Styling Imports
 import '../styles/solstice.css';
 
-// Custom Components
-import Header from '../components/Header';
-
 // MUI Components
 import { Button } from '@mui/material';
 import PublicIcon from '@mui/icons-material/Public';
@@ -16,6 +13,7 @@ import { ReactP5Wrapper } from "react-p5-wrapper";
 import sketch from '../components/core/sketch';
 
 // Custom Components
+import Header from '../components/Header';
 import SidePanel from '../components/core/SidePanel';
 import Info from '../components/Info';
 
@@ -28,8 +26,14 @@ class Solstice extends Component
         super(props);
         
         this.state = {
+            
+            // Page and Panel visibility states
             infopagevisible: false,
-            sidepanelexpanded: false
+            sidepanelexpanded: false,
+
+            // User info
+            uid: 0,
+            username: '',
         };
     }
 
@@ -52,7 +56,7 @@ class Solstice extends Component
     render()
     {
         return(
-            <div>
+            <div id='masterContainer'>
                 <Header onClick={ this.setvisibility.bind(this) }/>
                 { this.state.infopagevisible ? <Info onClick={this.setvisibility.bind(this)} /> : null }
                 <SidePanel open={this.state.sidepanelexpanded}/>
