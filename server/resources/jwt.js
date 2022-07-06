@@ -32,3 +32,9 @@ exports.checkExpiry = function(token)
 
     return isValid;
 }
+
+exports.getEmailFromToken = function(token)
+{
+    let raw =  jwt.decode(token, {complete: true});
+    return raw.payload.email;
+}
