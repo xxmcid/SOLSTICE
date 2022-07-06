@@ -13,7 +13,6 @@ const app = express();
 app.get('/:token', async function(req, res) {
     let token = req.params.token;
     if (jwt.checkExpiry(token)) {
-
         // Mark User as verified in MongoDB.
         await User.updateOne({email: 'michaelvuolo1@gmail.com'}, {verified: true}, function (err, docs) {
             if (err) {
