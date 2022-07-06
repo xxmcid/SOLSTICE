@@ -49,7 +49,7 @@ app.post('/', async function (req, res) {
     // Save the new User to the database.
     await user
         .save()
-        .then(() => {
+        .then(async () => {
             // Send an email verification email with 15 minute expiry.
             let tokenObj = jwt.createVerificationToken(user.email, '15m');
 
@@ -58,7 +58,6 @@ app.post('/', async function (req, res) {
                 to: user.email,
                 from: 'noreply.solstice@gmail.com',
                 subject: 'Verify Your Account',
-                text: '',
                 html: content.replaceAll('{{TOKEN}}', tokenObj.token)
             }
 
