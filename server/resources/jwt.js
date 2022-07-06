@@ -8,7 +8,7 @@ exports.createVerificationToken = function(email, expiry)
     try
     {
         let temp = {email: email};
-        ret.token = jwt.sign(temp, "secret", {expiresIn: expiry});
+        ret.token = jwt.sign(temp, process.env.JWT_SECRET, {expiresIn: expiry});
     }
     catch(e)
     {
@@ -19,7 +19,7 @@ exports.createVerificationToken = function(email, expiry)
 
 exports.checkExpiry = function(token)
 {
-    let isValid = jwt.verify(token, "secret", (error, verifiedJwt) => {
+    let isValid = jwt.verify(token, process.env.JWT_SECRET, (error, verifiedJwt) => {
         if(error)
         {
             return false;
