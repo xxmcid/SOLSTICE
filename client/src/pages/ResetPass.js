@@ -5,7 +5,7 @@ import { React, Component } from 'react';
 
 
 // Styling Imports
-import { mainTheme } from '../mainTheme'
+import { getTheme } from '../styles/mainTheme';
 import '../styles/resetpass.css';
 
 // Mui Components
@@ -19,7 +19,7 @@ class ResetPass extends Component
     render()
     {
         return(
-            <ThemeProvider theme={mainTheme}>
+            <ThemeProvider theme={getTheme()}>
                 <div id='titlecenterheader'>
                     <div id='resetpagetitle' className='large'>SOLSTICE</div>
                 </div>

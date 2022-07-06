@@ -5,7 +5,7 @@ import { React, Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
-import { mainTheme } from '../mainTheme';
+import { getTheme } from '../styles/mainTheme';
 import'../styles/loginpage.css';
 
 // MUI Components
@@ -37,7 +37,7 @@ class LoginPage extends Component {
     {
         console.log("Rendering LoginPage");
         return (
-            <ThemeProvider theme={mainTheme}>
+            <ThemeProvider theme={getTheme()}>
                 <div>
                     <Header />
                     <Box
@@ -53,11 +53,7 @@ class LoginPage extends Component {
                             id='loginContainer'
                             variant="outlined" 
                             square 
-                            sx=
-                            {{ 
-                                backgroundColor: mainTheme.palette.primary.main,
-                                borderRadius: 2 
-                            }}>
+                            sx={{borderRadius: 2}}>
 
                             <div id='signintitle'>Sign In</div>
                             <div id='inputcontainer'>
@@ -66,7 +62,6 @@ class LoginPage extends Component {
                                     id="emailinput" 
                                     sx=
                                     {{  
-                                        backgroundColor: mainTheme.palette.primary.light,
                                         maxWidth: 300,
                                         borderRadius: 2
                                     }}
@@ -77,7 +72,6 @@ class LoginPage extends Component {
                                     type="password"
                                     sx=
                                     {{  
-                                        backgroundColor: mainTheme.palette.primary.light, 
                                         maxWidth: 300,
                                         borderRadius: 2
                                     }}
@@ -90,7 +84,6 @@ class LoginPage extends Component {
                                         sx=
                                         {{ 
                                             textTransform: 'none',
-                                            backgroundColor: mainTheme.palette.primary.contrast,
                                             borderRadius: 5
                                         }}>
                                             Sign in

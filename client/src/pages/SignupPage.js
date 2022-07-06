@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
-import { mainTheme } from '../mainTheme'
+import { getTheme } from '../styles/mainTheme';
 import { ThemeProvider } from '@mui/material';
 import '../styles/signuppage.css';
 import '../styles/loginpage.css';
@@ -59,7 +59,7 @@ class SignupPage extends Component {
     {
         console.log("Rendering Signup Page...");
         return (
-            <ThemeProvider theme={mainTheme}>
+            <ThemeProvider theme={getTheme()}>
                 <div>
                     <Header/>
                     <Box
@@ -76,7 +76,7 @@ class SignupPage extends Component {
                             variant="outlined" 
                             square 
                             sx={{ 
-                                backgroundColor: mainTheme.palette.primary.main,
+                                backgroundColor: 'background.default',
                                 borderRadius: 5
                             }} >
                                 
@@ -89,7 +89,7 @@ class SignupPage extends Component {
                                         id="firstNameinput" 
                                         sx=
                                         {{  
-                                            backgroundColor: mainTheme.palette.primary.light,
+                                            backgroundColor: 'primary.light',
                                             maxWidth: 300,
                                             borderRadius: 2
                                         }}
@@ -100,7 +100,7 @@ class SignupPage extends Component {
                                         id="lastNameinput" 
                                         sx=
                                         {{  
-                                            backgroundColor: mainTheme.palette.primary.light,
+                                            backgroundColor: 'primary.light',
                                             maxWidth: 300,
                                             borderRadius: 2
                                         }}
@@ -111,7 +111,7 @@ class SignupPage extends Component {
                                         id="emailinput" 
                                         sx=
                                         {{  
-                                            backgroundColor: mainTheme.palette.primary.light,
+                                            backgroundColor: 'primary.light',
                                             maxWidth: 300,
                                             borderRadius: 2
                                         }}
@@ -123,7 +123,7 @@ class SignupPage extends Component {
                                         type="password"
                                         sx=
                                         {{  
-                                            backgroundColor: mainTheme.palette.primary.light, 
+                                            backgroundColor: 'primary.light', 
                                             maxWidth: 300,
                                             borderRadius: 2
                                         }}
@@ -137,7 +137,7 @@ class SignupPage extends Component {
                                     onClick={this.handleSignup.bind(this)}
                                     sx={{ 
                                         textTransform: 'none',
-                                        backgroundColor: mainTheme.palette.primary.contrast,
+                                        backgroundColor: 'primary.main',
                                         borderRadius: 5
                                     }}>
 
