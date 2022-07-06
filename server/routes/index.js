@@ -5,6 +5,8 @@ const md5 = require('md5');
 // Initialize express
 const app = express();
 
+require('./emailVerification.js')(app);
+
 // TOOD: move /signup endpoint below to the directory: /routes/api/signup.js
 
 // User Sign-Up:
@@ -52,6 +54,7 @@ app.post('/signup', async function (req, res) {
             });
         });
 });
+
 
 function validateAttributes(user) {
     // ### firstName:
