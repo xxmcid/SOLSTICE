@@ -12,14 +12,13 @@
     height: 100%;
     width: 100%;
     z-index: -2;
-    border: solid red 2px;
 }
 
 #addplanetbutton
 {
     position: absolute;
     bottom: 2%;
-    left: 3%;
+    left: 4%;
 }
 
 #sidepanel

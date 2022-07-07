@@ -50,7 +50,7 @@ class Info extends Component
                         </Grid>                    
                     </Grid>
 
-                    <Divider color={'primary.contrastText'} sx= {{ marginTop: 1, marginBottom: 1 }}/>
+                    <Divider backgroundColor={'primary.contrastText'} sx= {{ marginTop: 1, marginBottom: 1 }}/>
 
                     <Typography variant="h5">
                         Graphics

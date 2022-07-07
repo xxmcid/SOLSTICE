@@ -43,9 +43,9 @@ export default function sketch(p)
         p.translate(width/2, height/2);
         p.background('black');
 
-        defaultSun.pulls(defaultPlanet);
-        defaultPlanet.refresh();
-        defaultPlanet.reveal();
+        // defaultSun.pulls(defaultPlanet);
+        // defaultPlanet.refresh();
+        // defaultPlanet.reveal();
         defaultSun.reveal();
     }
 
@@ -58,6 +58,7 @@ export default function sketch(p)
         // Mass will be used for size of bodies.
         this.r = this.mass;
 
+        // Actually "paints" our new planet
         this.reveal = function() {
             p.noStroke();
             p.fill(_fill);

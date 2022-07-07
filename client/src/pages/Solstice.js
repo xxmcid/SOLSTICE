@@ -59,7 +59,7 @@ class Solstice extends Component
             <div id='masterContainer'>
                 <Header onClick={ this.setvisibility.bind(this) }/>
                 { this.state.infopagevisible ? <Info onClick={this.setvisibility.bind(this)} /> : null }
-                <SidePanel open={this.state.sidepanelexpanded}/>
+                <SidePanel open={this.state.sidepanelexpanded} close={this.expandsidepanel.bind(this)}/>
                 <Button
                     onClick={this.expandsidepanel.bind(this)}
                     variant='contained'
@@ -67,11 +67,11 @@ class Solstice extends Component
                     startIcon={<PublicIcon />}
                     color={this.state.sidepanelexpanded ? 'error' : 'success'}
                     sx={{ textTransform: 'none', fontWeight: 'bold' }}>
-                        Astral Body
+                        {this.state.sidepanelexpanded ? 'Cancel' : 'Add Planet'}
                 </Button>
                 {/* Main Solar System Component Wrapper -> Check Solstice.js */}
                 <div id='canvaswrapper'>
-                    <ReactP5Wrapper sketch={sketch}></ReactP5Wrapper>
+                    {/* <ReactP5Wrapper sketch={sketch}></ReactP5Wrapper> */}
                 </div>
             </div>
         );
