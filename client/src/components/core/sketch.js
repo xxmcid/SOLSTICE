@@ -1,16 +1,17 @@
 // Main Boilerplate for how a generic solar system needs to look like
 // All code in here will be from the P5 dependency
 
-// THIS IS THE ONLY FUNCTIONAL COMPONENT IN OUR APP!
+// THIS IS NOT A REACT SCRIPT!!!
 export default function sketch(p)
 {
     // Universal Variables controlling literally space and time
     // Gravitional Constant
     let G = 10;
+    let numPlanets = 5;
 
     // Default Astral bodies
     let defaultSun;
-    let defaultPlanet;
+    let defaultPlanets = [];
 
     // Setup Variables
     let canvas;
@@ -21,19 +22,23 @@ export default function sketch(p)
     p.setup = () => {
         canvas = p.createCanvas(width, height);
         canvas.parent("canvaswrapper");
-        defaultSun = new Body(100, p.createVector(0, 0), p.createVector(0, 0), p.color(255, 204, 0));
 
-        // Setting random default planet position
-        let radius = p.random(defaultSun.r, p.min(width/2, height/2));
-        let theta = p.random(p.TWO_PI);
-        let randomPos = p.createVector(radius*p.cos(theta), radius*p.sin(theta));
+        defaultSun = new Body(100, p.createVector(0, 0), p.createVector(0, 0), p.color(255, 204, 0), 'defaultSun');
 
-        // Setting velocity vector for planet to travel in.
-        let planetVel = randomPos.copy();
-        planetVel.rotate(p.HALF_PI);
-        planetVel.setMag(p.sqrt(G * defaultSun.mass / randomPos.mag() ))
+        for (let i = 0; i < numPlanets; i++)
+        {
+            // Setting random default planet position
+            let radius = p.random(defaultSun.r, p.min(width/2, height/2));
+            let theta = p.random(p.TWO_PI);
+            let randomPos = p.createVector(radius*p.cos(theta), radius*p.sin(theta));
 
-        defaultPlanet = new Body(25, randomPos, planetVel, p.color(255, 204, 0));
+            // Setting velocity vector for planet to travel in.
+            let planetVel = randomPos.copy();
+            planetVel.rotate(p.HALF_PI);
+            planetVel.setMag(p.sqrt(G * defaultSun.mass / randomPos.mag() ))
+
+            defaultPlanets.push(new Body(25, randomPos, planetVel, p.color(255, 204, 0), 'defaultPlanet'));
+        }
     }
 
     // This function is called repeatedly by P5 to give the illusion of
@@ -42,19 +47,22 @@ export default function sketch(p)
 
         p.translate(width/2, height/2);
         p.background('black');
-
-        // defaultSun.pulls(defaultPlanet);
-        // defaultPlanet.refresh();
-        // defaultPlanet.reveal();
+        for (let i = 0; i < defaultPlanets.length; i++)
+        {
+            defaultSun.pulls(defaultPlanets[i]);
+            defaultPlanets[i].refresh();
+            defaultPlanets[i].reveal();
+        }
         defaultSun.reveal();
     }
 
     // Generic Function for creating an astral body
-    function Body(_mass, _pos, _vel, _fill){
+    function Body(_mass, _pos, _vel, _fill, _name){
 
         this.mass = _mass;
         this.pos = _pos;
         this.vel = _vel;
+        this.name = _name;
         // Mass will be used for size of bodies.
         this.r = this.mass;
 
@@ -96,10 +104,41 @@ export default function sketch(p)
             this.vel.x += F.x / this.mass;
             this.vel.y += F.y / this.mass;
         }
+
+        // Click Handler for planets
+        this.clicked = function()
+        {
+            let xOffset = p.mouseX - (width / 2);
+            let yOffset = p.mouseY - (height / 2);
+            let d = p.dist(xOffset, yOffset, this.pos.x, this.pos.y)
+            if (d < this.r)
+            {
+                console.log("Clicked on astral body!");
+            }
+        }
+
     }
 
-    // p.myCustomRedrawAccordingToNewPropsHandler = (newProps) => {
-    //   if(canvas) //Make sure the canvas has been created
-    //     p.fill(newProps.color);
-    // }
+    // P5 Function that detects a mouse press GLOBALLY
+    // It's up to us to decide what to do with each INSTANCE
+    // of a planet. That's why this global function calls
+    // another function inside of the body object
+    p.mousePressed = function() {
+        // This for loop goes through all the planets
+        // and checks where the mouse was clicked and which
+        // planet the x and y coordinates are within bounds.
+        for (let i = 0; i < defaultPlanets.length; i++)
+        {
+            defaultPlanets[i].clicked();
+            defaultSun.clicked();
+        }
+    }
+
+    // Wrapper component in Solstice.js passes the planets recieved from
+    // database into the global planets array for the canvas renderer.
+    // VERY IMPORTANT ** This method is automatically called whenever
+    // the props from the parent change OR when the component rerenders.
+    p.updateWithProps = props => {
+        defaultPlanets = props.planets;
+    }
 }

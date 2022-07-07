@@ -107,13 +107,6 @@ body
 
 #loginContainer
 {
-    height: 480px;
-    width: 400px;
-    position: fixed;
-    left: 25%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
     font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
 
     /* Need same animation from body selector, in case user

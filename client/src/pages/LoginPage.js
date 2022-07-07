@@ -2,7 +2,7 @@
 import { React, Component } from 'react';
 
 // Routing Imports
-import { Link, navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
 import { getTheme } from '../styles/mainTheme';
@@ -96,6 +96,7 @@ class LoginPage extends Component {
                     position={'left'}
                 >
                     <Grid container 
+                        id='loginContainer'
                         columns={5} 
                         rowSpacing={4}
                         columnSpacing={2} 

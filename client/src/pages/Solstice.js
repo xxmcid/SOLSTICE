@@ -34,6 +34,9 @@ class Solstice extends Component
             // User info
             uid: 0,
             username: '',
+
+            // Planets Array
+            planets: []
         };
     }
 
@@ -73,7 +76,7 @@ class Solstice extends Component
                 }
                 {/* Main Solar System Component Wrapper -> Check Solstice.js */}
                 <div id='canvaswrapper'>
-                    {/* <ReactP5Wrapper sketch={sketch}></ReactP5Wrapper> */}
+                    <ReactP5Wrapper sketch={sketch} planets={this.state.planets}></ReactP5Wrapper>
                 </div>
             </div>
         );

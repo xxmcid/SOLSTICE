@@ -24,24 +24,8 @@ class ForgotPass extends React.Component {
         return(
             <ThemeProvider theme={getTheme()}>
                 <TitleHeader/>
-<<<<<<< HEAD
-                <Box sx={{
-                    color: 'text.primary',
-                    backgroundColor: 'background.default',
-                    borderRadius: 2,
-                    width: "100%",
-                    maxWidth: "min(400px, calc(100% - 40px))",
-                    position: 'fixed',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)'
-                }}>
-                    <Grid container id='forgotPassContainer' columns={4} rowSpacing={2} columnSpacing={2} padding={4}>
-                        
-=======
                 <Positioner color='text.primary' backgroundColor='background.paper' borderRadius={2}>
-                    <Grid container columns={4} rowSpacing={2} columnSpacing={2} padding='24px'>
->>>>>>> 5c1d13581f53d1a52fb3dbf8b6bd962927e513fe
+                    <Grid container id='forgotPassContainer' columns={4} rowSpacing={2} columnSpacing={2} padding='24px'>
                         <Grid item xs={4} justifyContent={'center'}>
                             <Typography align='center' fontWeight={'bold'} variant="h4">Forgot Password?</Typography>
                         </Grid>

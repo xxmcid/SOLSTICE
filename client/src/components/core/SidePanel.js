@@ -7,6 +7,7 @@ import '../../styles/solstice.css';
 
 // MUI Components
 import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button } from '@mui/material';
+import { InputAdornment } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -82,22 +83,37 @@ class SidePanel extends Component
                             onChange={(e) => this.setState({ selectedPlanetName: e.target.value })}></TextField>
                         </Grid>
                         <Grid item xs={11}>
-                            <Typography variant='h7' align='left'>Mass (Kg)</Typography>
+                            <Typography variant='h7' align='left'>Mass</Typography>
                         </Grid>
                         <Grid item xs={11}>
-                            <TextField id='planetMassInput' type="text" sx={{ width: '100%', borderRadius: 2}}></TextField>
+                            <TextField 
+                                id='planetMassInput' 
+                                type="text" 
+                                InputProps={{ endAdornment: <InputAdornment position="end">kg</InputAdornment>}} 
+                                sx={{ width: '100%', borderRadius: 2}}>    
+                            </TextField>
                         </Grid>
                         <Grid item xs={11}>
-                            <Typography variant='h7' align='left'>Gravitational Pull (m/s^2)</Typography>
+                            <Typography variant='h7' align='left'>Gravitational Pull</Typography>
                         </Grid>
                         <Grid item xs={11}>
-                            <TextField id='planetGravityInput' type="text" sx={{ width: '100%', borderRadius: 2}}></TextField>
+                            <TextField 
+                                id='planetGravityInput' 
+                                type="text" 
+                                InputProps={{ endAdornment: <InputAdornment position="end">m/s^2</InputAdornment>}} 
+                                sx={{ width: '100%', borderRadius: 2}}>
+                            </TextField>
                         </Grid>
                         <Grid item xs={11}>
                             <Typography variant='h7' align='left'>Distance (From nearest star)</Typography>
                         </Grid>
                         <Grid item xs={11}>
-                            <TextField id='planetDistanceInput' type="text" sx={{ width: '100%', borderRadius: 2}}></TextField>
+                            <TextField 
+                                id='planetDistanceInput' 
+                                type="text" 
+                                InputProps={{ endAdornment: <InputAdornment position="end">m</InputAdornment>}} 
+                                sx={{ width: '100%', borderRadius: 2}}>
+                            </TextField>
                         </Grid>
                         <Grid item xs={11}>
                             <Typography variant='h7' align='left'>Color</Typography>
@@ -134,7 +150,6 @@ class SidePanel extends Component
                             </Button>
                         </Grid>
                     </Grid>
-                    
                 </Drawer>
             </ThemeProvider>
         );
