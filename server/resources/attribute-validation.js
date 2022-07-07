@@ -1,6 +1,6 @@
 exports.validate = function(user, attributes) {
-    attributes.forEach(attribute => {
-        switch(attribute) {
+    for (let i = 0; i < attributes.length; i++) {
+        switch(attributes[i]) {
             case 'firstName':
                 // NULL check.
                 if (!user.firstName)
@@ -78,5 +78,5 @@ exports.validate = function(user, attributes) {
 
                 break;
         }
-    });
+    }
 };
