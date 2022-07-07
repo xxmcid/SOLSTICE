@@ -8,9 +8,14 @@ import { Link } from 'react-router-dom';
 import '../styles/forgotpass.css';
 
 // Mui Components
-import { TextField, Button, Grid, Typography, ThemeProvider, Box } from '@mui/material';
+import { TextField, Button, Grid, Typography, ThemeProvider } from '@mui/material';
 import { getTheme } from '../styles/mainTheme';
 import TitleHeader from '../components/TitleHeader';
+import Positioner from '../components/Positioner';
+
+// Font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 class ForgotPass extends React.Component {
     render() {
@@ -19,6 +24,7 @@ class ForgotPass extends React.Component {
         return(
             <ThemeProvider theme={getTheme()}>
                 <TitleHeader/>
+<<<<<<< HEAD
                 <Box sx={{
                     color: 'text.primary',
                     backgroundColor: 'background.default',
@@ -32,6 +38,10 @@ class ForgotPass extends React.Component {
                 }}>
                     <Grid container id='forgotPassContainer' columns={4} rowSpacing={2} columnSpacing={2} padding={4}>
                         
+=======
+                <Positioner color='text.primary' backgroundColor='background.paper' borderRadius={2}>
+                    <Grid container columns={4} rowSpacing={2} columnSpacing={2} padding='24px'>
+>>>>>>> 5c1d13581f53d1a52fb3dbf8b6bd962927e513fe
                         <Grid item xs={4} justifyContent={'center'}>
                             <Typography align='center' fontWeight={'bold'} variant="h4">Forgot Password?</Typography>
                         </Grid>
@@ -45,9 +55,11 @@ class ForgotPass extends React.Component {
                         </Grid>
 
                         <Grid item xs={2}>
-                            <Button size='large' sx={{ textTransform: 'none', borderRadius: 2, width: '100%' }}>
-                                <Link to={'/'}>Go Back</Link>
-                            </Button>
+                            <Link to={'/'}>
+                                <Button size='large' sx={{ borderRadius: 2, width: '100%', color: 'primary.contrastText'}}>
+                                    <FontAwesomeIcon icon={faChevronLeft}/> &nbsp; Go Back
+                                </Button>
+                            </Link>
                         </Grid> 
                         <Grid item xs={2}>
                             <Button variant='contained' size='large' 
@@ -62,7 +74,7 @@ class ForgotPass extends React.Component {
                             </Button>
                         </Grid>
                     </Grid>
-                </Box>
+                </Positioner>
             </ThemeProvider>
         );
     }

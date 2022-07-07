@@ -10,6 +10,12 @@ export const getTheme = mode => (mode === "light")
       light: '#E5FCF5',    // Light Cyan
       contrast: '#EADEDA', // Timberwolf
       black: '#000000'     // Black (For Text)
+    },
+
+    typography: {
+      button: {
+        textTransform: 'none'
+      }
     }
   })
 
@@ -29,6 +35,11 @@ export const getTheme = mode => (mode === "light")
       background: {
         paper: '#323031',
         default: '#323031',
+      }
+    },
+    typography: {
+      button: {
+        textTransform: 'none'
       }
     }
   })

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const cors = require('cors');
 
 // TODO: replace password for MongoDB into a .env file or something similar to not expose it.
 
@@ -10,6 +11,9 @@ mongoose
     .then(() => {
         // Initialize express
         const app = express();
+
+        // requre cors for local testing
+        app.use(cors())
 
         // Have Node serve the files for our built React app
         app.use(express.static(path.resolve(__dirname, '../client/build')));
