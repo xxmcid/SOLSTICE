@@ -12,7 +12,7 @@ const app = express();
 // Verifies a user's e-mail using a specified token.
 app.get('/:token', async function(req, res) {
     let token = req.params.token;
-    if (jwt.checkExpiry(token)) {
+    if (jwt.checkExpiry(token) && jwt.getTokenType(token) == jwt.TokenTypes.VerifyEmail) {
         // Mark User as verified in MongoDB.
         await User.updateOne({email: jwt.getEmailFromToken(token)}, {verified: true})
             .catch(err => {

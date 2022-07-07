@@ -41,7 +41,7 @@ app.post('/', async function (req, res) {
         });
     
     // Send a forgot password email with 15 minute expiry.
-    let tokenObj = jwt.createVerificationToken(user.email, '15m');
+    let tokenObj = jwt.createVerificationToken(user.email, '15m', jwt.TokenTypes.ResetPass);
 
     // Construct E-Mail message.
     const msg = {
