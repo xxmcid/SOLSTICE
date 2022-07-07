@@ -2,14 +2,14 @@
 import { React, Component } from 'react';
 
 // Routing Imports
-import { Link } from 'react-router-dom';
+import { Link, navigate } from 'react-router-dom';
 
 // Styling imports (May not be needed since App.js already imports it, but lets be safe)
 import { getTheme } from '../styles/mainTheme';
 import'../styles/loginpage.css';
 
 // MUI Components
-import { Paper, Button, TextField, ThemeProvider, Typography, Grid }from '@mui/material';
+import { Button, TextField, ThemeProvider, Typography, Grid }from '@mui/material';
 
 // Custom Components
 import Header from '../components/Header';
@@ -74,10 +74,13 @@ class LoginPage extends Component {
     signin() {
         const email = this.state.email;
         const password = this.state.password;
-        console.log("logging in with " + email + " and " + password);
 
         this.doSignin(email, password).then(response => {
-            console.log(response);
+            if (response && response.error === '') {
+                console.log(response);
+
+                window.location.href = window.location.href + 'solstice'
+            }
         })
     }
 
