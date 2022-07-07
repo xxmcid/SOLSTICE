@@ -14,7 +14,7 @@ require('dotenv').config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 // Read E-Mail Verification HTML
-let content = fs.readFileSync(path.resolve(__dirname, '../../resources/email-verification.html'), 'utf-8');
+let email_verification_html = fs.readFileSync(path.resolve(__dirname, '../../resources/email-verification.html'), 'utf-8');
 
 // User Sign-Up:
 // Creates a new user as long as the email & password requirements are met.
@@ -58,7 +58,7 @@ app.post('/', async function (req, res) {
                 to: user.email,
                 from: 'noreply.solstice@gmail.com',
                 subject: 'Verify Your Account',
-                html: content.replaceAll('{{TOKEN}}', tokenObj.token)
+                html: email_verification_html.replaceAll('{{TOKEN}}', tokenObj.token)
             }
 
             // Send E-Mail.
@@ -87,7 +87,6 @@ app.post('/', async function (req, res) {
             });
         });
 });
-
 
 function validateAttributes(user) {
     // ### firstName:

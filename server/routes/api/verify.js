@@ -28,7 +28,7 @@ app.get('/:token', async function(req, res) {
             "error": ""
         });
     } else {
-        return res.status(401).json({
+        return res.status(498).json({
             "status": "failed",
             "error": "Invalid verification token. Make sure it's not expired."
         });
