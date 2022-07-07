@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 // Routing Imports
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom';
 
 // Styling Import
 import './index.css';
@@ -19,7 +19,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // React.StrictMode is disabled for now, its primarily for debugging purposes.
   // <React.StrictMode>
-    <BrowserRouter>
+  <HashRouter>
     <Routes>
       <Route exact path="/" element={<App />} />
       <Route path="/signup" element={<SignupPage />} />
@@ -27,6 +27,6 @@ root.render(
       <Route path="/resetpassword" element={<ResetPass/>} />
       <Route path="/solstice" element={<Solstice />} />
     </Routes>
-    </BrowserRouter>
+  </HashRouter>
   // </React.StrictMode>
 );
