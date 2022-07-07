@@ -11,7 +11,7 @@ const app = express();
 
 // Setup SendGrid API
 require('dotenv').config();
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // Read E-Mail Verification HTML
 let email_verification_html = fs.readFileSync(path.resolve(__dirname, '../../resources/email-verification.html'), 'utf-8');
