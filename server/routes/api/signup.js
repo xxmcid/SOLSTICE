@@ -30,7 +30,7 @@ app.post('/', async function (req, res) {
     });
 
     // Validate the new User's attributes.
-    let err = attributes.validateAll(user);
+    let err = attributes.validate(user, ['firstName', 'lastName', 'email', 'password']);
     if (err)
         return res.status(422).json({
             "status": "failed",

@@ -16,7 +16,7 @@ app.post('/', async function(req, res) {
     });
 
     // Validate the password.
-    let err = attributes.validatePassword(user);
+    let err = attributes.validate(user, ['password']);
     if (err)
         return res.status(422).json({
             "status": "failed",
