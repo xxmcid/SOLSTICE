@@ -31,7 +31,7 @@ class ForgotPass extends React.Component {
                         </Grid>
 
                         <Grid item xs={4}>
-                            <Typography>Enter your email address below. You will receive a reset password email.</Typography>
+                            <Typography align='center'>Enter your email address below. You will receive a reset password email.</Typography>
                         </Grid>
 
                         <Grid item xs={4}>

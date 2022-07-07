@@ -26,7 +26,6 @@ app.post('/', async function (req, res) {
 
     // Validate the e-mail.
     let err = attributes.validate(user, ['email']);
-    console.log(err);
     if (err)
         return res.status(422).json({
             "status": "failed",
