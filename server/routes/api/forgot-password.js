@@ -4,6 +4,7 @@ const path = require('path');
 const sgMail = require('@sendgrid/mail')
 const jwt = require('../../resources/jwt.js');
 const User = require("../../models/User");
+const attributes = require('../../resources/attribute-validation');
 
 // Initialize express
 const app = express();
@@ -24,7 +25,7 @@ app.post('/', async function (req, res) {
     });
 
     // Validate the e-mail.
-    let err = validateAttributes(user);
+    let err = attributes.validateEmail(user);
     if (err)
         return res.status(422).json({
             "status": "failed",
@@ -72,25 +73,5 @@ app.post('/', async function (req, res) {
         "error": ""
     });
 });
-
-function validateAttributes(user) {
-    // ### email
-    // NULL check.
-    if (!user.email)
-        return "Please enter your email.";
-
-    // At least 1 character in length.
-    if (user.email.length < 1)
-        return "Your email must be at least 1 character in length.";
-
-    // Less than 320 characters in length.
-    if (user.email.length > 320)
-        return "Your email must be less than 320 characters in length.";
-
-    // Test the pattern.
-    let pattern_email = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-    if (!pattern_email.test(user.email))
-        return "Your email is invalid.";
-};
 
 module.exports = app;

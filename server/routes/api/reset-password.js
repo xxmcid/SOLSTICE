@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('../../resources/jwt.js');
 const User = require("../../models/User");
 const md5 = require('md5');
+const attributes = require('../../resources/attribute-validation');
 
 // Initialize express
 const app = express();
@@ -15,7 +16,7 @@ app.post('/', async function(req, res) {
     });
 
     // Validate the password.
-    let err = validateAttributes(user);
+    let err = attributes.validatePassword(user);
     if (err)
         return res.status(422).json({
             "status": "failed",
@@ -47,26 +48,6 @@ app.post('/', async function(req, res) {
         error: ""
     });
 });
-
-function validateAttributes(user) {
-    // ### password:
-    // NULL check.
-    if (!user.password)
-        return "Please enter a password.";
-
-    // At least 8 characters in length.
-    if (user.password.length < 8)
-        return "Your password must be at least 8 characters in length.";
-
-    // Less than 32 characters in length.
-    if (user.password.length > 32)
-        return "Your password must be less than 32 characters in length.";
-
-    // Test the pattern.
-    let pattern_password = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,32}$/;
-    if (!pattern_password.test(user.password))
-        return "Your password must contain one digit from 1 to 9, one lowercase letter, one uppercase letter, one special character, no space, and 8-32 characters long.";
-};
 
 module.exports = app;
 
