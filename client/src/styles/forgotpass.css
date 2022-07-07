@@ -2,3 +2,9 @@ a {
     color: white;
     text-decoration: none;
 }
+
+#forgotPassContainer
+{
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1;
+}

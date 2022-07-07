@@ -30,7 +30,7 @@ class ForgotPass extends React.Component {
                     left: '50%',
                     transform: 'translate(-50%, -50%)'
                 }}>
-                    <Grid container columns={4} rowSpacing={2} columnSpacing={2} padding={4}>
+                    <Grid container id='forgotPassContainer' columns={4} rowSpacing={2} columnSpacing={2} padding={4}>
                         
                         <Grid item xs={4} justifyContent={'center'}>
                             <Typography align='center' fontWeight={'bold'} variant="h4">Forgot Password?</Typography>

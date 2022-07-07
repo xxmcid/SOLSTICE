@@ -60,15 +60,17 @@ class Solstice extends Component
                 <Header onClick={ this.setvisibility.bind(this) }/>
                 { this.state.infopagevisible ? <Info onClick={this.setvisibility.bind(this)} /> : null }
                 <SidePanel open={this.state.sidepanelexpanded} close={this.expandsidepanel.bind(this)}/>
+                { this.state.sidepanelexpanded ? null : 
                 <Button
                     onClick={this.expandsidepanel.bind(this)}
                     variant='contained'
                     id='addplanetbutton'
                     startIcon={<PublicIcon />}
-                    color={this.state.sidepanelexpanded ? 'error' : 'success'}
-                    sx={{ textTransform: 'none', fontWeight: 'bold' }}>
-                        {this.state.sidepanelexpanded ? 'Cancel' : 'Add Planet'}
+                    color={'success'}
+                    sx={{ textTransform: 'none', fontWeight: 'bold', position: 'absolute', bottom: '2%', left: '4%' }}>
+                        Add Planet
                 </Button>
+                }
                 {/* Main Solar System Component Wrapper -> Check Solstice.js */}
                 <div id='canvaswrapper'>
                     {/* <ReactP5Wrapper sketch={sketch}></ReactP5Wrapper> */}

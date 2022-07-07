@@ -8,7 +8,7 @@ import '../../styles/solstice.css';
 // MUI Components
 import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-
+import CancelIcon from '@mui/icons-material/Cancel';
 
 
 class SidePanel extends Component
@@ -16,14 +16,25 @@ class SidePanel extends Component
     constructor(props)
     {
         super(props);
+        // Binds event handlers passed in from parent to event handlers that are local to SidePanel.js
         this.handleSave = this.handleSave.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+
         this.state = {
             selectedPlanetName: 'Planet Name'
         };
     }
 
     // Handles the updated parameters for planet.
+    // Also sends update to database.
     handleSave()
+    {
+        // Closes the sidepanel
+        this.props.close();
+    }
+
+    // This should only close the side panel.
+    handleCancel()
     {
         // Closes the sidepanel
         this.props.close();
@@ -42,9 +53,9 @@ class SidePanel extends Component
                             display: 'flex',
                             flexDirection: 'column',
                             gap: 12,
-                            height: '84vh', 
+                            height: '95vh', 
                             position: 'absolute', 
-                            top: '8%', 
+                            top: '6%', 
                             width: '15.5%', 
                             opacity: '75%', 
                             backgroundColor: 'black',
@@ -100,16 +111,26 @@ class SidePanel extends Component
                         <Grid item xs={11}>
                             <TextField id='planetMoonInput' type="text" sx={{ width: '100%', borderRadius: 2 }}></TextField>
                         </Grid>
-                        <Grid item xs={11} justifyContent='center'>
+                        <Grid item xs={5} justifyContent='center'>
                             <Button
-                                fullWidth
                                 onClick={this.handleSave}
                                 variant='contained'
                                 id='saveChangesButton'
                                 startIcon={<SaveIcon/>}
                                 color={'success'}
                                 sx={{ textTransform: 'none', fontWeight: 'bold' }}>
-                                    Save Changes
+                                    Save
+                            </Button>
+                        </Grid>
+                        <Grid item xs={5} justifyContent='center'>
+                            <Button
+                                onClick={this.handleSave}
+                                variant='contained'
+                                id='CancelChangesButton'
+                                startIcon={<CancelIcon/>}
+                                color={'error'}
+                                sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+                                    Cancel
                             </Button>
                         </Grid>
                     </Grid>
