@@ -1,6 +1,7 @@
 const express = require('express');
 const md5 = require('md5');
 const User = require("../../models/User");
+const attributes = require('../../resources/attribute-validation');
 
 // Initialize express
 const app = express();
