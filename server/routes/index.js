@@ -9,5 +9,6 @@ const app = express();
 app.use('/signup', require('./api/signup'));
 app.use('/verify', require('./api/verify'));
 app.use('/forgot-password', require('./api/forgot-password'));
+app.use('/reset-password', require('./api/reset-password'))
 
 module.exports = app;

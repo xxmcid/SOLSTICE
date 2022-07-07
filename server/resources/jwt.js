@@ -1,13 +1,22 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+exports.TokenTypes = {
+    ResetPass: "ResetPass",
+    VerifyEmail: "VerifyEmail",
+    ClientSession: "ClientSession"
+}
+
 // expiry should be something like '15m' or '7d', if a time is not specified, it does not expire
-exports.createVerificationToken = function(email, expiry) 
+exports.createVerificationToken = function(email, expiry, type) 
 {
     let ret = {};
     try
     {
-        let temp = {email: email};
+        let temp = {
+            email: email,
+            token_type: type
+        };
         ret.token = jwt.sign(temp, process.env.JWT_SECRET, {expiresIn: expiry});
     }
     catch(e)
@@ -17,7 +26,7 @@ exports.createVerificationToken = function(email, expiry)
     return ret;
 }
 
-exports.checkExpiry = function(token)
+exports.checkValidity = function(token)
 {
     let isValid = jwt.verify(token, process.env.JWT_SECRET, (error, verifiedJwt) => {
         if(error)
@@ -31,6 +40,12 @@ exports.checkExpiry = function(token)
     });
 
     return isValid;
+}
+
+exports.getTokenType = function(token)
+{
+    let raw = jwt.decode(token, {complete: true});
+    return raw.payload.token_type;
 }
 
 exports.getEmailFromToken = function(token)
