@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 // Routing Imports
-import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom';
+import { Routes, Route, HashRouter } from 'react-router-dom';
 
 // Styling Import
 import './index.css';

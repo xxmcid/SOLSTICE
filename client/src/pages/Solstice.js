@@ -16,6 +16,8 @@ import sketch from '../components/core/sketch';
 import Header from '../components/Header';
 import SidePanel from '../components/core/SidePanel';
 import Info from '../components/Info';
+import { ThemeProvider } from '@emotion/react';
+import { getTheme } from '../styles/mainTheme';
 
 
 
@@ -36,7 +38,7 @@ class Solstice extends Component
             username: '',
 
             // Planets Array
-            planets: []
+            planets: [],
         };
     }
 
@@ -59,7 +61,7 @@ class Solstice extends Component
     render()
     {
         return(
-            <div id='masterContainer'>
+            <ThemeProvider theme={getTheme()} id='masterContainer'>
                 <Header onClick={ this.setvisibility.bind(this) }/>
                 { this.state.infopagevisible ? <Info onClick={this.setvisibility.bind(this)} /> : null }
                 <SidePanel open={this.state.sidepanelexpanded} close={this.expandsidepanel.bind(this)}/>
@@ -70,15 +72,18 @@ class Solstice extends Component
                     id='addplanetbutton'
                     startIcon={<PublicIcon />}
                     color={'success'}
-                    sx={{ textTransform: 'none', fontWeight: 'bold', position: 'absolute', bottom: '2%', left: '4%' }}>
+                    sx={{ textTransform: 'none', fontWeight: 'bold', position: 'absolute', bottom: '16px', left: '16px' }}>
                         Add Planet
                 </Button>
                 }
                 {/* Main Solar System Component Wrapper -> Check Solstice.js */}
-                <div id='canvaswrapper'>
-                    <ReactP5Wrapper sketch={sketch} planets={this.state.planets}></ReactP5Wrapper>
+                <div id="canvaswrapper">
+                    <ReactP5Wrapper 
+                        sketch={sketch} 
+                        planets={this.state.planets}
+                    ></ReactP5Wrapper>
                 </div>
-            </div>
+            </ThemeProvider>
         );
     }
 }
