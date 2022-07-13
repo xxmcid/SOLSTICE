@@ -23,7 +23,7 @@ mongoose
 
         // Import routes (endpoints)
         const routes = require('./routes');
-        app.use('/api', routes);
+        app.use('/', routes);
 
         // Start the server
         const PORT = process.env.PORT || 8080;

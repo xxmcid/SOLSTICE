@@ -27,3 +27,4 @@ yarn-error.log*
 sendgrid.env
 
 server/.env
+.env
