@@ -42,6 +42,12 @@ class Solstice extends Component
         };
     }
 
+    // This function should fetch all the planet data from the database.
+    componentDidMount()
+    {
+        console.log("Solstice dashboard mounted, fetching users planets from database");
+    }
+
     setvisibility()
     {
         console.log("Info page visible: " + !this.state.infopagevisible);

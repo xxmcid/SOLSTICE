@@ -30,9 +30,6 @@ export default function sketch(p5) {
         if (props.planets) {
             console.log("made it here")
         }
-
-
-        
     }
 
     // Sets up our main solar system canvas for drawing
@@ -45,8 +42,6 @@ export default function sketch(p5) {
 
         for (let i = 0; i < numPlanets; i++)
         {
-            
-
             // Setting random default planet position
             let radius = p5.random(defaultSun.r, p5.min(width/2, height/2));
             let theta = p5.random(p5.TWO_PI);
