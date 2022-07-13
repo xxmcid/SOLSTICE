@@ -75,6 +75,8 @@ class SidePanel extends Component
                         <Grid item xs={11}>
                             <Paper elevation={10} sx={{ backgroundColor: 'grey', width: '100%', height: 200 }}></Paper>
                         </Grid>
+                    </Grid>
+                    <Grid container rowSpacing={1} justifyContent='center' paddingBottom={3} maxHeight='100%' sx={{ overflowY: 'scroll' }}>
                         <Grid item xs={11}>
                             <Typography variant='h7' align='left'>Name</Typography>
                         </Grid>
@@ -124,7 +126,7 @@ class SidePanel extends Component
                         <Grid item xs={11}>
                             <Typography variant='h7' align='left'>Moons</Typography>
                         </Grid>
-                        <Grid item xs={11}>
+                        <Grid item xs={11} paddingBottom={2}>
                             <TextField id='planetMoonInput' type="text" sx={{ width: '100%', borderRadius: 2 }}></TextField>
                         </Grid>
                         <Grid item xs={5} justifyContent='center'>
