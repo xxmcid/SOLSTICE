@@ -7,7 +7,7 @@ const User = require("../../models/User");
 // Initialize express
 const app = express();
 
-// User Sign-Up:
+// Add Solar System:
 // Creates a new user as long as the email & password requirements are met.
 app.post('/', async function (req, res) {
 
