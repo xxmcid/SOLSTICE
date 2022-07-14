@@ -20,8 +20,7 @@ import Header from '../components/Header';
 
 class SignupPage extends Component {
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props)
         this.state = {
             // JSON Payload for user credentials

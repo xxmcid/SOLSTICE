@@ -1,5 +1,6 @@
 // Base Import
 import React from 'react';
+import axios from 'axios';
 
 // Routing Imports
 import { Link } from 'react-router-dom';
@@ -18,6 +19,40 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 class ForgotPass extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            // JSON Payload
+            email: ''
+        };
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    async handleSubmit(e) {
+        e.preventDefault();
+        
+        const data = {
+            email: this.state.email
+        };
+
+        try {
+            // Send login to the server.
+            const response = await axios.post(
+                `${window.location.protocol}//${window.location.host}/api/forgot-password`,
+                data
+            );
+
+            // TODO: Tell the user an email has been sent
+        } catch(err) {
+            console.log(err);
+
+            // TODO: Display error messages in red text to users.
+            // this.setState({ signuperror: err.response.data.error, signuperrorVisible: true });
+        }
+    };
+
     render() {
         console.log("Rendering Forgot Password Page...");
        
@@ -35,7 +70,7 @@ class ForgotPass extends React.Component {
                         </Grid>
 
                         <Grid item xs={4}>
-                            <TextField id="emailinput" size="small" label="Email" type="text" sx={{ width: '100%', borderRadius: 2 }}/>                                    
+                            <TextField onChange={(e) => this.setState({ email: e.target.value })} id="emailinput" size="small" label="Email" type="text" sx={{ width: '100%', borderRadius: 2 }}/>                                    
                         </Grid>
 
                         <Grid item xs={2}>
@@ -46,7 +81,7 @@ class ForgotPass extends React.Component {
                             </Link>
                         </Grid> 
                         <Grid item xs={2}>
-                            <Button variant='contained' size='large' 
+                            <Button variant='contained' size='large' onClick={this.handleSubmit}
                                 sx={{ 
                                     textTransform: 'none', 
                                     borderRadius: 2, 

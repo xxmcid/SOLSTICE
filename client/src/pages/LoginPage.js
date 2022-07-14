@@ -224,7 +224,7 @@ class LoginPage extends Component {
                         </Grid>
 
                         <Grid item xs={3} textAlign={'center'} margin={'auto'}>
-                            <Link to="/forgotpassword">Forgot your password?</Link>
+                            <Link to="/forgot-password">Forgot your password?</Link>
                         </Grid>
 
                         <Grid item xs={5} textAlign={'center'}>
