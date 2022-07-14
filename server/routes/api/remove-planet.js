@@ -10,7 +10,8 @@ const app = express();
 app.post('/', async function (req, res) {
     // Create a new User document from the request body arguments.
  
-    
+    if(jwt.checkValidity(token) && jwt.getTokenType(token) == jwt.TokenTypes.ClientSession)
+    {
     let systemID = req.body.systemID;
     let planetID = req.body.planetID;
 
@@ -33,7 +34,7 @@ app.post('/', async function (req, res) {
             });
         }
     );
-
+    }
     return res.status(201).json({
         "status": "success",
         "error": ""
