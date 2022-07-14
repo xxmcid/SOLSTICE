@@ -108,11 +108,11 @@ class LoginPage extends Component {
         if (typeof this.state.clientSession == 'string' && this.state.clientSession.length > 0) {
 
             // TODO: validate clientSession token AND CLEAR if invalid / expired...
-            // axios.post(
-            //     // "https://solstice-project.herokuapp.com/api/signin",
-            //     // "http://localhost:8080/api/signin",
-            //     login
-            // );
+            axios.post(
+                // "https://solstice-project.herokuapp.com/api/signin",
+                "http://localhost:8080/api/signin",
+                login
+            );
 
             this.redirectToPage('solstice');
             return (
