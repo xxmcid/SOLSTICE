@@ -83,8 +83,14 @@ app.post('/', async (req, res) => {
   } else
     return res.status(401).json({
       "status": "failed",
+<<<<<<< HEAD
       "error": "Username or password incorrect!"
     });
+=======
+      "error": "Email or password incorrect"
+    })
+    
+>>>>>>> 0ef740e2e58398c05d7afe94fe2f03b310b1db12
 });
 
 module.exports = app;
