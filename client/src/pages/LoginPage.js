@@ -1,5 +1,6 @@
 // Base Import
 import { React, Component } from 'react';
+import axios from "axios";
 
 // Routing Imports
 import { Link } from 'react-router-dom';
@@ -12,8 +13,13 @@ import'../styles/loginpage.css';
 import { Button, TextField, ThemeProvider, Typography, Grid }from '@mui/material';
 
 // Custom Components
+import TitleHeader from '../components/TitleHeader';
 import Header from '../components/Header';
 import Positioner from '../components/Positioner';
+
+// Font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 class LoginPage extends Component {
 
@@ -29,11 +35,15 @@ class LoginPage extends Component {
             password: "",
             passwordErr: false,
             passwordErrMsg: "",
+            
+            // TODO: ask Humza or Isaac why we use States and if the below clientSession and handleSubmit function is necessary here
+            clientSession: localStorage.getItem('clientSession')
         };
 
-        this.emailChanged = this.emailChanged.bind(this)
-        this.passwordChanged = this.passwordChanged.bind(this)
-        this.signin = this.signin.bind(this)
+        this.emailChanged = this.emailChanged.bind(this);
+        this.passwordChanged = this.passwordChanged.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.redirectToPage = this.redirectToPage.bind(this);
     }
 
     setvisibility()
@@ -44,49 +54,43 @@ class LoginPage extends Component {
         });
     }
 
-    emailChanged(event) {
+    emailChanged(e) {
         this.setState({
-            email: event.target.value,
-        })
+            email: e.target.value,
+        });
     }
 
-    passwordChanged(event) {
+    passwordChanged(e) {
         this.setState({
-            password: event.target.value,
-        })
+            password: e.target.value,
+        });
     }
 
-    // This function returns a promise which must be caught with a .then
-    async doSignin(email, password) {
-        // Generate Login Request
-        const request = {
-            "email": email,
-            "password": password,
-        }
-
-        // Response is a promise that must be waited for
-        const response = await fetch('http://localhost:8080/api/signin/', {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(request),
-        }).catch(err => console.log('Error: ' + err));
-
-        // returning a promise
-        return response.json();
+    // Fixes issues if someone manually adjusted the URL.
+    redirectToPage(page) {
+        if (!window.location.hash.startsWith('#/'))
+            window.location.href = window.location.href.replace('#', '#/') + page;
+        else
+            window.location.href += page;
     }
+    
+    async handleSubmit(e) {
+        e.preventDefault();
+        
+        const login = {
+            email: this.state.email,
+            password: this.state.password
+        };
 
-    signin() {
-        const email = this.state.email;
-        const password = this.state.password;
+        try {
+            // Send login to the server.
+            const response = await axios.post(
+                `${window.location.protocol}//${window.location.host}/api/signin`,
+                login
+            );
 
-        this.doSignin(email, password).then(response => {
-            if (response && response.error === '') {
-                console.log(response);
-                this.setState({loginErrMsg: ""})
-
-                window.location.href = window.location.href + 'solstice'
-            } else {
-                // reset the error message states
+            // Set Error Messages
+            if (response.status != 200) {
                 this.setState({
                     emailErr: false,
                     emailErrMsg: "",
@@ -94,7 +98,6 @@ class LoginPage extends Component {
                     passwordErrMsg: "",
                 })
 
-                // set appropriate error message
                 if (response.error.toLowerCase().includes('email')) {
                     this.setState({
                         emailErr: true,
@@ -109,13 +112,70 @@ class LoginPage extends Component {
                         passwordErrMsg: response.error
                     });
                 }
-
             }
-        })
-    }
+    
+            // Set the state of the user
+            this.state.clientSession = response.data.token;
+
+            // Store the user in localStorage
+            localStorage.setItem('clientSession', response.data.token);
+
+            // Go to the main home screen
+            this.redirectToPage('solstice');
+        } catch(err) {
+            console.log(err);
+        }
+    };
 
     render() {
         console.log("Rendering LoginPage");
+
+        if (typeof this.state.clientSession == 'string' && this.state.clientSession.length > 0) {
+
+            // TODO: validate clientSession token AND CLEAR if invalid / expired...
+            axios.get(`${window.location.protocol}//${window.location.host}/api/validate-session/${this.state.clientSession}`)
+                .then(response => {
+                    // Logout
+                    if (response.status != 200) {
+                        localStorage.clear();
+                        window.location.reload();
+                    }
+
+                    // Enter the app
+                    this.redirectToPage('solstice');
+                })
+                .catch(err => {
+                    // Logout
+                    localStorage.clear();
+                    window.location.reload();
+                });
+
+            return (
+                <ThemeProvider theme={getTheme()}>
+                    <TitleHeader/>
+                    <Positioner color='text.primary' backgroundColor='background.paper' borderRadius={2}>
+                        <Grid container id='forgotPassContainer' columns={4} rowSpacing={2} columnSpacing={2} padding='24px'>
+                            <Grid item xs={4} justifyContent={'center'}>
+                                <Typography align='center' fontWeight={'bold'} variant="h4">Already Signed In</Typography>
+                            </Grid>
+
+                            <Grid item xs={4}>
+                                <Typography align='center'>Please wait while we redirect you...</Typography>
+                            </Grid>
+
+                            <Grid item xs={4}>
+                            <Link to={'/'}>
+                                <Button size='large' sx={{ borderRadius: 2, width: '100%', color: 'primary.contrastText'}}>
+                                    <FontAwesomeIcon icon={faChevronLeft}/> &nbsp; Logout
+                                </Button>
+                            </Link>
+                        </Grid>
+                        </Grid>
+                    </Positioner>
+                </ThemeProvider>
+            );
+        }
+
         return (
             <ThemeProvider theme={getTheme()}>
                 <Header />
@@ -159,7 +219,7 @@ class LoginPage extends Component {
                         </Grid>
 
                         <Grid item xs={2}>
-                            <Button onClick={this.signin} variant='contained' size={'large'} sx={{borderRadius: 5, float: 'right'}}>Sign in</Button>
+                            <Button onClick={this.handleSubmit} variant='contained' size={'large'} sx={{borderRadius: 5, float: 'right'}}>Sign in</Button>
                         </Grid>
 
                         <Grid item xs={3} textAlign={'center'} margin={'auto'}>
