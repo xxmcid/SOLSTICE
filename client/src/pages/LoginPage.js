@@ -132,9 +132,8 @@ class LoginPage extends Component {
     render() {
         console.log("Rendering LoginPage");
 
+        // Validate clientSession token AND CLEAR if invalid / expired...
         if (typeof this.state.clientSession == 'string' && this.state.clientSession.length > 0) {
-
-            // TODO: validate clientSession token AND CLEAR if invalid / expired...
             axios.get(`${window.location.protocol}//${window.location.host}/api/validate-session/${this.state.clientSession}`)
                 .then(response => {
                     // Logout
