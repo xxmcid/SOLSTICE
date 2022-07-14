@@ -46,7 +46,7 @@ app.post('/', async (req, res) => {
   } else
     return res.status(401).json({
       "status": "failed",
-      "error": "Username or password incorrect!"
+      "error": "Email or password incorrect"
     })
     
 });

@@ -24,7 +24,11 @@ class LoginPage extends Component {
         this.state = {
             infopagevisible: false,
             email: "",
+            emailErr: false,
+            emailErrMsg: "",
             password: "",
+            passwordErr: false,
+            passwordErrMsg: "",
         };
 
         this.emailChanged = this.emailChanged.bind(this)
@@ -78,8 +82,34 @@ class LoginPage extends Component {
         this.doSignin(email, password).then(response => {
             if (response && response.error === '') {
                 console.log(response);
+                this.setState({loginErrMsg: ""})
 
                 window.location.href = window.location.href + 'solstice'
+            } else {
+                // reset the error message states
+                this.setState({
+                    emailErr: false,
+                    emailErrMsg: "",
+                    passwordErr: false,
+                    passwordErrMsg: "",
+                })
+
+                // set appropriate error message
+                if (response.error.toLowerCase().includes('email')) {
+                    this.setState({
+                        emailErr: true,
+                        emailErrMsg: response.error
+                    });
+                } 
+                
+                if (response.error.toLowerCase().includes('password')) {
+                    this.setState({
+                        emailErrMsg: "", // remove "email or password incorrect" message 
+                        passwordErr: true,
+                        passwordErrMsg: response.error
+                    });
+                }
+
             }
         })
     }
@@ -109,11 +139,23 @@ class LoginPage extends Component {
                         </Grid>
 
                         <Grid item xs={5}>
-                            <TextField onChange={this.emailChanged} size="small" label="Email" type="text" sx={{ width: '100%'}}/>
+                            <TextField onChange={this.emailChanged} 
+                                size="small" 
+                                label="Email" 
+                                type="text"
+                                error={this.state.emailErr}
+                                helperText={this.state.emailErrMsg}
+                                sx={{ width: '100%'}}/>
                         </Grid>
 
                         <Grid item xs={5}>
-                            <TextField onChange={this.passwordChanged} size="small" label="Password" type="password" sx={{ width: '100%'}}/>
+                            <TextField onChange={this.passwordChanged} 
+                                size="small" 
+                                label="Password" 
+                                type="password" 
+                                error={this.state.passwordErr}
+                                helperText={this.state.passwordErrMsg}
+                                sx={{ width: '100%'}}/>
                         </Grid>
 
                         <Grid item xs={2}>
