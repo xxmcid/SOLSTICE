@@ -84,11 +84,6 @@ class LoginPage extends Component {
                 login
             );
 
-            // TODO: display error messages in red text to users
-            if (response.status != 200) {
-                return;
-            }
-
             // Set the state of the user
             this.state.clientSession = response.data.token;
 
@@ -98,7 +93,8 @@ class LoginPage extends Component {
             // Go to the main home screen
             this.redirectToPage('solstice');
         } catch(err) {
-            console.log(err);
+            // Display error messages in red text to users.
+            // this.setState({ signuperror: err.response.data.error, signuperrorVisible: true });
         }
     };
 

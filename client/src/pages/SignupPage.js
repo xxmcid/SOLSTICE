@@ -34,26 +34,36 @@ class SignupPage extends Component {
             signuperrorVisible: false,
             signuperror: ''
         };
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSignup(e) 
-    {
-        const jsonPayload = {
+    async handleSubmit(e) {
+        e.preventDefault();
+        
+        const signup = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
             password: this.state.password
         };
 
-        axios
-            .post('../api/signup', jsonPayload)
-            .then(data => {
-                console.log(data);
-            })
-            .catch(err => {
-                this.setState({ signuperror: err.message, signuperrorVisible: true });
-            });
-    }
+        try {
+            // Send login to the server.
+            const response = await axios.post(
+                `${window.location.protocol}//${window.location.host}/api/signup`,
+                signup
+            );
+
+            // TODO: Tell the user to verify their email before redirected
+
+            // Go to the sign in page.
+            window.location.href = '';
+        } catch(err) {
+            // Display error messages in red text to users.
+            this.setState({ signuperror: err.response.data.error, signuperrorVisible: true });
+        }
+    };
 
     render()
     {
@@ -134,7 +144,7 @@ class SignupPage extends Component {
                                 <Button 
                                     variant='contained'
                                     size='large'
-                                    onClick={this.handleSignup.bind(this)}
+                                    onClick={this.handleSubmit}
                                     sx={{ 
                                         textTransform: 'none',
                                         backgroundColor: 'primary.main',
