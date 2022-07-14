@@ -89,8 +89,6 @@ class LoginPage extends Component {
                 login
             );
 
-<<<<<<< HEAD
-=======
             // Set Error Messages
             if (response.status != 200) {
                 this.setState({
@@ -116,7 +114,6 @@ class LoginPage extends Component {
                 }
             }
     
->>>>>>> 0ef740e2e58398c05d7afe94fe2f03b310b1db12
             // Set the state of the user
             this.state.clientSession = response.data.token;
 
