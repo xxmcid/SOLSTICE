@@ -10,6 +10,7 @@ import './index.css';
 
 // Pages
 import App from './App';
+import Logout from './pages/Logout';
 import SignupPage from './pages/SignupPage';
 import ForgotPass from './pages/ForgotPass';
 import ResetPass from './pages/ResetPass';
@@ -24,6 +25,7 @@ root.render(
     <Routes>
       <Route path="*" element={<NotFound />} />
       <Route exact path="/" element={<App />} />
+      <Route path="/logout" element={<Logout />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/forgotpassword" element={<ForgotPass />} />
       <Route path="/resetpassword" element={<ResetPass/>} />
