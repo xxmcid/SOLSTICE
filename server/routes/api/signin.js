@@ -51,7 +51,7 @@ app.post('/', async (req, res) => {
       });
     } else {
       // Send an email verification email with 15 minute expiry.
-      let tokenObj = jwt.createVerificationToken(user.email, '15m');
+      let tokenObj = jwt.createVerificationToken(user.email, '15m', jwt.TokenTypes.VerifyEmail);
 
       // Construct E-Mail message.
       const msg = {
