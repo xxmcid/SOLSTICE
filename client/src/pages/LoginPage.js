@@ -35,7 +35,7 @@ class LoginPage extends Component {
             password: "",
             passwordErr: false,
             passwordErrMsg: "",
-            
+
             // TODO: ask Humza or Isaac why we use States and if the below clientSession and handleSubmit function is necessary here
             clientSession: localStorage.getItem('clientSession')
         };
@@ -88,9 +88,20 @@ class LoginPage extends Component {
                 `${window.location.protocol}//${window.location.host}/api/signin`,
                 login
             );
+    
+            // Set the state of the user
+            this.state.clientSession = response.data.token;
+
+            // Store the user in localStorage
+            localStorage.setItem('clientSession', response.data.token);
+
+            // Go to the main home screen
+            this.redirectToPage('solstice');
+        } catch (err) {
+            console.log(err.response)
 
             // Set Error Messages
-            if (response.status != 200) {
+            if (err && err.response && err.response.data && err.response.data.error) {
                 this.setState({
                     emailErr: false,
                     emailErrMsg: "",
@@ -98,21 +109,24 @@ class LoginPage extends Component {
                     passwordErrMsg: "",
                 })
 
-                if (response.error.toLowerCase().includes('email')) {
+                const error = err.response.data.error.toLowerCase();
+
+                if (error.includes('email')) {
                     this.setState({
                         emailErr: true,
-                        emailErrMsg: response.error
+                        emailErrMsg: error
                     });
                 } 
                 
-                if (response.error.toLowerCase().includes('password')) {
+                if (error.includes('password')) {
                     this.setState({
                         emailErrMsg: "", // remove "email or password incorrect" message 
                         passwordErr: true,
-                        passwordErrMsg: response.error
+                        passwordErrMsg: error
                     });
                 }
             }
+<<<<<<< HEAD
     
             // Set the state of the user
             this.state.clientSession = response.data.token;
@@ -125,6 +139,8 @@ class LoginPage extends Component {
         } catch(err) {
             // Display error messages in red text to users.
             // this.setState({ signuperror: err.response.data.error, signuperrorVisible: true });
+=======
+>>>>>>> 65c883cb72ca3a8846d504b75139fdc4ef94c677
         }
     };
 
