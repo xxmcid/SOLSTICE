@@ -2,6 +2,9 @@
 import { React, Component } from 'react';
 import axios from "axios";
 
+// Routing Imports
+import { Link } from 'react-router-dom';
+
 // Styling Imports
 import '../styles/solstice.css';
 
@@ -50,7 +53,7 @@ class Solstice extends Component
     // This function should fetch all the planet data from the database.
     componentDidMount()
     {
-        console.log("Solstice dashboard mounted, fetching users planets from database");
+        console.log("Solstice mounted, fetching users planets from database");
     }
 
     setvisibility()
@@ -113,6 +116,7 @@ class Solstice extends Component
                             Add Planet
                     </Button>
                     }
+
                     {/* Main Solar System Component Wrapper -> Check Solstice.js */}
                     <div id="canvaswrapper">
                         <ReactP5Wrapper 
@@ -122,6 +126,16 @@ class Solstice extends Component
                             expandsidepanel={this.expandsidepanel.bind(this)}
                         ></ReactP5Wrapper>
                     </div>
+                    {/* Main Solar System Component Wrapper -> Check Solstice.js */}
+                    <Link to='/logout'>
+                        <Button 
+                            id='logoutbutton'
+                            variant='contained' 
+                            color={'error'} 
+                            sx={{  textTransform: 'none', fontWeight: 'bold', position: 'absolute', bottom: '16px', right: '16px' }}>
+                                Log Out
+                        </Button>
+                    </Link>
                 </ThemeProvider>
             );
         }

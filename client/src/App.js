@@ -12,7 +12,7 @@ class App extends React.Component {
   // Main render method that is called from /client/index.js
   render() {
     // App-wide theme
-    console.log("Pulling render from App.js");
+    console.log("Mounting initial login page.. If this isn't first in the log then there is a serious problem...");
     
     return (
       <div className="App">
