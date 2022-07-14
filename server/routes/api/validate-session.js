@@ -9,7 +9,7 @@ const app = express();
 // Validates that a user's client session token is still active/valid.
 app.get('/:token', async function(req, res) {
     let token = req.params.token;
-    if (jwt.checkExpiry(token) && jwt.getTokenType(token) == jwt.TokenTypes.ClientSession) {
+    if (jwt.checkValidity(token) && jwt.getTokenType(token) == jwt.TokenTypes.ClientSession) {
         // Return status code 200.
         return res.status(200).json({
             "status": "success",

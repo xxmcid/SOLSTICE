@@ -80,7 +80,7 @@ class LoginPage extends Component {
         try {
             // Send login to the server.
             const response = await axios.post(
-                "https://solstice-project.herokuapp.com/api/signin",
+                `${window.location.protocol}//${window.location.host}/api/signin`,
                 login
             );
 
@@ -108,12 +108,23 @@ class LoginPage extends Component {
         if (typeof this.state.clientSession == 'string' && this.state.clientSession.length > 0) {
 
             // TODO: validate clientSession token AND CLEAR if invalid / expired...
-            // axios.get("https://solstice-project.herokuapp.com/api/validate-session/" + this.state.clientSession)
-            // .then(response => {
-                
-            // });
+            axios.get(`${window.location.protocol}//${window.location.host}/api/validate-session/${this.state.clientSession}`)
+                .then(response => {
+                    // Logout
+                    if (response.status != 200) {
+                        localStorage.clear();
+                        window.location.reload();
+                    }
 
-            this.redirectToPage('solstice');
+                    // Enter the app
+                    this.redirectToPage('solstice');
+                })
+                .catch(err => {
+                    // Logout
+                    localStorage.clear();
+                    window.location.reload();
+                });
+
             return (
                 <ThemeProvider theme={getTheme()}>
                     <TitleHeader/>
