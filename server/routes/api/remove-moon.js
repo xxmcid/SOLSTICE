@@ -15,13 +15,17 @@ app.post('/', async function (req, res) {
     
         let systemID = req.body.systemID;
         let planetID = req.body.planetID;
+        let moonID = req.body.moonID;
     
         let system = await SolarSystems.findById(systemID);
     
         let planet = system.planets.find(x => x._id == planetID);
-    //remove moon from moons array in planets object
-        planet.moons.pop();
-        
+        //remove moon from moons array in planets object
+        const index = planet.moons.findIndex(object => {
+            return object.id === moonID;
+          });
+          
+          planet.moons.splice(index, 1);
         // Save the new planet to the database.
         await system
             .save()

@@ -12,13 +12,17 @@ app.post('/', async function (req, res) {
  
     
     let systemID = req.body.systemID;
+    let planetID = req.body.planetID;
 
     // Get system from database
     let system = await SolarSystems.findById(systemID);
 
-    // remove planet from planets array in system
-    system.planets.pop();
-    
+    //remove moon from moons array in planets object
+    const index = system.planets.findIndex(object => {
+        return object.id === planetID;
+      });
+      
+      system.planets.splice(index, 1);
     // Save the updated system to the database.
     await system
         .save()
