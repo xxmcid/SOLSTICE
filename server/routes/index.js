@@ -16,6 +16,7 @@ app.use((req, res, next) => {
     if (!req.url.startsWith('/api') && !req.url.startsWith('/#'))
         return res.redirect('/#' + req.url);
 
+    // If all else fails: send a simple 404 page.
     return res.status(404).send("<br><h1 align='center'>Unable to find this page. <br><br> Lost? <a href='https://solstice-project.herokuapp.com/'>Go back home</a></h1>");
 });
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const md5 = require('md5');
+const jwt = require('../../resources/jwt.js');
 const User = require("../../models/User");
 const attributes = require('../../resources/attribute-validation');
 
@@ -33,12 +34,16 @@ app.post('/', async (req, res) => {
     verified: true
   });
 
-  if (foundUser)
+  if (foundUser) {
+    // Create a client session JWT with 6 hour expiry.
+    let tokenObj = jwt.createVerificationToken(user.email, '6h', jwt.TokenTypes.ClientSession);
+
     return res.status(200).json({
       "status": "success",
-      "error": ""
+      "error": "",
+      "token": tokenObj.token
     });
-  else
+  } else
     return res.status(401).json({
       "status": "failed",
       "error": "Username or password incorrect!"

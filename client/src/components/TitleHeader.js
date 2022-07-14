@@ -4,7 +4,6 @@ import { React, Component } from 'react';
 // MUI Components
 import { Grid, Typography } from '@mui/material';
 
-
 export default class TitleHeader extends Component {
   render() {
     return(
