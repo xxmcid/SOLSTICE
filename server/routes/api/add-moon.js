@@ -6,7 +6,7 @@ const jwt = require("../../resources/jwt");
 // Initialize express
 const app = express();
 
-// User Sign-Up:
+// Add moon:
 // Creates a new user as long as the email & password requirements are met.
 app.post('/', async function (req, res) {
     // Create a new User document from the request body arguments.
@@ -32,6 +32,7 @@ app.post('/', async function (req, res) {
         planet.moons.push(moon);
         
         // Save the new planet to the database.
+        
         await system
             .save()
             .catch(err => {
@@ -50,7 +51,7 @@ app.post('/', async function (req, res) {
     return res.status(498).json({
         status: "failed",
         error: "Invalid token"
-    })
+    });
 });
 
 module.exports = app;
