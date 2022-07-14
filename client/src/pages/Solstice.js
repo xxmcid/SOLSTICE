@@ -37,12 +37,15 @@ class Solstice extends Component
             uid: 0,
             username: '',
 
-            // Planets Array
+            // Solstice States
+            // Checks to see if the user is adding a new planet, or editing a current one
+            iseditingplanet: false,
             planets: [],
         };
     }
 
     // This function should fetch all the planet data from the database.
+    // Need a retrieve planets endpoint for when a user logs in
     componentDidMount()
     {
         console.log("Solstice dashboard mounted, fetching users planets from database");
@@ -62,6 +65,14 @@ class Solstice extends Component
         this.setState({
             sidepanelexpanded: !this.state.sidepanelexpanded
         })
+    }
+
+    seteditingplanet()
+    {
+        this.setState({
+            iseditingplanet: !this.state.iseditingplanet
+        })
+        console.log("A planet was clicked, setting iseditingplanet to " + this.state.iseditingplanet);
     }
 
     render()
@@ -87,6 +98,8 @@ class Solstice extends Component
                     <ReactP5Wrapper 
                         sketch={sketch} 
                         planets={this.state.planets}
+                        iseditingplanet={this.seteditingplanet.bind(this)}
+                        expandsidepanel={this.expandsidepanel.bind(this)}
                     ></ReactP5Wrapper>
                 </div>
             </ThemeProvider>

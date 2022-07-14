@@ -18,14 +18,22 @@ export default function sketch(p5) {
     let width;
     let height;
 
+    // Global State variables passed down from Solstice.js
+    let iseditingplanet;
+    let expandsidepanel;
+
 
     // Wrapper component in Solstice.js passes the planets recieved from
     // database into the global planets array for the canvas renderer.
     // VERY IMPORTANT ** This method is automatically called whenever
     // the props from the parent change OR when the component rerenders.
     p5.updateWithProps = props => { 
-        // should have
-        // - planets
+
+        // These state setters are set globally in this script for ease of use
+        iseditingplanet = props.iseditingplanet;
+        expandsidepanel = props.expandsidepanel;
+        // Planets Array also needs to be set up here via props.
+
         console.log(props.planets)
         if (props.planets) {
             console.log("made it here")
@@ -132,6 +140,7 @@ export default function sketch(p5) {
             if (d < this.r)
             {
                 console.log("Clicked on astral body!");
+                expandsidepanel();
             }
         }
 
