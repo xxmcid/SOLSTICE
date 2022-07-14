@@ -35,7 +35,7 @@ class LoginPage extends Component {
             password: "",
             passwordErr: false,
             passwordErrMsg: "",
-            
+
             // TODO: ask Humza or Isaac why we use States and if the below clientSession and handleSubmit function is necessary here
             clientSession: localStorage.getItem('clientSession')
         };
@@ -88,31 +88,6 @@ class LoginPage extends Component {
                 `${window.location.protocol}//${window.location.host}/api/signin`,
                 login
             );
-
-            // Set Error Messages
-            if (response.status != 200) {
-                this.setState({
-                    emailErr: false,
-                    emailErrMsg: "",
-                    passwordErr: false,
-                    passwordErrMsg: "",
-                })
-
-                if (response.error.toLowerCase().includes('email')) {
-                    this.setState({
-                        emailErr: true,
-                        emailErrMsg: response.error
-                    });
-                } 
-                
-                if (response.error.toLowerCase().includes('password')) {
-                    this.setState({
-                        emailErrMsg: "", // remove "email or password incorrect" message 
-                        passwordErr: true,
-                        passwordErrMsg: response.error
-                    });
-                }
-            }
     
             // Set the state of the user
             this.state.clientSession = response.data.token;
@@ -122,8 +97,35 @@ class LoginPage extends Component {
 
             // Go to the main home screen
             this.redirectToPage('solstice');
-        } catch(err) {
-            console.log(err);
+        } catch (err) {
+            console.log(err.response)
+
+            // Set Error Messages
+            if (err && err.response && err.response.data && err.response.data.error) {
+                this.setState({
+                    emailErr: false,
+                    emailErrMsg: "",
+                    passwordErr: false,
+                    passwordErrMsg: "",
+                })
+
+                const error = err.response.data.error.toLowerCase();
+
+                if (error.includes('email')) {
+                    this.setState({
+                        emailErr: true,
+                        emailErrMsg: error
+                    });
+                } 
+                
+                if (error.includes('password')) {
+                    this.setState({
+                        emailErrMsg: "", // remove "email or password incorrect" message 
+                        passwordErr: true,
+                        passwordErrMsg: error
+                    });
+                }
+            }
         }
     };
 
