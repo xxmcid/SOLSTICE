@@ -92,6 +92,7 @@ class ResetPass extends Component {
                         <TextField
                             onChange={(e) => this.setState({ password: e.target.value })}
                             id="passinput" 
+                            type="password"
                             sx=
                             {{  
                                 backgroundColor: 'none',
@@ -104,6 +105,7 @@ class ResetPass extends Component {
                         <TextField 
                             onChange={(e) => this.setState({ confirmPassword: e.target.value })}
                             id="confirmpassinput" 
+                            type="password"
                             sx=
                             {{  
                                 backgroundColor: 'none',
