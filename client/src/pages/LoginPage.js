@@ -126,21 +126,6 @@ class LoginPage extends Component {
                     });
                 }
             }
-<<<<<<< HEAD
-    
-            // Set the state of the user
-            this.state.clientSession = response.data.token;
-
-            // Store the user in localStorage
-            localStorage.setItem('clientSession', response.data.token);
-
-            // Go to the main home screen
-            this.redirectToPage('solstice');
-        } catch(err) {
-            // Display error messages in red text to users.
-            // this.setState({ signuperror: err.response.data.error, signuperrorVisible: true });
-=======
->>>>>>> 65c883cb72ca3a8846d504b75139fdc4ef94c677
         }
     };
 
