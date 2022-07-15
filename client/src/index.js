@@ -27,8 +27,8 @@ root.render(
       <Route exact path="/" element={<App />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/signup" element={<SignupPage />} />
-      <Route path="/forgotpassword" element={<ForgotPass />} />
-      <Route path="/resetpassword" element={<ResetPass/>} />
+      <Route path="/forgot-password" element={<ForgotPass />} />
+      <Route path="/reset-password" element={<ResetPass/>} />
       <Route path="/solstice" element={<Solstice />} />
     </Routes>
   </HashRouter>

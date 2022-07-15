@@ -22,11 +22,12 @@ app.get('/:token', async function(req, res) {
                 });
             });
 
+        return res.redirect('/');
         // Return status code 200.
-        return res.status(200).json({
-            "status": "success",
-            "error": ""
-        });
+        // return res.status(200).json({
+        //     "status": "success",
+        //     "error": ""
+        // });
     } else {
         return res.status(498).json({
             "status": "failed",

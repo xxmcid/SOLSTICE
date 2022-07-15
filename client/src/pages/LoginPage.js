@@ -132,9 +132,8 @@ class LoginPage extends Component {
     render() {
         console.log("Rendering LoginPage");
 
+        // Validate clientSession token AND CLEAR if invalid / expired...
         if (typeof this.state.clientSession == 'string' && this.state.clientSession.length > 0) {
-
-            // TODO: validate clientSession token AND CLEAR if invalid / expired...
             axios.get(`${window.location.protocol}//${window.location.host}/api/validate-session/${this.state.clientSession}`)
                 .then(response => {
                     // Logout
@@ -225,7 +224,7 @@ class LoginPage extends Component {
                         </Grid>
 
                         <Grid item xs={3} textAlign={'center'} margin={'auto'}>
-                            <Link to="/forgotpassword">Forgot your password?</Link>
+                            <Link to="/forgot-password">Forgot your password?</Link>
                         </Grid>
 
                         <Grid item xs={5} textAlign={'center'}>

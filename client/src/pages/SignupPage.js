@@ -22,8 +22,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 class SignupPage extends Component {
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props)
         this.state = {
             firstName: '',
