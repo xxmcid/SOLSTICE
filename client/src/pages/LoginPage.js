@@ -127,7 +127,7 @@ class LoginPage extends Component {
                 }
             }
         }
-    };
+    }
 
     render() {
         console.log("Rendering LoginPage");
