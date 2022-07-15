@@ -1,8 +1,6 @@
 // Base Import
+import { Grid, Typography } from '@mui/material';
 import { React, Component } from 'react';
-
-// Styling Import
-import '../styles/loginpage.css';
 
 class Clock extends Component {
 
@@ -41,14 +39,18 @@ class Clock extends Component {
       let year = this.state.date.getUTCFullYear();
 
       return (
-        <div id='clockcontainer'>
-          <div>
-            {monthNames[month]} {day}, {year}
-          </div>
-          <div className='liveTime'>
-            {this.state.date.toLocaleTimeString()}
-          </div>
-        </div>
+        <Grid contianer rowSpacing={0} marginTop={'5px'}>
+          <Grid item>
+            <Typography textAlign={'center'} fontSize={'large'} color={'#efefef'}>
+              {monthNames[month]} {day}, {year}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography textAlign={'center'} variant={'h5'} color={'text.primary'} fontWeight={500}>
+              {this.state.date.toLocaleTimeString()}
+            </Typography>
+          </Grid>
+        </Grid>
       );
     }
   }
