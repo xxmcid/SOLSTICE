@@ -44,7 +44,8 @@ class ForgotPass extends React.Component {
                 data
             );
 
-            // TODO: Tell the user an email has been sent
+            // Tell the user an email has been sent
+            window.location.href = '/forgot-password-success'
         } catch(err) {
             console.log(err);
 

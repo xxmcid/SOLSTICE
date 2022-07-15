@@ -54,10 +54,8 @@ class SignupPage extends Component {
                 signup
             );
 
-            // TODO: Tell the user to verify their email before redirected
-
-            // Go to the sign in page.
-            window.location.href = '';
+            // Prompt the user to verify their e-mail.
+            window.location.href = '/email-verification-sent';
         } catch(err) {
             // Display error messages in red text to users.
             this.setState({ signuperror: err.response.data.error, signuperrorVisible: true });

@@ -48,7 +48,7 @@ class ResetPass extends Component {
             );
 
             // Go to the sign in page.
-            window.location.href = '';
+            window.location.href = '/password-reset-success';
         } catch(err) {
             console.log(err);
             // TODO: Display error messages in red text to users.
