@@ -22,7 +22,15 @@ class SidePanel extends Component
         this.handleCancel = this.handleCancel.bind(this);
 
         this.state = {
-            selectedPlanetName: 'Planet Name'
+
+            // If a planet is selected in the P5 sketch
+            // we will want the side panel to know.
+            selectedPlanetName: this.props.spn,
+            selectedPlanetMass: this.props.spm,
+            selectedPlanetGravity: this.props.spg,
+            selectedPlanetDistance: this.props.spd,
+            selectedPlanetColor: this.props.spc,
+            selectedPlanetMoons: this.props.moons
         };
     }
 

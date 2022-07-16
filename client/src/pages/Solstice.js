@@ -25,6 +25,9 @@ import Info from '../components/Info';
 import { ThemeProvider } from '@emotion/react';
 import { getTheme } from '../styles/mainTheme';
 
+// Schemas and Object structures
+import Planet from '../components/core/Planet';
+
 class Solstice extends Component
 {
     constructor(props)
@@ -42,9 +45,15 @@ class Solstice extends Component
             username: '',
 
             // Solstice States
-            // Checks to see if the user is adding a new planet, or editing a current one
-            iseditingplanet: false,
             planets: [],
+
+            // Selection States
+            selectedPlanetName: '',
+            selectedPlanetMass: '',
+            selectedPlanetGravity: '',
+            selectedPlanetDistance: '',
+            selectedPlanetColor: '',
+            selectedPlanetMoons: [],
 
             clientSession: localStorage.getItem('clientSession')
         };
@@ -72,13 +81,17 @@ class Solstice extends Component
         })
     }
 
-    seteditingplanet()
+    setselections(spn, spm, spg, spd, spc, moons)
     {
         this.setState({
-            iseditingplanet: !this.state.iseditingplanet
+            selectedPlanetName: spn,
+            selectedPlanetMass: spm,
+            selectedPlanetGravity: spg,
+            selectedPlanetDistance: spd,
+            selectedPlanetColor: spc,
+            selectedPlanetMoons: moons,
         })
-        console.log("A planet was clicked, setting iseditingplanet to " + this.state.iseditingplanet);
-    }  
+    }
 
     render() {
 
@@ -104,7 +117,15 @@ class Solstice extends Component
                 <ThemeProvider theme={getTheme()} id='masterContainer'>
                     <Header onClick={ this.setvisibility.bind(this) }/>
                     { this.state.infopagevisible ? <Info onClick={this.setvisibility.bind(this)} /> : null }
-                    <SidePanel open={this.state.sidepanelexpanded} close={this.expandsidepanel.bind(this)}/>
+                    <SidePanel 
+                        open={this.state.sidepanelexpanded} 
+                        close={this.expandsidepanel.bind(this)}
+                        spn={this.state.selectedPlanetName}
+                        spm={this.state.selectedPlanetMass}
+                        spg={this.state.selectedPlanetGravity}
+                        spd={this.state.selectedPlanetDistance}
+                        spc={this.state.selectedPlanetColor}
+                        moons={this.state.selectedPlanetMoons}/>
                     { this.state.sidepanelexpanded ? null : 
                     <Button
                         onClick={this.expandsidepanel.bind(this)}
@@ -122,8 +143,14 @@ class Solstice extends Component
                         <ReactP5Wrapper 
                             sketch={sketch} 
                             planets={this.state.planets}
-                            iseditingplanet={this.seteditingplanet.bind(this)}
                             expandsidepanel={this.expandsidepanel.bind(this)}
+                            setselections={this.setselections.bind(this)}
+                            spn={this.state.selectedPlanetName}
+                            spm={this.state.selectedPlanetMass}
+                            spg={this.state.selectedPlanetGravity}
+                            spd={this.state.selectedPlanetDistance}
+                            spc={this.state.selectedPlanetColor}
+                            moons={this.state.selectedPlanetMoons}
                         ></ReactP5Wrapper>
                     </div>
                     {/* Main Solar System Component Wrapper -> Check Solstice.js */}

@@ -10,8 +10,9 @@ export default function sketch(p5) {
     let numPlanets = 5;
 
     // Default Astral bodies
-    let defaultSun = new Body(100, p5.createVector(0, 0), p5.createVector(0, 0), p5.color(255, 204, 0), 'defaultSun');
+    let defaultSun = new Body(100, p5.createVector(0, 0), p5.createVector(0, 0), '#f1c232', 'defaultSun');
     let defaultPlanets = [];
+    let planetsArray = [];
 
     // Setup Variables
     let canvas;
@@ -19,9 +20,8 @@ export default function sketch(p5) {
     let height;
 
     // Global State variables passed down from Solstice.js
-    let iseditingplanet;
     let expandsidepanel;
-
+    let setselections;
 
     // Wrapper component in Solstice.js passes the planets recieved from
     // database into the global planets array for the canvas renderer.
@@ -29,14 +29,33 @@ export default function sketch(p5) {
     // the props from the parent change OR when the component rerenders.
     p5.updateWithProps = props => { 
 
-        // These state setters are set globally in this script for ease of use
-        iseditingplanet = props.iseditingplanet;
+        // Link all local states to solstice.js states
         expandsidepanel = props.expandsidepanel;
         // Planets Array also needs to be set up here via props.
+        planetsArray = props.planets;
+        // Selection states to populate sidepanel when a planet is clicked.
+        setselections = props.setselections;
 
-        console.log(props.planets)
-        if (props.planets) {
-            console.log("made it here")
+        for (let i = 0; i < planetsArray.length; i++)
+        {
+            let _name = planetsArray[i].name;
+            let _mass = planetsArray[i].mass;
+
+            // Setting Color
+            let _fill = planetsArray[i].color;
+
+            // Setting random default planet position
+            let radius = planetsArray[i].distance;
+            let theta = 0;
+            // Converting our radius to polar coordinates.
+            let randomPos = p5.createVector(radius*p5.cos(theta), radius*p5.sin(theta));
+
+            // Setting velocity vector for planet to travel in.
+            let planetVel = randomPos.copy();
+            planetVel.rotate(p5.HALF_PI);
+            planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ))
+
+            planetsArray.push(new Body(_mass, randomPos, planetVel, _fill, _name));
         }
     }
 
@@ -48,20 +67,21 @@ export default function sketch(p5) {
         canvas = p5.createCanvas(width, height);
         canvas.parent("canvaswrapper");
 
-        for (let i = 0; i < numPlanets; i++)
-        {
-            // Setting random default planet position
-            let radius = p5.random(defaultSun.r, p5.min(width/2, height/2));
-            let theta = p5.random(p5.TWO_PI);
-            let randomPos = p5.createVector(radius*p5.cos(theta), radius*p5.sin(theta));
+        // OLD
+        // for (let i = 0; i < numPlanets; i++)
+        // {
+        //     // Setting random default planet position
+        //     let radius = p5.random(defaultSun.r, p5.min(width/2, height/2));
+        //     let theta = p5.random(p5.TWO_PI);
+        //     let randomPos = p5.createVector(radius*p5.cos(theta), radius*p5.sin(theta));
 
-            // Setting velocity vector for planet to travel in.
-            let planetVel = randomPos.copy();
-            planetVel.rotate(p5.HALF_PI);
-            planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ))
+        //     // Setting velocity vector for planet to travel in.
+        //     let planetVel = randomPos.copy();
+        //     planetVel.rotate(p5.HALF_PI);
+        //     planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ))
 
-            defaultPlanets.push(new Body(25, randomPos, planetVel, p5.color(255, 204, 0), 'defaultPlanet'));
-        }
+        //     defaultPlanets.push(new Body(25, randomPos, planetVel, '#f1c232', 'defaultPlanet'));
+        // }
     }
 
     // This function is called repeatedly by P5 to give the illusion of
@@ -73,10 +93,19 @@ export default function sketch(p5) {
 
         p5.translate(width/2, height/2);
         p5.background('black');
-        for (let i = 0; i < defaultPlanets.length; i++) {
-            defaultSun.pulls(defaultPlanets[i]);
-            defaultPlanets[i].refresh();
-            defaultPlanets[i].reveal();
+        // OLD
+        // for (let i = 0; i < defaultPlanets.length; i++) {
+        //     defaultSun.pulls(defaultPlanets[i]);
+        //     defaultPlanets[i].refresh();
+        //     defaultPlanets[i].reveal();
+        // }
+
+        // Uses planetsArray dervied from solstice.js state.
+        for (let i = 0; i < planetsArray.length; i++)
+        {
+            defaultSun.pulls(planetsArray[i]);
+            planetsArray[i].refresh();
+            planetsArray[i].reveal();
         }
 
         defaultSun.reveal();
@@ -91,11 +120,12 @@ export default function sketch(p5) {
         this.name = _name;
         // Mass will be used for size of bodies.
         this.r = this.mass;
+        this.color = _fill;
 
         // Actually "paints" our new planet
         this.reveal = function() {
             p5.noStroke();
-            p5.fill(_fill);
+            p5.fill(this.color);
             p5.ellipse(this.pos.x, this.pos.y, this.r, this.r);
         }
 
@@ -141,6 +171,9 @@ export default function sketch(p5) {
             {
                 console.log("Clicked on astral body!");
                 expandsidepanel();
+                // Applying pythagorean theorem to get straight-line distance.
+                let convertedDist = p5.sqrt((this.pos.x * this.pos.x) + (this.pos.y * this.pos.y));
+                setselections(this.name, this.mass, G, convertedDist, this.color, null);
             }
         }
 
@@ -154,11 +187,14 @@ export default function sketch(p5) {
         // This for loop goes through all the planets
         // and checks where the mouse was clicked and which
         // planet the x and y coordinates are within bounds.
-        for (let i = 0; i < defaultPlanets.length; i++)
-        {
-            defaultPlanets[i].clicked();
-            defaultSun.clicked();
-        }
+        
+        // OLD
+        // for (let i = 0; i < defaultPlanets.length; i++)
+        // {
+        //     defaultPlanets[i].clicked();
+        //     defaultSun.clicked();
+        // }
+        defaultSun.clicked();
     }
 
     const updateCanvasDimensions = () => {
