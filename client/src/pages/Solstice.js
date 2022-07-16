@@ -106,6 +106,17 @@ class Solstice extends Component
                         localStorage.clear();
                         window.location.href = '';
                     }
+
+                    // Fetch the user's solar systems.
+                    axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
+                        .then(response => {
+                            // Log user's solar systems to console.
+                            console.log(response.data.solarSystems);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
+                        });
                 })
                 .catch(err => {
                     // Logout
