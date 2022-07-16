@@ -62,8 +62,7 @@ class SignupPage extends Component {
         try {
             // Send login to the server.
             const response = await axios.post(
-                'http://localhost:8080/api/signup',
-                // `${window.location.protocol}//${window.location.host}/api/signup`,
+                `${window.location.protocol}//${window.location.host}/api/signup`,
                 signup
             );
 
@@ -83,7 +82,8 @@ class SignupPage extends Component {
             })
             
             // Display error messages in red text to users.
-            const errMsg = err?.response?.data?.error?.toLowerCase();
+            // TODO: figure out why this errors (what are the ? for?):
+            const errMsg = err?.response?.data?.error?.toLowerCase(); // `TypeError: a.toLowerCase is not a function`
             if (errMsg) {
                 if (errMsg.includes('first name')) {
                     this.setState({

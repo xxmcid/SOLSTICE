@@ -5,28 +5,37 @@ const SolarSystems = require("../../models/SolarSystem");
 // Initialize express
 const app = express();
 
-// User Sign-Up:
-// Creates a new user as long as the email & password requirements are met.
+// Remove Planet:
+// Removes a specified planet.
 app.post('/', async function (req, res) {
-    // Create a new User document from the request body arguments.
- 
-    if(jwt.checkValidity(token) && jwt.getTokenType(token) == jwt.TokenTypes.ClientSession)
-    {
-    let systemID = req.body.systemID;
+    // Validate the client's session.
+    let token = req.body.token;
+    if (!jwt.checkValidity(token) || jwt.getTokenType(token) != jwt.TokenTypes.ClientSession)
+        return res.status(498).json({
+            status: "failed",
+            error: "Invalid token"
+        });
+
+    // Gather IDs from the request body arguments.
+    let solarSystemID = req.body.systemID;
     let planetID = req.body.planetID;
 
-    // Get system from database
-    let system = await SolarSystems.findById(systemID);
+    // Find solar system from the database.
+    let solarSystem = await SolarSystems.findById(solarSystemID);
 
-    //remove moon from moons array in planets object
-    const index = system.planets.findIndex(object => {
-        return object.id === planetID;
-      });
-      
-      system.planets.splice(index, 1);
+    // Remove planet from planets array in planets object.
+    const index = solarSystem.planets.findIndex(object => { return object.id === planetID; });
+    solarSystem.planets.splice(index, 1);
+
     // Save the updated system to the database.
-    await system
+    await solarSystem
         .save()
+        .then(() => {
+            return res.status(201).json({
+                "status": "success",
+                "error": ""
+            });
+        })
         .catch(err => {
             return res.status(400).json({
                 "status": "failed",
@@ -34,11 +43,6 @@ app.post('/', async function (req, res) {
             });
         }
     );
-    }
-    return res.status(201).json({
-        "status": "success",
-        "error": ""
-    });
 });
 
 module.exports = app;

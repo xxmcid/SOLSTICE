@@ -56,7 +56,14 @@ app.post('/', async function (req, res) {
     await sgMail
         .send(msg)
         .then(() => {
-            console.log(`Forgot password email sent to ${user.email}.`)
+            // Log to console.
+            console.log(`Forgot password email sent to ${user.email}.`);
+
+            // Return status code 200.
+            return res.status(200).json({
+                "status": "success",
+                "error": ""
+            });
         })
         .catch(err => {
             return res.status(200).json({ // 400 would be the typical error code. 200 FOR SECURITY REASONS.
@@ -66,12 +73,6 @@ app.post('/', async function (req, res) {
                 "error": ""
             });
         });
-
-    // Return status code 200.
-    return res.status(200).json({
-        "status": "success",
-        "error": ""
-    });
 });
 
 module.exports = app;

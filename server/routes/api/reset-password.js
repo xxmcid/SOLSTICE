@@ -23,9 +23,8 @@ app.post('/', async function(req, res) {
             "error": err
         });
 
-    let token = req.body.token;
-
     // Check for token validity and type.
+    let token = req.body.token;
     if (!jwt.checkValidity(token) || jwt.getTokenType(token) != jwt.TokenTypes.ResetPass) {
         return res.status(498).json({
             "status": "failed",
@@ -35,18 +34,19 @@ app.post('/', async function(req, res) {
 
     // Update user's old password with new encrypted password.
     await User.updateOne({email: jwt.getEmailFromToken(token)}, {password: md5(req.body.password)})
+        .then(() => {
+            // Return status code 200.
+            return res.status(200).json({
+                status: "success",
+                error: ""
+            });
+        })
         .catch(err => {
             return res.status(400).json({
                 "status": "failed",
                 "error": err
             });
         });
-
-    // Return status code 200.
-    return res.status(200).json({
-        status: "success",
-        error: ""
-    });
 });
 
 module.exports = app;

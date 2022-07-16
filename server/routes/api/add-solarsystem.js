@@ -8,43 +8,43 @@ const User = require("../../models/User");
 const app = express();
 
 // Add Solar System:
-// Creates a new user as long as the email & password requirements are met.
+// Creates a new solar system.
 app.post('/', async function (req, res) {
-
-    // Create a new User document from the request body arguments.
+    // Validate the client's session.
     let token = req.body.token;
-    if (jwt.checkValidity(token) && jwt.getTokenType(token) == jwt.TokenTypes.ClientSession)
-    {        
-        let user = await User.findOne({email: jwt.getEmailFromToken(token)});
+    if (!jwt.checkValidity(token) || jwt.getTokenType(token) != jwt.TokenTypes.ClientSession)
+        return res.status(498).json({
+            status: "failed",
+            error: "Invalid token"
+        });
 
-        let system = new SolarSystem({
-            ownerId: user._id,
-            name: req.body.systemName,
-            planets: []
-        });
-        
-        // Save the new planet to the database.
-        await system
-            .save()
-            .catch(err => {
-                return res.status(400).json({
-                    status: "failed",
-                    error: err
-                });
-            }
-        );
-    
-        return res.status(201).json({
-            "status": "success",
-            "error": ""
-        });
-    }
-    return res.status(498).json({
-        status: "failed",
-        error: "Invalid token"
+    // Find the user from the token.
+    let user = await User.findOne({email: jwt.getEmailFromToken(token)});
+
+    // Create a new Solar System document from the request body arguments.
+    let solarSystem = new SolarSystem({
+        ownerId: user._id,
+        name: req.body.systemName,
+        planets: []
     });
-
     
+    // Save the new planet to the database.
+    await solarSystem
+        .save()
+        .then(() => {    
+            // Return status code 201 (succesful and new resource was created).
+            return res.status(201).json({
+                "status": "success",
+                "error": ""
+            });
+        })
+        .catch(err => {
+            return res.status(400).json({
+                status: "failed",
+                error: err
+            });
+        }
+    );
 });
 
 module.exports = app;

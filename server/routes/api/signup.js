@@ -5,6 +5,7 @@ const path = require('path');
 const sgMail = require('@sendgrid/mail')
 const jwt = require('../../resources/jwt.js');
 const User = require("../../models/User");
+const SolarSystem = require("../../models/SolarSystem");
 const attributes = require('../../resources/attribute-validation');
 
 // Initialize express
@@ -50,7 +51,7 @@ app.post('/', async function (req, res) {
     // Save the new User to the database.
     await user
         .save()
-        .then(async () => {
+        .then(async (user_doc) => {
             // Send an email verification email with 15 minute expiry.
             let tokenObj = jwt.createVerificationToken(user.email, '15m', jwt.TokenTypes.VerifyEmail);
 
@@ -65,8 +66,51 @@ app.post('/', async function (req, res) {
             // Send E-Mail.
             await sgMail
                 .send(msg)
-                .then(() => {
-                    console.log(`Email verification sent to ${user.email}.`)
+                .then(async () => {
+                    // Log to console.
+                    console.log(`Email verification sent to ${user.email}.`);
+
+                    // Create a new default solar system with a sun and planet for the new user.
+                    let solarSystem = new SolarSystem({
+                        ownerId: user_doc._id,
+                        name: 'Solar System 1',
+                        planets: [
+                            {
+                                name: 'Sun',
+                                mass: 100,
+                                gravitationalPull: 1,
+                                distance: 0,
+                                color: "255 204 0",
+                                moons: []
+                            },
+                            {
+                                name: 'Planet',
+                                mass: 25,
+                                gravitationalPull: 1,
+                                distance: 150,
+                                color: "0 255 127",
+                                moons: []
+                            }
+                        ]
+                    });
+                    
+                    // Save the new planet to the database.
+                    await solarSystem
+                        .save()
+                        .then(() => {    
+                            // Return status code 201 (succesful and new resource was created).
+                            return res.status(201).json({
+                                "status": "success",
+                                "error": ""
+                            });
+                        })
+                        .catch(err => {
+                            return res.status(400).json({
+                                status: "failed",
+                                error: err
+                            });
+                        }
+                    );
                 })
                 .catch(err => {
                     return res.status(400).json({
@@ -74,12 +118,6 @@ app.post('/', async function (req, res) {
                         "error": err
                     });
                 });
-
-            // Return status code 201 (succesful and new resource was created).
-            return res.status(201).json({
-                "status": "success",
-                "error": ""
-            });
         })
         .catch(err => {
             return res.status(400).json({

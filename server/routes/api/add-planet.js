@@ -6,52 +6,53 @@ const jwt = require("../../resources/jwt");
 // Initialize express
 const app = express();
 
-// Add planet:
-// Creates a new user as long as the email & password requirements are met.
+// Add Planet:
+// Creates a new planet.
 app.post('/', async function (req, res) {
-
+    // Validate the client's session.
     let token = req.body.token;
-
-    if (jwt.checkValidity(token) && jwt.getTokenType(token) == jwt.TokenTypes.ClientSession)
-    {
-        // Create a new User document from the request body arguments.
-        let planet = new Planet({
-            name: req.body.planet.name,
-            mass: req.body.planet.mass,
-            gravitationalPull: req.body.planet.gravitationalPull,
-            distanceFromStar: req.body.planet.distanceFromStar,
-            color: req.body.planet.color,
-            moons: []
+    if (!jwt.checkValidity(token) || jwt.getTokenType(token) != jwt.TokenTypes.ClientSession)
+        return res.status(498).json({
+            status: "failed",
+            error: "Invalid token"
         });
 
-        
-        let systemID = req.body.systemID;
-
-        // Get system from database
-        let system = await SolarSystems.findById(systemID);
-
-        // Add planet to planets array
-        system.planets.push(planet);
-        
-        // Save the updated system to the database.
-        await system
-            .save()
-            .catch(err => {
-                return res.status(400).json({
-                    "status": "failed",
-                    "error": err
-                });
-            }
-        );
-        return res.status(201).json({
-            "status": "success",
-            "error": ""
-        });
-    }
-    return res.status(498).json({
-        status: "failed",
-        error: "Invalid token"
+    // Create a new Planet document from the request body arguments.
+    let planet = new Planet({
+        name: req.body.planet.name,
+        mass: req.body.planet.mass,
+        gravitationalPull: req.body.planet.gravitationalPull,
+        distance: req.body.planet.distance,
+        color: req.body.planet.color,
+        moons: []
     });
+
+    // Gather ID from the request body arguments.
+    let solarSystemID = req.body.systemID;
+
+    // Find document from the database.
+    let solarSystem = await SolarSystems.findById(solarSystemID);
+
+    // Add planet to planets array.
+    solarSystem.planets.push(planet);
+    
+    // Save the updated system to the database.
+    await solarSystem
+        .save()
+        .then(() => {    
+            // Return status code 201 (succesful and new resource was created).
+            return res.status(201).json({
+                "status": "success",
+                "error": ""
+            });
+        })
+        .catch(err => {
+            return res.status(400).json({
+                "status": "failed",
+                "error": err
+            });
+        }
+    );
 });
 
 module.exports = app;
