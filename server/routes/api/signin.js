@@ -46,6 +46,7 @@ app.post('/', async (req, res) => {
         });
     }
 
+    // Check if the user is verified
     if (foundUser.verified) {
         // Create a client session JWT with 6 hour expiry.
         let tokenObj = jwt.createVerificationToken(user.email, '6h', jwt.TokenTypes.ClientSession);
