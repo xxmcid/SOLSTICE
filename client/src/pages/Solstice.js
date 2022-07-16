@@ -138,6 +138,9 @@ class Solstice extends Component
                     </Link>
                 </ThemeProvider>
             );
+        } else if (!this.state.clientSession) {
+            // Redirect to Sign In
+            window.location.href = '';
         }
 
         return (
