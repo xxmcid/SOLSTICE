@@ -4,7 +4,7 @@ const schema = mongoose.Schema({
     name: String,
     mass: Number,
     gravitationalPull: Number,
-    distanceFromStar: Number,
+    distance: Number,
     color: String,
     moons: [this]
 });
