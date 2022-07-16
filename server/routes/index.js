@@ -11,10 +11,11 @@ app.use('/api/verify', require('./api/verify'));
 app.use('/api/forgot-password', require('./api/forgot-password'));
 app.use('/api/reset-password', require('./api/reset-password'));
 
-app.use('/api/add-solarsystem', require('./api/add-solarsystem'));
+app.use('/api/add-solar-system', require('./api/add-solar-system'));
 app.use('/api/add-planet', require('./api/add-planet'));
 app.use('/api/add-moon', require('./api/add-moon'));
 
+app.use('/api/remove-solar-system', require('./api/remove-solar-system'));
 app.use('/api/remove-planet', require('./api/remove-planet'));
 app.use('/api/remove-moon', require('./api/remove-moon'));
 
