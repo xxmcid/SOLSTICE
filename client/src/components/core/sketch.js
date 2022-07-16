@@ -169,8 +169,6 @@ export default function sketch(p5) {
             let d = p5.dist(xOffset, yOffset, this.pos.x, this.pos.y)
             if (d < this.r)
             {
-                console.log("Clicked on astral body!");
-                expandsidepanel();
                 // Applying pythagorean theorem to get straight-line distance.
                 let convertedDist = p5.sqrt((this.pos.x * this.pos.x) + (this.pos.y * this.pos.y));
                 setselections(this.name, this.mass, G, convertedDist, this.color, null);

@@ -33,7 +33,7 @@ class Solstice extends Component
     constructor(props)
     {
         super(props);
-        
+
         this.state = {
             
             // Page and Panel visibility states
@@ -59,12 +59,6 @@ class Solstice extends Component
         };
     }
 
-    // This function should fetch all the planet data from the database.
-    componentDidMount()
-    {
-        console.log("Solstice mounted, fetching users planets from database");
-    }
-
     setvisibility()
     {
         console.log("Info page visible: " + !this.state.infopagevisible);
@@ -81,6 +75,9 @@ class Solstice extends Component
         })
     }
 
+
+    // When a certain planet is selected, P5 will call this function
+    // with all the information of the planet sent as params.
     setselections(spn, spm, spg, spd, spc, moons)
     {
         this.setState({
@@ -91,6 +88,11 @@ class Solstice extends Component
             selectedPlanetColor: spc,
             selectedPlanetMoons: moons,
         })
+        console.log("Selected planet: " + spn);
+
+        // Only open sidepanel if it is not visible
+        if (this.state.sidepanelexpanded == false)
+            this.expandsidepanel();
     }
 
     render() {
@@ -156,11 +158,6 @@ class Solstice extends Component
                             planets={this.state.planets}
                             expandsidepanel={this.expandsidepanel.bind(this)}
                             setselections={this.setselections.bind(this)}
-                            spn={this.state.selectedPlanetName}
-                            spm={this.state.selectedPlanetMass}
-                            spg={this.state.selectedPlanetGravity}
-                            spd={this.state.selectedPlanetDistance}
-                            spc={this.state.selectedPlanetColor}
                             moons={this.state.selectedPlanetMoons}
                         ></ReactP5Wrapper>
                     </div>

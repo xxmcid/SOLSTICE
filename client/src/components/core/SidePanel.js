@@ -89,8 +89,13 @@ class SidePanel extends Component
                             <Typography variant='h7' align='left'>Name</Typography>
                         </Grid>
                         <Grid item xs={11}>
-                            <TextField id='planetNameInput' type="text" sx={{ width: '100%', borderRadius: 2}}
-                            onChange={(e) => this.setState({ selectedPlanetName: e.target.value })}></TextField>
+                            <TextField 
+                                id='planetNameInput' 
+                                type="text" 
+                                sx={{ width: '100%', borderRadius: 2}}
+                                value={this.state.selectedPlanetName}
+                                onChange={(e) => this.setState({ selectedPlanetName: e.target.value })}>
+                            </TextField>
                         </Grid>
                         <Grid item xs={11}>
                             <Typography variant='h7' align='left'>Mass</Typography>
@@ -100,6 +105,7 @@ class SidePanel extends Component
                                 id='planetMassInput' 
                                 type="text" 
                                 InputProps={{ endAdornment: <InputAdornment position="end">kg</InputAdornment>}} 
+                                value={this.state.selectedPlanetMass}
                                 sx={{ width: '100%', borderRadius: 2}}>    
                             </TextField>
                         </Grid>
@@ -110,6 +116,7 @@ class SidePanel extends Component
                             <TextField 
                                 id='planetGravityInput' 
                                 type="text" 
+                                value={this.state.selectedPlanetGravity}
                                 InputProps={{ endAdornment: <InputAdornment position="end">m/s^2</InputAdornment>}} 
                                 sx={{ width: '100%', borderRadius: 2}}>
                             </TextField>
@@ -121,6 +128,7 @@ class SidePanel extends Component
                             <TextField 
                                 id='planetDistanceInput' 
                                 type="text" 
+                                value={this.state.selectedPlanetDistance}
                                 InputProps={{ endAdornment: <InputAdornment position="end">m</InputAdornment>}} 
                                 sx={{ width: '100%', borderRadius: 2}}>
                             </TextField>
@@ -129,13 +137,22 @@ class SidePanel extends Component
                             <Typography variant='h7' align='left'>Color</Typography>
                         </Grid>
                         <Grid item xs={11}>
-                            <TextField id='planetColorInput' type="text" select sx={{ width: '100%', borderRadius: 2 }}></TextField>
+                            <TextField 
+                                id='planetColorInput' 
+                                type="text" 
+                                select 
+                                sx={{ width: '100%', borderRadius: 2 }}>
+                            </TextField>
                         </Grid>
                         <Grid item xs={11}>
                             <Typography variant='h7' align='left'>Moons</Typography>
                         </Grid>
                         <Grid item xs={11} paddingBottom={2}>
-                            <TextField id='planetMoonInput' type="text" sx={{ width: '100%', borderRadius: 2 }}></TextField>
+                            <TextField 
+                                id='planetMoonInput' 
+                                type="text" 
+                                sx={{ width: '100%', borderRadius: 2 }}>
+                            </TextField>
                         </Grid>
                         <Grid item xs={5} justifyContent='center'>
                             <Button
