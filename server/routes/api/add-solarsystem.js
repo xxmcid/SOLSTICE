@@ -24,7 +24,7 @@ app.post('/', async function (req, res) {
     // Create a new Solar System document from the request body arguments.
     let solarSystem = new SolarSystem({
         ownerId: user._id,
-        name: req.body.systemName,
+        name: req.body.name,
         planets: []
     });
     

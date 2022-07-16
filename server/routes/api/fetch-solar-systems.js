@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('../../resources/jwt.js');
-const SolarSystems = require("../../models/SolarSystem");
+const SolarSystem = require("../../models/SolarSystem");
 const User = require("../../models/User");
 
 // Initialize express
@@ -21,7 +21,7 @@ app.get('/:token', async function (req, res) {
     let user = await User.findOne({email: jwt.getEmailFromToken(token)});
 
     // Find solar systems from the database.
-    let solarSystems = await SolarSystems.find({ownerId: user._id});
+    let solarSystems = await SolarSystem.find({ownerId: user._id});
 
     // Return status code 200.
     return res.status(200).json({

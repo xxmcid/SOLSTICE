@@ -18,15 +18,22 @@ app.use('/api/add-moon', require('./api/add-moon'));
 app.use('/api/remove-planet', require('./api/remove-moon'));
 app.use('/api/remove-moon', require('./api/remove-moon'));
 
+app.use('/api/update-planet', require('./api/update-planet'));
+
 app.use('/api/fetch-solar-systems', require('./api/fetch-solar-systems'));
 
-// Handle non-matching requests from the client
+// Handle non-matching requests from the client.
 app.use((req, res, next) => {
-    // Attempt to add /# prefix for React's HashRouter
+    // Attempt to add /# prefix for React's HashRouter.
     if (!req.url.startsWith('/api') && !req.url.startsWith('/#'))
         return res.redirect('/#' + req.url);
 
     return res.status(404).send("<br><h1 align='center'>Unable to find this page. <br><br> Lost? <a href='https://solstice-project.herokuapp.com/'>Go back home</a></h1>");
+});
+
+// Handle erroneous requests from the client. (Note: Not sure if this works yet...)
+app.use((error, req, res, next) => {
+    return res.status(500).json({ error: error.toString() });
 });
 
 module.exports = app;

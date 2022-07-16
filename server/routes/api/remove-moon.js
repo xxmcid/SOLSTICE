@@ -1,6 +1,6 @@
 const express = require('express');
 const Planet = require("../../models/Planet");
-const SolarSystems = require("../../models/SolarSystem");
+const SolarSystem = require("../../models/SolarSystem");
 const jwt = require("../../resources/jwt");
 
 // Initialize express
@@ -17,18 +17,37 @@ app.post('/', async function (req, res) {
             error: "Invalid token"
         });
 
-    // Gather IDs from the request body arguments.
-    let solarSystemID = req.body.systemID;
-    let planetID = req.body.planetID;
-    let moonID = req.body.moonID;
+    // Gather Ids from the request body arguments.
+    let solarSystemId = req.body.solarSystemId;
+    let planetId = req.body.planetId;
+    let moonId = req.body.moonId;
 
-    // Find documents from the database.
-    let solarSystem = await SolarSystems.findById(solarSystemID);
-    let planet = solarSystem.planets.find(x => x._id == planetID);
+    // Find solar system from the database.
+    let solarSystem = await SolarSystem.findById(solarSystemId);
+    if (!solarSystem)
+        return res.status(400).json({
+            "status": "failed",
+            "error": "Could not find the specified solar system."
+        });
 
-    // Remove the moon from moons array in planets object.
-    const index = planet.moons.findIndex(object => { return object.id === moonID; });
-    planet.moons.splice(index, 1);
+    // Find planet from the solar system.
+    let planet = solarSystem.planets.find(planet => planet._id == planetId);
+    if (!planet)
+        return res.status(400).json({
+            "status": "failed",
+            "error": "Could not find the specified planet."
+        });
+
+    // Find the moon.
+    const moonIndex = planet.moons.findIndex(moon => { return moon.id === moonId; });
+    if (moonIndex == -1)
+        return res.status(400).json({
+            "status": "failed",
+            "error": "Could not find the specified moon."
+        });
+
+    // Remove the moon from the planet object.
+    planet.moons.splice(moonIndex, 1);
 
     // Save the new planet to the database.
     await solarSystem

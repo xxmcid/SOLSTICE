@@ -1,12 +1,13 @@
 const express = require('express');
 const Planet = require("../../models/Planet");
 const SolarSystem = require("../../models/SolarSystem");
+const jwt = require("../../resources/jwt");
 
 // Initialize express
 const app = express();
 
-// Remove Planet:
-// Removes a specified planet.
+// Add Planet:
+// Creates a new planet.
 app.post('/', async function (req, res) {
     // Validate the client's session.
     let token = req.body.token;
@@ -18,9 +19,9 @@ app.post('/', async function (req, res) {
 
     // Gather Ids from the request body arguments.
     let solarSystemId = req.body.solarSystemId;
-    let planetId = req.body.planetId;
+    let planetId = req.body.planet._id;
 
-    // Find solar system from the database.
+    // Find document from the database.
     let solarSystem = await SolarSystem.findById(solarSystemId);
     if (!solarSystem)
         return res.status(400).json({
@@ -35,14 +36,26 @@ app.post('/', async function (req, res) {
             "status": "failed",
             "error": "Could not find the specified planet."
         });
-    
-    // Remove the planet from the solar system object.
-    solarSystem.planets.splice(planetIndex, 1);
 
+    // Update the planet in the solar system object.
+    solarSystem.planets[planetIndex] = {
+        name: req.body.planet.name,
+        mass: req.body.planet.mass,
+        gravitationalPull: req.body.planet.gravitationalPull,
+        distance: req.body.planet.distance,
+        color: req.body.planet.color,
+        moons: req.body.planet.moons
+    }
+
+    // console.log(solarSystem);
+
+    // TODO: change from .save() to some sort of "update" query to prevent overwriting issues!
+    
     // Save the updated system to the database.
     await solarSystem
         .save()
-        .then(() => {
+        .then(() => {    
+            // Return status code 201 (succesful and new resource was created).
             return res.status(201).json({
                 "status": "success",
                 "error": ""

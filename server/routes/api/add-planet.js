@@ -1,6 +1,6 @@
 const express = require('express');
 const Planet = require("../../models/Planet");
-const SolarSystems = require("../../models/SolarSystem");
+const SolarSystem = require("../../models/SolarSystem");
 const jwt = require("../../resources/jwt");
 
 // Initialize express
@@ -27,11 +27,16 @@ app.post('/', async function (req, res) {
         moons: []
     });
 
-    // Gather ID from the request body arguments.
-    let solarSystemID = req.body.systemID;
+    // Gather Id from the request body arguments.
+    let solarSystemId = req.body.solarSystemId;
 
-    // Find document from the database.
-    let solarSystem = await SolarSystems.findById(solarSystemID);
+    // Find solar system from the database.
+    let solarSystem = await SolarSystem.findById(solarSystemId);
+    if (!solarSystem)
+        return res.status(400).json({
+            "status": "failed",
+            "error": "Could not find the specified solar system."
+        });
 
     // Add planet to planets array.
     solarSystem.planets.push(planet);
