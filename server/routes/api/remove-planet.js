@@ -1,6 +1,7 @@
 const express = require('express');
 const Planet = require("../../models/Planet");
 const SolarSystem = require("../../models/SolarSystem");
+const jwt = require('../../resources/jwt.js');
 
 // Initialize express
 const app = express();

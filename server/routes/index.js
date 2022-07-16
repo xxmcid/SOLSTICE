@@ -15,7 +15,7 @@ app.use('/api/add-solarsystem', require('./api/add-solarsystem'));
 app.use('/api/add-planet', require('./api/add-planet'));
 app.use('/api/add-moon', require('./api/add-moon'));
 
-app.use('/api/remove-planet', require('./api/remove-moon'));
+app.use('/api/remove-planet', require('./api/remove-planet'));
 app.use('/api/remove-moon', require('./api/remove-moon'));
 
 app.use('/api/update-planet', require('./api/update-planet'));
