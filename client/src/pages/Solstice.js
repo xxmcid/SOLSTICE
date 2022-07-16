@@ -49,9 +49,9 @@ class Solstice extends Component
 
             // Selection States
             selectedPlanetName: '',
-            selectedPlanetMass: '',
-            selectedPlanetGravity: '',
-            selectedPlanetDistance: '',
+            selectedPlanetMass: 0,
+            selectedPlanetGravity: 0,
+            selectedPlanetDistance: 0,
             selectedPlanetColor: '',
             selectedPlanetMoons: [],
 
@@ -87,12 +87,32 @@ class Solstice extends Component
             selectedPlanetDistance: spd,
             selectedPlanetColor: spc,
             selectedPlanetMoons: moons,
-        })
-        console.log("Selected planet: " + spn);
+        }, () => console.log("Selected planet: " + this.state.selectedPlanetName));
 
         // Only open sidepanel if it is not visible
         if (this.state.sidepanelexpanded == false)
             this.expandsidepanel();
+    }
+
+    // If a user edits a planet parameter in the side panel
+    editselection(state, value)
+    {
+        this.setState({
+            [state]: value
+        })
+    }
+
+    // Unselects a planet
+    clearselection()
+    {
+        this.setState({
+            selectedPlanetName: '',
+            selectedPlanetMass: 0,
+            selectedPlanetGravity: 0,
+            selectedPlanetDistance: 0,
+            selectedPlanetColor: '',
+            selectedPlanetMoons: []
+        })
     }
 
     render() {
@@ -131,6 +151,8 @@ class Solstice extends Component
                     <Header onClick={ this.setvisibility.bind(this) }/>
                     { this.state.infopagevisible ? <Info onClick={this.setvisibility.bind(this)} /> : null }
                     <SidePanel 
+                        editselection={this.editselection.bind(this)}
+                        clearselection={this.clearselection.bind(this)}
                         open={this.state.sidepanelexpanded} 
                         close={this.expandsidepanel.bind(this)}
                         spn={this.state.selectedPlanetName}
