@@ -29,26 +29,31 @@ app.post('/', async function (req, res) {
             "error": "Could not find the specified user."
         });
 
-    // Delete the solar systems belong to the user
-    SolarSystem.deleteMany({ ownerId: user._id}).catch(err => {
-        return res.status(400).json({
-            "status": "failed",
-            "error": err
-        })
-    });
+    // Delete the solar systems that belong to the user.
+    await SolarSystem
+        .deleteMany({ ownerId: user._id})
+        .catch(err => {
+            return res.status(400).json({
+                "status": "failed",
+                "error": err
+            });
+        });
 
     // Deleting the user now
-    Users.deleteOne(user).catch(err => {
-        return res.status(400).json({
-            "status": "failed",
-            "error": err
+    await Users
+        .deleteOne(user)
+        .then(() => {
+            return res.status(200).json({
+                "status": "success",
+                "error": ""
+            });
         })
-    });
-
-    return res.status(200).json({
-        "status": "success",
-        "error": ""
-    });
+        .catch(err => {
+            return res.status(400).json({
+                "status": "failed",
+                "error": err
+            })
+        });
 });
 
 module.exports = app;

@@ -47,11 +47,8 @@ app.post('/', async function (req, res) {
         moons: req.body.planet.moons
     }
 
-    // console.log(solarSystem);
-
     // TODO: change from .save() to some sort of "update" query to prevent overwriting issues!
-    
-    // Save the updated system to the database.
+    // Save the updated solar system to the database.
     await solarSystem
         .save()
         .then(() => {    
@@ -66,8 +63,7 @@ app.post('/', async function (req, res) {
                 "status": "failed",
                 "error": err
             });
-        }
-    );
+        });
 });
 
 module.exports = app;

@@ -64,8 +64,7 @@ app.post('/', async function (req, res) {
                 "status": "failed",
                 "error": err
             });
-        }
-    );    
+        });
 });
 
 module.exports = app;

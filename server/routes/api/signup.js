@@ -109,8 +109,7 @@ app.post('/', async function (req, res) {
                                 status: "failed",
                                 error: err
                             });
-                        }
-                    );
+                        });
                 })
                 .catch(err => {
                     return res.status(400).json({

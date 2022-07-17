@@ -17,10 +17,8 @@ app.post('/', async function (req, res) {
             error: "Invalid token"
         });
 
-    // Gather Ids from the request body arguments.
+    // Gather Id from the request body arguments.
     let solarSystemId = req.body.solarSystemId;
-
-    let newName = req.body.name;
 
     // Find document from the database.
     let solarSystem = await SolarSystem.findById(solarSystemId);
@@ -30,18 +28,21 @@ app.post('/', async function (req, res) {
             "error": "Could not find the specified solar system."
         });
 
-    solarSystem.updateOne({name: newName}).then(() => {
-        return res.status(200).json({
-            "status": "success",
-            "error": ""
+    // Update the solar system in the database.
+    await solarSystem
+        .updateOne({name: req.body.name})
+        .then(() => {
+            return res.status(200).json({
+                "status": "success",
+                "error": ""
+            });
         })
-    }).catch(err => {
-        return res.status(400).json({
-            "status": "failed",
-            "error": err
-        })
-    });
-    
+        .catch(err => {
+            return res.status(400).json({
+                "status": "failed",
+                "error": err
+            });
+        });
 });
 
 module.exports = app;
