@@ -22,6 +22,10 @@ function LoginPage() {
   let clientSession;
   const navigation = useNavigation();
 
+  const redirectSignup = () => {
+    navigation.navigate('signup');
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     
@@ -46,8 +50,7 @@ function LoginPage() {
        console.log(await AsyncStorage.getItem('@clientSession'));
         // Go to the main home screen
         console.log("signup");
-
-        navigation.navigate("/signup");
+        navigation.navigate('signup');
         
          // window.location.href = "./SignupPage";
     } catch (err) {
@@ -72,9 +75,7 @@ function LoginPage() {
                         <Button color="blue" uppercase={false}>Forgot your password?</Button>
                       </Card.Actions>
                       <Paragraph style={{textAlign:"center"}}>Don't have an account?</Paragraph>
-                      <Link to='/signup'>
-                        <Button color="blue" uppercase={false}>Sign up now.</Button>
-                      </Link>
+                        <Button onPress={redirectSignup} color="blue" uppercase={false}>Sign up now.</Button>
                   </Card.Content>
               </Card>
             </View>

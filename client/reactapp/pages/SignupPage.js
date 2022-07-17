@@ -6,8 +6,14 @@ import { Card, Paragraph, TextInput } from "react-native-paper"
 import { Button } from 'react-native-paper';
 import { Link } from "react-router-native";
 import { signuppageStyle } from "./signupstyle";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function LoginPage() {
+  const navigation = useNavigation();
+  const redirectLogin = () => {
+    navigation.navigate('login');
+  }
     return (
       <ImageBackground
         source ={require('.././assets/solar_mobile.png')}
@@ -22,9 +28,7 @@ export default function LoginPage() {
                       <TextInput label="Email" keyboardType="email-address"></TextInput>
                       <TextInput label="Password" secureTextEntry={true}></TextInput>
                       <Card.Actions>
-                        <Link to='/'>
-                            <Button style={signuppageStyle.button} color="blue" uppercase={false}>Go Back</Button>
-                        </Link>
+                            <Button onPress={redirectLogin} style={signuppageStyle.button} color="blue" uppercase={false}>Go Back</Button>
                         <Button color="grey" mode="contained">Register</Button>
                       </Card.Actions>
                   </Card.Content>
