@@ -18,8 +18,10 @@ app.use('/api/add-moon', require('./api/add-moon'));
 app.use('/api/remove-solar-system', require('./api/remove-solar-system'));
 app.use('/api/remove-planet', require('./api/remove-planet'));
 app.use('/api/remove-moon', require('./api/remove-moon'));
+app.use('/api/remove-user', require('./api/remove-user'));
 
 app.use('/api/update-planet', require('./api/update-planet'));
+app.use('/api/update-solar-system', require('./api/update-solar-system'));
 
 app.use('/api/fetch-solar-systems', require('./api/fetch-solar-systems'));
 
