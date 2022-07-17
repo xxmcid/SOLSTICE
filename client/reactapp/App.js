@@ -7,6 +7,7 @@ import ElegantHeader from "react-native-elegant-header";
 
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import Solstice from "./pages/Solstice";
 const Stack = createNativeStackNavigator();
 
 export default function App(){
@@ -16,6 +17,7 @@ export default function App(){
           <Stack.Navigator screenOptions={{headerShown: false}}initialRouteName="login">
               <Stack.Screen name="login" component={LoginPage}/>
               <Stack.Screen name="signup" component={SignupPage}/>
+              <Stack.Screen name="solstice" component={Solstice}/>
           </Stack.Navigator>
         </NavigationContainer>
     );
