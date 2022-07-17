@@ -18,7 +18,7 @@ app.post('/', async function (req, res) {
             error: "Invalid token"
         });
     
-    // Get use email from the token
+    // Get user email from the token.
     let userEmail = jwt.getEmailFromToken(token);
 
     // Find user from the database.

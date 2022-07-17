@@ -19,16 +19,28 @@ app.get('/:token', async function (req, res) {
 
     // Find the user from the token.
     let user = await User.findOne({email: jwt.getEmailFromToken(token)});
+    if (!user)
+        return res.status(400).json({
+            "status": "failed",
+            "error": "Could not find the specified user."
+        });
 
     // Find solar systems from the database.
-    let solarSystems = await SolarSystem.find({ownerId: user._id});
-
-    // Return status code 200.
-    return res.status(200).json({
-        "status": "success",
-        "error": "",
-        "solarSystems": solarSystems
-    });
+    await SolarSystem
+        .find({ownerId: user._id})
+        .then(solarSystems => {
+            return res.status(200).json({
+                "status": "success",
+                "error": "",
+                "solarSystems": solarSystems
+            });
+        })
+        .catch(err => {
+            return res.status(200).json({
+                "status": "failed",
+                "error": err
+            });
+        });
 });
 
 module.exports = app;

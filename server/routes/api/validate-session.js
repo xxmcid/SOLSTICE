@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('../../resources/jwt.js');
+const Users = require("../../models/User");
 
 // Initialize express
 const app = express();
@@ -13,6 +14,17 @@ app.get('/:token', async function(req, res) {
         return res.status(498).json({
             "status": "failed",
             "error": "Invalid verification token. Make sure it's not expired."
+        });
+
+    // Get user email from the token.
+    let userEmail = jwt.getEmailFromToken(token);
+
+    // Find user from the database.
+    let user = await Users.findOne({email: userEmail});
+    if (!user)
+        return res.status(400).json({
+            "status": "failed",
+            "error": "Could not find the specified user."
         });
     
     // Return status code 200.
