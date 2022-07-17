@@ -10,7 +10,7 @@ import { signuppageStyle } from "./signupstyle";
 export default function LoginPage() {
     return (
       <ImageBackground
-        source ={require('.././assets/reactAppbg.png')}
+        source ={require('.././assets/solar_mobile.png')}
         style={{width:'100%', height: '100%'}}>
           <SafeAreaView style={signuppageStyle.container}>
           <View style={signuppageStyle.containersize}>
