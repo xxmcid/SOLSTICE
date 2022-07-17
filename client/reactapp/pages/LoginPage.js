@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
-import { View, AsyncStorage} from 'react-native';
+import { View } from 'react-native';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import { ImageBackground } from 'react-native';
 import { SafeAreaView } from "react-native";
 import { Card, Paragraph, TextInput } from "react-native-paper";
