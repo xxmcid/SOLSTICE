@@ -21,18 +21,22 @@ class SidePanel extends Component
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
 
-        this.state = {
-
-            // If a planet is selected in the P5 sketch
-            // we will want the side panel to know.
-            selectedPlanetName: this.props.spn,
-            selectedPlanetMass: this.props.spm,
-            selectedPlanetGravity: this.props.spg,
-            selectedPlanetDistance: this.props.spd,
-            selectedPlanetColor: this.props.spc,
-            selectedPlanetMoons: this.props.moons
-        };
+        this.state = {};
     }
+
+    // getDerivedStateFromProps exists for only one purpose. 
+    // It enables a component to update its internal state as 
+    // the result of changes in props.
+    static getDerivedStateFromProps(nextProps) {    
+        return {
+            selectedPlanetName: nextProps.spn,
+            selectedPlanetMass: nextProps.spm,
+            selectedPlanetGravity: nextProps.spg,
+            selectedPlanetDistance: nextProps.spd,
+            selectedPlanetColor: nextProps.spc,
+            selectedPlanetMoons: nextProps.moons
+        }
+      }
 
     // Handles the updated parameters for planet.
     // Also sends update to database.
@@ -45,6 +49,8 @@ class SidePanel extends Component
     // This should only close the side panel.
     handleCancel()
     {
+        // Clears our selected planet from the state.
+        this.props.clearselection();
         // Closes the sidepanel
         this.props.close();
     }
@@ -93,8 +99,8 @@ class SidePanel extends Component
                                 id='planetNameInput' 
                                 type="text" 
                                 sx={{ width: '100%', borderRadius: 2}}
-                                value={this.state.selectedPlanetName}
-                                onChange={(e) => this.setState({ selectedPlanetName: e.target.value })}>
+                                defaultValue={this.state.selectedPlanetName}
+                                onChange={(e) => this.props.editselection('selectedPlanetName', e.target.value)}>
                             </TextField>
                         </Grid>
                         <Grid item xs={11}>
@@ -105,8 +111,9 @@ class SidePanel extends Component
                                 id='planetMassInput' 
                                 type="text" 
                                 InputProps={{ endAdornment: <InputAdornment position="end">kg</InputAdornment>}} 
-                                value={this.state.selectedPlanetMass}
-                                sx={{ width: '100%', borderRadius: 2}}>    
+                                sx={{ width: '100%', borderRadius: 2}}
+                                defaultValue={this.state.selectedPlanetMass}
+                                onChange={(e) => this.props.editselection('selectedPlanetMass', e.target.value)}>    
                             </TextField>
                         </Grid>
                         <Grid item xs={11}>
@@ -116,9 +123,10 @@ class SidePanel extends Component
                             <TextField 
                                 id='planetGravityInput' 
                                 type="text" 
-                                value={this.state.selectedPlanetGravity}
+                                defaultValue={this.state.selectedPlanetGravity}
                                 InputProps={{ endAdornment: <InputAdornment position="end">m/s^2</InputAdornment>}} 
-                                sx={{ width: '100%', borderRadius: 2}}>
+                                sx={{ width: '100%', borderRadius: 2}}
+                                onChange={(e) => this.props.editselection('selectedPlanetGravity', e.target.value)}>
                             </TextField>
                         </Grid>
                         <Grid item xs={11}>
@@ -128,9 +136,10 @@ class SidePanel extends Component
                             <TextField 
                                 id='planetDistanceInput' 
                                 type="text" 
-                                value={this.state.selectedPlanetDistance}
+                                defaultValue={this.state.selectedPlanetDistance}
                                 InputProps={{ endAdornment: <InputAdornment position="end">m</InputAdornment>}} 
-                                sx={{ width: '100%', borderRadius: 2}}>
+                                sx={{ width: '100%', borderRadius: 2}}
+                                onChange={(e) => this.props.editselection('selectedPlanetDistance', e.target.value)}>
                             </TextField>
                         </Grid>
                         <Grid item xs={11}>
@@ -167,7 +176,7 @@ class SidePanel extends Component
                         </Grid>
                         <Grid item xs={5} justifyContent='center'>
                             <Button
-                                onClick={this.handleSave}
+                                onClick={this.handleCancel}
                                 variant='contained'
                                 id='CancelChangesButton'
                                 startIcon={<CancelIcon/>}
