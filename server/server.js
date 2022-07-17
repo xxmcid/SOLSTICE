@@ -3,11 +3,12 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 
-// TODO: replace password for MongoDB into a .env file or something similar to not expose it.
+// Read .env
+require('dotenv').config();
 
 // Connect to MongoDB
 mongoose
-    .connect("mongodb+srv://solstice:cop4331@solstice.tsw0a.mongodb.net/SOLSTICE?retryWrites=true&w=majority")
+    .connect(process.env.MONGO_URI)
     .then(() => {
         // Initialize express
         const app = express();
