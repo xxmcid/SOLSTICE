@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Card, Title } from 'react-native-paper';
@@ -54,7 +54,9 @@ function Solstice() {
 
     const navigation = useNavigation();
 
-    AsyncStorage
+
+    useEffect(() => {
+        AsyncStorage
         .getItem('clientSession')
         .then(clientSession => {
             // Validate clientSession token AND CLEAR if invalid / expired...
@@ -65,12 +67,13 @@ function Solstice() {
                         axios.get(`https://solstice-project.herokuapp.com/api/fetch-solar-systems/${clientSession}`)
                             .then(response => {
                                 // Log user's solar systems to console.
-                                console.log(response.data.solarSystems);
-                                setSolarSystems(populateSolarSystems(response.data.solarSystems));
+                                setSolarSystems(response.data.solarSystems);
+
                                 for (let i = 0; i < solarSystems.length; i++) {
                                     // TEMP: (TODO: add a 'selected' attribute to solar systems)
+                                    setPlanets
                                     if (i == 0)
-                                        setPlanets(populatePlanets(response.data.solarSystems[i].planets));
+                                        setPlanets(response.data.solarSystems[i].planets);
                                 }
                             })
                             .catch(err => {
@@ -108,17 +111,18 @@ function Solstice() {
                     console.log(err);
                 });
         });
+    }, []);
 
     return (
         <View>
             <View>
                 <ScrollView horizontal={true}>
-                    {solarSystems}
+                    {populateSolarSystems(solarSystems)}
                 </ScrollView>
             </View>
             <View>
                 <ScrollView contentContainerStyle={{flexDirection: "row", flexWrap: "wrap"}}>
-                    {planets}
+                    {populatePlanets(planets)}
                 </ScrollView>
             </View>
         </View>
