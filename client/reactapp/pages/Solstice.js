@@ -8,52 +8,47 @@ import { loginpageStyle } from "./loginstyle";
 import { useNavigation } from "@react-navigation/native";
 import { useState, useReducer } from "react";
 
-
-// function solarSystemClicked(id) {
-//     console
-// }
-
-const SystemCard = ({systemName, selected}) => (
+const SystemCard = ({solarSystem, navigation}) => (
     <Card onPress={() => {
-            console.log('Clicked Solar System: '+ systemName);
-            // console.log(solarSystems);
+            console.log('Clicked Solar System: ' + solarSystem?.name);
+            navigation.navigate('solstice', { solarSystem: solarSystem });
         }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
-        <Card.Content style={{borderColor: (selected ? "#4490DF" : "#414141"), borderStyle: "solid", borderWidth: 2, borderRadius: 5}}>
+        <Card.Content style={{borderColor: (solarSystem?.selected ? "#4490DF" : "#414141"), borderStyle: "solid", borderWidth: 2, borderRadius: 5}}>
         {/* <Card.Content style={{borderColor: "#414141", borderStyle: "solid", borderWidth: 2, borderRadius: 5}}> */}
-            <Title>{systemName}</Title>
+            <Title>{solarSystem?.name}</Title>
         </Card.Content>
     </Card>
 );
 
-const PlanetCard = ({planetName}) => ( 
+const PlanetCard = ({planet, navigation}) => ( 
     <Card style={{width: "50%"}} onPress={() => {
-            console.log('Clicked Planet: '+ planetName);
-            // console.log(solarSystems);
+            console.log('Clicked Planet: '+ planet.name);
+            navigation.navigate('planet', { planet: planet });
         }}>
         <Card.Content>
-            <Title style={{textAlign: "center"}}>{planetName}</Title>
+            <Title style={{textAlign: "center"}}>{planet.name}</Title>
         </Card.Content>
         {/* <Card.Cover source={{uri: "https://http.cat/401"}} /> */}
     </Card>
 );
 
-const populateSolarSystems = (solarSystems) => {
+const populateSolarSystems = (solarSystems, navigation) => {
     let newCards = [];
     for (let i = 0; i < solarSystems.length; i++) {
         newCards.push(
-            <SystemCard key={solarSystems[i]._id} systemName={solarSystems[i].name} selected={solarSystems[i].selected}/>
+            <SystemCard key={solarSystems[i]._id} solarSystems={solarSystems[i]} navigation={navigation}/>
         );
     }
     return newCards;
 }
 
-const populatePlanets = (planets) => {
+const populatePlanets = (planets, navigation) => {
     let newCards = [];
     for(let i = 0; i < planets.length; i++)
     {
         newCards.push(
-            <PlanetCard key={planets[i]._id} planetName={planets[i].name} />
+            <PlanetCard key={planets[i]._id} planet={planets[i]} navigation={navigation} />
         );
     }
     return newCards;
@@ -131,12 +126,12 @@ function Solstice() {
         <View>
             <View>
                 <ScrollView horizontal={true}>
-                    {populateSolarSystems(solarSystems)}
+                    {populateSolarSystems(solarSystems, navigation)}
                 </ScrollView>
             </View>
             <View>
                 <ScrollView contentContainerStyle={{flexDirection: "row", flexWrap: "wrap"}}>
-                    {populatePlanets(planets)}
+                    {populatePlanets(planets, navigation)}
                 </ScrollView>
             </View>
         </View>

@@ -43,7 +43,7 @@ function LoginPage() {
        await AsyncStorage.setItem('clientSession', response.data.token);
 
         // Go to the main home screen
-        navigation.navigate('planet', { id: 1259 });
+        navigation.navigate('solstice');
     } catch (err) {
         console.log(err);
     }
