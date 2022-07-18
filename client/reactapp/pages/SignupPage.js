@@ -23,10 +23,10 @@ export default function LoginPage() {
               <Card style={signuppageStyle.card}>
                   <Card.Title titleStyle={{textAlign:"center"}} title="Sign Up"></Card.Title>
                   <Card.Content>
-                      <TextInput label="First Name"></TextInput>
-                      <TextInput label="Last Name"></TextInput>
-                      <TextInput label="Email" keyboardType="email-address"></TextInput>
-                      <TextInput label="Password" secureTextEntry={true}></TextInput>
+                      <TextInput autoCapitalize='none' autoCorrect={false} label="First Name"></TextInput>
+                      <TextInput autoCapitalize='none' autoCorrect={false} label="Last Name"></TextInput>
+                      <TextInput autoCapitalize='none' autoCorrect={false} autoCompleteType='email' label="Email" label="Email" keyboardType="email-address"></TextInput>
+                      <TextInput autoCapitalize='none' autoCorrect={false} label="Password" secureTextEntry={true}></TextInput>
                       <Card.Actions>
                             <Button onPress={redirectLogin} style={signuppageStyle.button} color="blue" uppercase={false}>Go Back</Button>
                         <Button color="grey" mode="contained">Register</Button>

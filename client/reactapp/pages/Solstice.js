@@ -1,15 +1,17 @@
+import axios from "axios";
 import React from "react";
 import { View } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Card, Title } from 'react-native-paper';
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginpageStyle } from "./loginstyle";
-
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 
 
 const SystemCard = ({systemName}) => (
     <Card onPress={() => {console.log(systemName);}}>
-        <Card.Cover source={{uri: "https://http.cat/200"}} />
+        {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
         <Card.Content>
             <Title>{systemName}</Title>
         </Card.Content>
@@ -21,43 +23,102 @@ const PlanetCard = ({planetName}) => (
         <Card.Content>
             <Title style={{textAlign: "center"}}>{planetName}</Title>
         </Card.Content>
-        <Card.Cover source={{uri: "https://http.cat/401"}} />
+        {/* <Card.Cover source={{uri: "https://http.cat/401"}} /> */}
     </Card>
 );
 
-const Test = () => {
+const populateSolarSystems = (solarSystems) => {
     let newCards = [];
-    for(let i = 0; i < 9; i++) 
-    {
+    for (let i = 0; i < solarSystems.length; i++) {
         newCards.push(
-            <SystemCard key={i} systemName={"Solar System " + i}/>
+            <SystemCard key={solarSystems[i]._id} systemName={solarSystems[i].name}/>
         );
     }
     return newCards;
 }
 
-const Test1 = () => {
+const populatePlanets = (planets) => {
     let newCards = [];
-    for(let i = 0; i < 9; i++)
+    for(let i = 0; i < planets.length; i++)
     {
         newCards.push(
-            <PlanetCard key={i} planetName={"Planet " + (i+1)} />
+            <PlanetCard key={planets[i]._id} planetName={planets[i].name} />
         );
     }
     return newCards;
 }
 
 function Solstice() {
+    const [solarSystems, setSolarSystems] = useState([]);
+    const [planets, setPlanets] = useState([]);
+
+    const navigation = useNavigation();
+
+    AsyncStorage
+        .getItem('clientSession')
+        .then(clientSession => {
+            // Validate clientSession token AND CLEAR if invalid / expired...
+            if (typeof clientSession == 'string' && clientSession.length > 0) {
+                axios.get(`https://solstice-project.herokuapp.com/api/validate-session/${clientSession}`)
+                    .then(response => {
+                        // Fetch the user's solar systems.
+                        axios.get(`https://solstice-project.herokuapp.com/api/fetch-solar-systems/${clientSession}`)
+                            .then(response => {
+                                // Log user's solar systems to console.
+                                console.log(response.data.solarSystems);
+                                setSolarSystems(populateSolarSystems(response.data.solarSystems));
+                                for (let i = 0; i < solarSystems.length; i++) {
+                                    // TEMP: (TODO: add a 'selected' attribute to solar systems)
+                                    if (i == 0)
+                                        setPlanets(populatePlanets(response.data.solarSystems[i].planets));
+                                }
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
+                            });
+                    })
+                    .catch(err => {
+                        // Logout
+                        AsyncStorage
+                        .clear()
+                        .then(() => {
+                            // Redirect to Sign In
+                            navigation.navigate('login');
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                    });
+            } else if (!clientSession) {
+                // Redirect to Sign In
+                navigation.navigate('solstice');
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            // Logout
+            AsyncStorage
+                .clear()
+                .then(() => {
+                    // Redirect to Sign In
+                    navigation.navigate('login');
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        });
+
     return (
         <View>
             <View>
                 <ScrollView horizontal={true}>
-                    {Test()}
+                    {solarSystems}
                 </ScrollView>
             </View>
             <View>
                 <ScrollView contentContainerStyle={{flexDirection: "row", flexWrap: "wrap"}}>
-                    {Test1()}
+                    {planets}
                 </ScrollView>
             </View>
         </View>
