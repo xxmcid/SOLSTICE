@@ -47,7 +47,7 @@ function LoginPage() {
        await AsyncStorage.setItem('clientSession', response.data.token);
 
         // Go to the main home screen
-        navigation.navigate('solstice');
+        navigation.navigate('planet');
     } catch (err) {
         console.log(err)
 

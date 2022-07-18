@@ -8,6 +8,7 @@ import ElegantHeader from "react-native-elegant-header";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Solstice from "./pages/Solstice";
+import Planet from "./pages/PlanetPage";
 const Stack = createNativeStackNavigator();
 
 export default function App(){
@@ -18,6 +19,7 @@ export default function App(){
               <Stack.Screen name="login" component={LoginPage}/>
               <Stack.Screen name="signup" component={SignupPage}/>
               <Stack.Screen name="solstice" component={Solstice}/>
+              <Stack.Screen name="planet" component={Planet}/>
           </Stack.Navigator>
         </NavigationContainer>
     );
