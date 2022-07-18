@@ -6,7 +6,7 @@ import { Card, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginpageStyle } from "./loginstyle";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useState, useReducer } from "react";
 
 
 const SystemCard = ({systemName}) => (
@@ -68,12 +68,11 @@ function Solstice() {
                             .then(response => {
                                 // Log user's solar systems to console.
                                 setSolarSystems(response.data.solarSystems);
-
                                 for (let i = 0; i < solarSystems.length; i++) {
                                     // TEMP: (TODO: add a 'selected' attribute to solar systems)
-                                    setPlanets
-                                    if (i == 0)
-                                        setPlanets(response.data.solarSystems[i].planets);
+                                    if (i == 0) {
+                                        setPlanets(solarSystems[i].planets);
+                                    }
                                 }
                             })
                             .catch(err => {
@@ -111,7 +110,7 @@ function Solstice() {
                     console.log(err);
                 });
         });
-    }, []);
+    }, [solarSystems, planets]);
 
     return (
         <View>
