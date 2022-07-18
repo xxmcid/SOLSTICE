@@ -3,9 +3,8 @@ import React, { useEffect } from "react";
 import { ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginpageStyle } from "./loginstyle";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState, useReducer } from "react";
-import { SidePanel } from '../components/SidePanel';
 
 import { planetPageStyle } from "./planetpagestyle";
 import { Button, Card, Paragraph, TextInput } from "react-native-paper";
@@ -13,7 +12,7 @@ import { SafeAreaView, View } from 'react-native';
 
 
 
-function Planet() {
+function Planet(props) {
     const [name, setName] = useState('');
     const [mass, setMass] = useState('');
     const [gravitionalPull, setGravitionalPull] = useState(0);
@@ -22,34 +21,13 @@ function Planet() {
 
     const navigation = useNavigation();
 
+    const route = useRoute();
+
+    console.log(route.params.id);
+
     async function handleSubmit(e) {
         e.preventDefault();
-        
-        // const login = {
-        //     email: email,
-        //     password: password
-        // }; 
 
-        // try {
-        //     // Send login to the server.
-        //     const response = await axios.post(
-        //       "https://solstice-project.herokuapp.com/api/signin",
-        //         login
-        //     );
-      
-        //     // Set the state of the user
-        //     clientSession = response.data.token;
-        //     console.log('Client Session: ' + clientSession);
-      
-        //     // Store the user in AsyncStore (localStorage equivalent)
-        //    await AsyncStorage.setItem('clientSession', response.data.token);
-    
-        //     // Go to the main home screen
-        //     navigation.navigate('planet');
-        // } catch (err) {
-        //     console.log(err)
-    
-        // }
     }
 
     return (

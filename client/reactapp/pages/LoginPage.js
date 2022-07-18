@@ -43,7 +43,7 @@ function LoginPage() {
        await AsyncStorage.setItem('clientSession', response.data.token);
 
         // Go to the main home screen
-        navigation.navigate('planet', { data: { id: 1, name: 'sabaoon' } });
+        navigation.navigate('planet', { id: 1259 });
     } catch (err) {
         console.log(err);
     }
