@@ -21,10 +21,6 @@ function LoginPage() {
   let clientSession;
   const navigation = useNavigation();
 
-  const redirectSignup = () => {
-    navigation.navigate('signup');
-  }
-
   async function handleSubmit(e) {
     e.preventDefault();
     
@@ -47,12 +43,12 @@ function LoginPage() {
        await AsyncStorage.setItem('clientSession', response.data.token);
 
         // Go to the main home screen
-        navigation.navigate('planet');
+        navigation.navigate('planet', { data: { id: 1, name: 'sabaoon' } });
     } catch (err) {
-        console.log(err)
-
+        console.log(err);
     }
   }
+
     return (
       <ImageBackground
         source ={require('.././assets/solar_mobile.png')}

@@ -15,7 +15,7 @@ import { useState, useReducer } from "react";
 
 const SystemCard = ({systemName, selected}) => (
     <Card onPress={() => {
-            console.log('Clicked: '+ systemName);
+            console.log('Clicked Solar System: '+ systemName);
             // console.log(solarSystems);
         }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
@@ -27,7 +27,10 @@ const SystemCard = ({systemName, selected}) => (
 );
 
 const PlanetCard = ({planetName}) => ( 
-    <Card style={{width: "50%"}}>
+    <Card style={{width: "50%"}} onPress={() => {
+            console.log('Clicked Planet: '+ planetName);
+            // console.log(solarSystems);
+        }}>
         <Card.Content>
             <Title style={{textAlign: "center"}}>{planetName}</Title>
         </Card.Content>
