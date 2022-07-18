@@ -9,10 +9,18 @@ import { useNavigation } from "@react-navigation/native";
 import { useState, useReducer } from "react";
 
 
-const SystemCard = ({systemName}) => (
-    <Card onPress={() => {console.log(systemName);}}>
+// function solarSystemClicked(id) {
+//     console
+// }
+
+const SystemCard = ({systemName, selected}) => (
+    <Card onPress={() => {
+            console.log('Clicked: '+ systemName);
+            // console.log(solarSystems);
+        }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
-        <Card.Content>
+        <Card.Content style={{borderColor: (selected ? "#4490DF" : "#414141"), borderStyle: "solid", borderWidth: 2, borderRadius: 5}}>
+        {/* <Card.Content style={{borderColor: "#414141", borderStyle: "solid", borderWidth: 2, borderRadius: 5}}> */}
             <Title>{systemName}</Title>
         </Card.Content>
     </Card>
@@ -31,7 +39,7 @@ const populateSolarSystems = (solarSystems) => {
     let newCards = [];
     for (let i = 0; i < solarSystems.length; i++) {
         newCards.push(
-            <SystemCard key={solarSystems[i]._id} systemName={solarSystems[i].name}/>
+            <SystemCard key={solarSystems[i]._id} systemName={solarSystems[i].name} selected={solarSystems[i].selected}/>
         );
     }
     return newCards;
@@ -54,8 +62,8 @@ function Solstice() {
 
     const navigation = useNavigation();
 
-
     useEffect(() => {
+        console.log('useEffect() called');
         AsyncStorage
         .getItem('clientSession')
         .then(clientSession => {
@@ -67,13 +75,17 @@ function Solstice() {
                         axios.get(`https://solstice-project.herokuapp.com/api/fetch-solar-systems/${clientSession}`)
                             .then(response => {
                                 // Log user's solar systems to console.
-                                setSolarSystems(response.data.solarSystems);
-                                for (let i = 0; i < solarSystems.length; i++) {
+                                for (let i = 0; i < response.data.solarSystems.length; i++) {
                                     // TEMP: (TODO: add a 'selected' attribute to solar systems)
                                     if (i == 0) {
-                                        setPlanets(solarSystems[i].planets);
+                                        response.data.solarSystems[i].selected = true;
+                                        setPlanets(response.data.solarSystems[i].planets);
+                                    } else {
+                                        response.data.solarSystems[i].selected = false;
                                     }
                                 }
+
+                                setSolarSystems(response.data.solarSystems);
                             })
                             .catch(err => {
                                 console.log(err);
@@ -110,7 +122,7 @@ function Solstice() {
                     console.log(err);
                 });
         });
-    }, [solarSystems, planets]);
+    }, []);
 
     return (
         <View>
