@@ -5,18 +5,19 @@ import { ScrollView } from 'react-native';
 import { Card, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginpageStyle } from "./loginstyle";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState, useReducer } from "react";
 
 const SystemCard = ({solarSystem, navigation}) => (
     <Card onPress={() => {
-            console.log('Clicked Solar System: ' + solarSystem?.name);
-            navigation.navigate('solstice', { solarSystem: solarSystem });
+            console.log('Clicked Solar System: ' + solarSystem.name);
+            //navigation.navigate('solstice', { solarSystem: solarSystem });
+            navigation.navigate('login');
         }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
-        <Card.Content style={{borderColor: (solarSystem?.selected ? "#4490DF" : "#414141"), borderStyle: "solid", borderWidth: 2, borderRadius: 5}}>
+        <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : "#414141"), borderStyle: "solid", borderWidth: 2, borderRadius: 5}}>
         {/* <Card.Content style={{borderColor: "#414141", borderStyle: "solid", borderWidth: 2, borderRadius: 5}}> */}
-            <Title>{solarSystem?.name}</Title>
+            <Title>{solarSystem.name}</Title>
         </Card.Content>
     </Card>
 );
@@ -37,7 +38,7 @@ const populateSolarSystems = (solarSystems, navigation) => {
     let newCards = [];
     for (let i = 0; i < solarSystems.length; i++) {
         newCards.push(
-            <SystemCard key={solarSystems[i]._id} solarSystems={solarSystems[i]} navigation={navigation}/>
+            <SystemCard key={solarSystems[i]._id} solarSystem={solarSystems[i]} navigation={navigation}/>
         );
     }
     return newCards;
@@ -60,6 +61,8 @@ function Solstice() {
 
     const navigation = useNavigation();
 
+    const route = useRoute();
+
     useEffect(() => {
         console.log('useEffect() called');
         AsyncStorage
@@ -75,11 +78,18 @@ function Solstice() {
                                 // Log user's solar systems to console.
                                 for (let i = 0; i < response.data.solarSystems.length; i++) {
                                     // TEMP: (TODO: add a 'selected' attribute to solar systems)
-                                    if (i == 0) {
-                                        response.data.solarSystems[i].selected = true;
-                                        setPlanets(response.data.solarSystems[i].planets);
+                                    if (route?.params?.solarSystem) {
+                                        if (response.data.solarSystems[i]._id == route.params.solarSystem._id) {
+                                            response.data.solarSystems[i].selected = true;
+                                            setPlanets(response.data.solarSystems[i].planets);   
+                                        }
                                     } else {
-                                        response.data.solarSystems[i].selected = false;
+                                        if (i == 0) {
+                                            response.data.solarSystems[i].selected = true;
+                                            setPlanets(response.data.solarSystems[i].planets);
+                                        } else {
+                                            response.data.solarSystems[i].selected = false;
+                                        }
                                     }
                                 }
 
