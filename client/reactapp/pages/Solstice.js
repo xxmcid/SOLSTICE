@@ -11,8 +11,7 @@ import { useState, useReducer } from "react";
 const SystemCard = ({solarSystem, navigation}) => (
     <Card onPress={() => {
             console.log('Clicked Solar System: ' + solarSystem.name);
-            //navigation.navigate('solstice', { solarSystem: solarSystem });
-            navigation.navigate('login');
+            navigation.push('solstice', { solarSystem: solarSystem });
         }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
         <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : "#414141"), borderStyle: "solid", borderWidth: 2, borderRadius: 5}}>
@@ -65,9 +64,10 @@ function Solstice() {
 
     useEffect(() => {
         console.log('useEffect() called');
-        AsyncStorage
-        .getItem('clientSession')
-        .then(clientSession => {
+
+        async function init() {
+            const clientSession = await AsyncStorage.getItem('clientSession');
+
             // Validate clientSession token AND CLEAR if invalid / expired...
             if (typeof clientSession == 'string' && clientSession.length > 0) {
                 axios.get(`https://solstice-project.herokuapp.com/api/validate-session/${clientSession}`)
@@ -100,36 +100,39 @@ function Solstice() {
                                 console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
                             });
                     })
-                    .catch(err => {
+                    .catch(async err => {
                         // Logout
-                        AsyncStorage
-                        .clear()
-                        .then(() => {
-                            // Redirect to Sign In
-                            navigation.navigate('login');
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
+                        await AsyncStorage.clear();
+
+                        // Redirect to Sign In
+                        navigation.navigate('login');
                     });
             } else if (!clientSession) {
                 // Redirect to Sign In
                 navigation.navigate('solstice');
             }
-        })
-        .catch(err => {
-            console.log(err);
-            // Logout
-            AsyncStorage
-                .clear()
-                .then(() => {
-                    // Redirect to Sign In
-                    navigation.navigate('login');
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        });
+        }
+
+        init();
+
+        // AsyncStorage
+        // .getItem('clientSession')
+        // .then(clientSession => {
+            
+        // })
+        // .catch(err => {
+        //     console.log(err);
+        //     // Logout
+        //     AsyncStorage
+        //         .clear()
+        //         .then(() => {
+        //             // Redirect to Sign In
+        //             navigation.navigate('login');
+        //         })
+        //         .catch(err => {
+        //             console.log(err);
+        //         });
+        // });
     }, []);
 
     return (
