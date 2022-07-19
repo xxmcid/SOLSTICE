@@ -50,6 +50,9 @@ class SidePanel extends Component
         {
 
         }
+
+        // Clears our selected planet from the state.
+        this.props.clearselection();
         // Closes the sidepanel
         this.props.close();
     }
@@ -59,9 +62,7 @@ class SidePanel extends Component
     {
         // Clears our selected planet from the state.
         this.props.clearselection();
-        // Sets iseditingplanet back to false.
-        this.props.canceledit();
-        // Closes our side panel
+        // Closes the sidepanel
         this.props.close();
     }
 

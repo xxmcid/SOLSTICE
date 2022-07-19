@@ -107,26 +107,12 @@ class Solstice extends Component
         });
     }
 
-    addplanethandler()
-    {
-        this.setState({
-            iseditingplanet: true
-        })
-        this.expandsidepanel();
-    }
-
-    canceledit()
-    {
-        this.setState({
-            iseditingplanet: false
-        });
-    }
-
     // When a certain planet is selected, P5 will call this function
     // with all the information of the planet sent as params.
     setselections(spn, spm, spg, spd, spc, moons, id)
     {
         this.setState({
+            iseditingplanet: true,
             selectedPlanetName: spn,
             selectedPlanetMass: spm,
             selectedPlanetGravity: spg,
@@ -153,6 +139,7 @@ class Solstice extends Component
     clearselection()
     {
         this.setState({
+            iseditingplanet: false,
             selectedPlanetName: '',
             selectedPlanetMass: 0,
             selectedPlanetGravity: 0,
@@ -190,7 +177,6 @@ class Solstice extends Component
                     <SidePanel 
                         clientSession={this.state.clientSession}
                         iseditingplanet={this.state.iseditingplanet}
-                        canceledit={this.canceledit.bind(this)}
                         editselection={this.editselection.bind(this)}
                         clearselection={this.clearselection.bind(this)}
                         open={this.state.sidepanelexpanded} 
@@ -207,7 +193,7 @@ class Solstice extends Component
                         moons={this.state.selectedPlanetMoons}/>
                     { this.state.sidepanelexpanded ? null : 
                     <Button
-                        onClick={this.addplanethandler.bind(this)}
+                        onClick={this.expandsidepanel.bind(this)}
                         variant='contained'
                         id='addplanetbutton'
                         startIcon={<PublicIcon />}
@@ -220,7 +206,6 @@ class Solstice extends Component
                     <Memo 
                         setsizingparams={this.setsizingparams.bind(this)}
                         planets={this.state.planets}
-                        expandsidepanel={this.expandsidepanel.bind(this)}
                         setselections={this.setselections.bind(this)} />
                     <Link to='/logout'>
                         <Button 
