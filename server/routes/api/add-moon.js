@@ -24,6 +24,7 @@ app.post('/', async function (req, res) {
         gravitationalPull: req.body.moon.gravitationalPull,
         distance: req.body.moon.distance,
         color: req.body.moon.color,
+        type: 'moon'
     });
 
     // Gather Ids from the request body arguments.

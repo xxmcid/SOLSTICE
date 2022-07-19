@@ -81,6 +81,7 @@ app.post('/', async function (req, res) {
                                 gravitationalPull: 1,
                                 distance: 0,
                                 color: "#FFEA00",
+                                type: 'sun',
                                 moons: []
                             },
                             {
@@ -89,6 +90,7 @@ app.post('/', async function (req, res) {
                                 gravitationalPull: 1,
                                 distance: 150,
                                 color: "#7FE54C",
+                                type: 'planet',
                                 moons: []
                             }
                         ]

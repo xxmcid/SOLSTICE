@@ -24,6 +24,7 @@ app.post('/', async function (req, res) {
         gravitationalPull: req.body.planet.gravitationalPull,
         distance: req.body.planet.distance,
         color: req.body.planet.color,
+        type: req.body.planet.type,
         moons: []
     });
 
