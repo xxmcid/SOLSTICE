@@ -2,8 +2,6 @@ import React from "react";
 import { View, StatusBar, SafeAreaView} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
-import ElegantHeader from "react-native-elegant-header";
-
 
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";

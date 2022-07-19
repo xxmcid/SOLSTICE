@@ -17,10 +17,10 @@ function EmailVerification(){
         style={{width:'100%', height: '100%'}}>
             <SafeAreaView style={{display: "flex", flex: 1,justifyContent : "center",allignItems: "center", flexDirection:"row"}}>
                 <View style={{width: "90%", marginTop: "65%"}}>
-                    <Card style={{height:"43%",borderRadius: 20}}>
+                    <Card style={{borderRadius: 20}}>
                         <Card.Title titleStyle={{textAlign:"center"}} title="Check your E-Mail"></Card.Title>
                         <Card.Content>
-                            <Paragraph style={{textAlign:"center", marginBottom: 30}}>
+                            <Paragraph style={{textAlign:"center",paddingBottom: 25}}>
                                 We have sent an e-mail to verify your account. 
                                 Please be sure to verify your account before logging in! 
                                 You may need to check your spam/promotions folder.
