@@ -10,9 +10,9 @@ export default function sketch(p5) {
     let numPlanets = 5;
 
     // Default Astral bodies
+    let defaultPlanets = [];
     // let defaultSun = new Body(100, p5.createVector(0, 0), p5.createVector(0, 0), '#f1c232', 'defaultSun');
     let defaultSun;
-    let defaultPlanets = [];
     let planetsArray = [];
     let bodies = [];
 
