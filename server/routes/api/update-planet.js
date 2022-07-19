@@ -38,16 +38,8 @@ app.post('/', async function (req, res) {
         });
 
     // Update the planet in the solar system object.
-    solarSystem.planets[planetIndex] = {
-        name: req.body.planet.name,
-        mass: req.body.planet.mass,
-        gravitationalPull: req.body.planet.gravitationalPull,
-        distance: req.body.planet.distance,
-        color: req.body.planet.color,
-        moons: req.body.planet.moons
-    }
+    solarSystem.planets[planetIndex] = req.body.planet;
 
-    // TODO: change from .save() to some sort of "update" query to prevent overwriting issues!
     // Save the updated solar system to the database.
     await solarSystem
         .updateOne({planets: solarSystem.planets})
