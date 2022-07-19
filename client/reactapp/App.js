@@ -16,7 +16,7 @@ export default function App(){
     return (
         <NavigationContainer>
           <StatusBar barStyle="light-content"/>
-          <Stack.Navigator screenOptions={{headerShown: false}}initialRouteName="login">
+          <Stack.Navigator screenOptions={{headerShown: false, animation: 'none'}} initialRouteName="login">
               <Stack.Screen name="login" component={LoginPage}/>
               <Stack.Screen name="signup" component={SignupPage}/>
               <Stack.Screen name="solstice" component={Solstice}/>
