@@ -38,10 +38,10 @@ export default function LoginPage() {
           "https://solstice-project.herokuapp.com/api/signup",
             signup
         );
-        console.log(response);
+
         navigation.navigate('emailverify');
     } catch (err) {
-      console.log(err.response.data);
+      console.log(err?.response?.data);
     }
 };
     return (

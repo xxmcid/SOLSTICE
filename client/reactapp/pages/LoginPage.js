@@ -44,7 +44,7 @@ function LoginPage() {
         // Go to the main home screen
         navigation.navigate('solstice');
     } catch (err) {
-        console.log(err);
+      console.log(err?.response?.data);
     }
   }
 
