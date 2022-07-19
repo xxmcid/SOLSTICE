@@ -50,7 +50,7 @@ app.post('/', async function (req, res) {
     // TODO: change from .save() to some sort of "update" query to prevent overwriting issues!
     // Save the updated solar system to the database.
     await solarSystem
-        .save()
+        .updateOne({planets: solarSystem.planets})
         .then(() => {    
             // Return status code 201 (succesful and new resource was created).
             return res.status(201).json({

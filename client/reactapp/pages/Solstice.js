@@ -8,6 +8,8 @@ import { loginpageStyle } from "./loginstyle";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState, useReducer } from "react";
 
+var curSolarSystem;
+
 const SystemCard = ({solarSystem, navigation}) => (
     <Card onPress={() => {
             console.log('Clicked Solar System: ' + solarSystem.name);
@@ -24,7 +26,7 @@ const SystemCard = ({solarSystem, navigation}) => (
 const PlanetCard = ({planet, navigation}) => ( 
     <Card style={{width: "50%"}} onPress={() => {
             console.log('Clicked Planet: '+ planet.name);
-            navigation.navigate('planet', { planet: planet });
+            navigation.navigate('planet', { planet: planet, solarSystem: curSolarSystem });
         }}>
         <Card.Content>
             <Title style={{textAlign: "center"}}>{planet.name}</Title>
@@ -75,21 +77,18 @@ function Solstice() {
                         // Fetch the user's solar systems.
                         axios.get(`https://solstice-project.herokuapp.com/api/fetch-solar-systems/${clientSession}`)
                             .then(response => {
-                                // Log user's solar systems to console.
                                 for (let i = 0; i < response.data.solarSystems.length; i++) {
-                                    // TEMP: (TODO: add a 'selected' attribute to solar systems)
+                                    response.data.solarSystems[i].selected = false;
                                     if (route?.params?.solarSystem) {
                                         if (response.data.solarSystems[i]._id == route.params.solarSystem._id) {
                                             response.data.solarSystems[i].selected = true;
+                                            curSolarSystem = response.data.solarSystems[i];
                                             setPlanets(response.data.solarSystems[i].planets);   
                                         }
-                                    } else {
-                                        if (i == 0) {
-                                            response.data.solarSystems[i].selected = true;
-                                            setPlanets(response.data.solarSystems[i].planets);
-                                        } else {
-                                            response.data.solarSystems[i].selected = false;
-                                        }
+                                    } else if (i == 0) {
+                                        response.data.solarSystems[i].selected = true;
+                                        curSolarSystem = response.data.solarSystems[i];
+                                        setPlanets(response.data.solarSystems[i].planets);
                                     }
                                 }
 
