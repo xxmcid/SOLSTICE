@@ -10,9 +10,11 @@ export default function sketch(p5) {
     let numPlanets = 5;
 
     // Default Astral bodies
-    let defaultSun = new Body(100, p5.createVector(0, 0), p5.createVector(0, 0), '#f1c232', 'defaultSun');
+    // let defaultSun = new Body(100, p5.createVector(0, 0), p5.createVector(0, 0), '#f1c232', 'defaultSun');
+    let defaultSun;
     let defaultPlanets = [];
     let planetsArray = [];
+    let bodies = [];
 
     // Setup Variables
     let canvas;
@@ -36,26 +38,37 @@ export default function sketch(p5) {
         // Selection states to populate sidepanel when a planet is clicked.
         setselections = props.setselections;
 
-        for (let i = 0; i < planetsArray.length; i++)
+        if (planetsArray.length > 0)
         {
-            let _name = planetsArray[i].name;
-            let _mass = planetsArray[i].mass;
+            // Makes sure that previous state of solar system is reset
+            bodies.length = 0;
 
-            // Setting Color
-            let _fill = planetsArray[i].color;
+            for (let i = 0; i < planetsArray.length; i++)
+            {
+                let name = planetsArray[i]?.name;
+                let mass = planetsArray[i]?.mass;
+                let color = planetsArray[i]?.color;
+                let distance = planetsArray[i]?.distance;
 
-            // Setting random default planet position
-            let radius = planetsArray[i].distance;
-            let theta = 0;
-            // Converting our radius to polar coordinates.
-            let randomPos = p5.createVector(radius*p5.cos(theta), radius*p5.sin(theta));
+                if (name == 'Sun')
+                {
+                    console.log("Sun found in planet list, setting defaultSun");
+                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), color, name);
+                    continue;
+                }
 
-            // Setting velocity vector for planet to travel in.
-            let planetVel = randomPos.copy();
-            planetVel.rotate(p5.HALF_PI);
-            planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ))
+                // Setting random default planet position
+                let radius = distance;
+                let theta = p5.random(p5.TWO_PI);
+                let randomPos = p5.createVector(radius*p5.cos(theta), radius*p5.sin(theta));
 
-            planetsArray.push(new Body(_mass, randomPos, planetVel, _fill, _name));
+                // Setting velocity vector for planet to travel in.
+                let planetVel = randomPos.copy();
+                planetVel.rotate(p5.HALF_PI);
+                planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ))
+
+                bodies.push(new Body(mass, randomPos, planetVel, color, name));
+            }
         }
     }
 
@@ -66,8 +79,7 @@ export default function sketch(p5) {
         // create canvase
         canvas = p5.createCanvas(width, height);
         canvas.parent("canvaswrapper");
-
-        // OLD
+        //OLD
         // for (let i = 0; i < numPlanets; i++)
         // {
         //     // Setting random default planet position
@@ -93,6 +105,7 @@ export default function sketch(p5) {
 
         p5.translate(width/2, height/2);
         p5.background('black');
+
         // OLD
         // for (let i = 0; i < defaultPlanets.length; i++) {
         //     defaultSun.pulls(defaultPlanets[i]);
@@ -100,15 +113,17 @@ export default function sketch(p5) {
         //     defaultPlanets[i].reveal();
         // }
 
-        // Uses planetsArray dervied from solstice.js state.
-        for (let i = 0; i < planetsArray.length; i++)
+        if (bodies.length > 0)
         {
-            defaultSun.pulls(planetsArray[i]);
-            planetsArray[i].refresh();
-            planetsArray[i].reveal();
-        }
+            for (let i = 0; i < bodies.length; i++)
+            {
+                defaultSun.pulls(bodies[i]);
+                bodies[i].refresh();
+                bodies[i].reveal();
+            }
 
-        defaultSun.reveal();
+            defaultSun.reveal();
+        }
     }
 
     // Generic Function for creating an astral body
@@ -192,6 +207,10 @@ export default function sketch(p5) {
         //     defaultPlanets[i].clicked();
         //     defaultSun.clicked();
         // }
+        for (let i = 0; i < bodies.length; i++)
+        {
+            bodies[i].clicked();
+        }
         defaultSun.clicked();
     }
 

@@ -25,9 +25,6 @@ import Info from '../components/Info';
 import { ThemeProvider } from '@emotion/react';
 import { getTheme } from '../styles/mainTheme';
 
-// Schemas and Object structures
-import Planet from '../components/core/Planet';
-
 class Solstice extends Component
 {
     constructor(props)
@@ -75,7 +72,6 @@ class Solstice extends Component
         })
     }
 
-
     // When a certain planet is selected, P5 will call this function
     // with all the information of the planet sent as params.
     setselections(spn, spm, spg, spd, spc, moons)
@@ -115,6 +111,27 @@ class Solstice extends Component
         })
     }
 
+    // Runs everytime the solstice component is mounted
+    componentDidMount()
+    {
+        // Fetch the user's solar systems.
+        axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
+        .then(response => {
+                let solarSystems = response.data.solarSystems;
+                let planetsArray = solarSystems[0].planets;
+                // Set our planets JSON to our state
+                // P5 should see this change in sketch.js and update accordingly.
+                this.setState({
+                    planets: planetsArray
+                })
+        })
+        .catch(err => {
+            console.log(err);
+            console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
+        });
+    }
+
+    
     render() {
 
         console.log("Rendering Solstice");
@@ -128,17 +145,6 @@ class Solstice extends Component
                         localStorage.clear();
                         window.location.href = '';
                     }
-
-                    // Fetch the user's solar systems.
-                    axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
-                        .then(response => {
-                            // Log user's solar systems to console.
-                            console.log(response.data.solarSystems);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
-                        });
                 })
                 .catch(err => {
                     // Logout
