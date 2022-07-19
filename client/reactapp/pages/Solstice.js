@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import { View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Card, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,7 +16,7 @@ const SystemCard = ({solarSystem, navigation}) => (
             navigation.push('solstice', { solarSystem: solarSystem });
         }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
-        <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : "#414141"), borderStyle: "solid", borderWidth: 2, borderRadius: 5}}>
+        <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : "#414141"), borderStyle: "solid", borderWidth: 5, borderRadius: 5}}>
         {/* <Card.Content style={{borderColor: "#414141", borderStyle: "solid", borderWidth: 2, borderRadius: 5}}> */}
             <Title>{solarSystem.name}</Title>
         </Card.Content>
@@ -117,18 +117,20 @@ function Solstice() {
     }, []);
 
     return (
-        <View style={{backgroundColor: "black", width: "100%", height: "100%"}}>
-            <View style={{backgroundColor: "black"}}>
-                <ScrollView horizontal={true}>
-                    {populateSolarSystems(solarSystems, navigation)}
-                </ScrollView>
+        <SafeAreaView style={{backgroundColor: "black"}}>
+            <View style={{backgroundColor: "black", width: "100%", height: "100%"}}>
+                <View style={{backgroundColor: "black"}}>
+                    <ScrollView horizontal={true}>
+                        {populateSolarSystems(solarSystems, navigation)}
+                    </ScrollView>
+                </View>
+                <View style={{backgroundColor: "black"}}>
+                    <ScrollView contentContainerStyle={{flexDirection: "row", flexWrap: "wrap"}}>
+                        {populatePlanets(planets, navigation)}
+                    </ScrollView>
+                </View>
             </View>
-            <View style={{backgroundColor: "black"}}>
-                <ScrollView contentContainerStyle={{flexDirection: "row", flexWrap: "wrap"}}>
-                    {populatePlanets(planets, navigation)}
-                </ScrollView>
-            </View>
-        </View>
+        </SafeAreaView>
     );
   }
 export default Solstice;

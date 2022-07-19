@@ -6,20 +6,19 @@ import { ImageBackground } from 'react-native';
 import { SafeAreaView } from "react-native";
 import { Card, Paragraph, TextInput } from "react-native-paper";
 import { Button } from 'react-native-paper';
-import { Link } from "react-router-native";
 import { loginpageStyle } from "./loginstyle";
 import { useState } from "react";
-import Redirect from "react-router-native";
 import { useNavigation } from "@react-navigation/native";
-
-import SignupPage from "./SignupPage";
-
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   let clientSession;
   const navigation = useNavigation();
+
+  const redirectSignup = () => {
+    navigation.navigate('signup');
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -62,10 +61,10 @@ function LoginPage() {
                       <TextInput onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} label="Password" secureTextEntry={true}></TextInput>
                       <Card.Actions style={{justifyContent: "center"}}>
                         <Button onPress={handleSubmit} color="grey" mode="contained">Sign in</Button>
-                        {/* <Button color="blue" uppercase={false}>Forgot your password?</Button> */}
+                        <Button color="blue" uppercase={false}>Forgot your password?</Button> 
                       </Card.Actions>
-                      {/* <Paragraph style={{textAlign:"center"}}>Don't have an account?</Paragraph>
-                        <Button onPress={redirectSignup} color="blue" uppercase={false}>Sign up now.</Button> */}
+                      <Paragraph style={{textAlign:"center"}}>Don't have an account?</Paragraph>
+                        <Button onPress={redirectSignup} color="blue" uppercase={false}>Sign up now.</Button> 
                   </Card.Content>
               </Card>
             </View>
