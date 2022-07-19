@@ -66,50 +66,42 @@ function Solstice() {
 
     useEffect(() => {
         async function init() {
+            // Read from AsyncStorage.
             const clientSession = await AsyncStorage.getItem('clientSession');
 
             // Validate clientSession token AND CLEAR if invalid / expired...
             if (typeof clientSession == 'string' && clientSession.length > 0) {
-                axios.get(`https://solstice-project.herokuapp.com/api/validate-session/${clientSession}`)
+                // Fetch the user's solar systems.
+                axios.get(`https://solstice-project.herokuapp.com/api/fetch-solar-systems/${clientSession}`)
                     .then(response => {
-                        // Fetch the user's solar systems.
-                        axios.get(`https://solstice-project.herokuapp.com/api/fetch-solar-systems/${clientSession}`)
-                            .then(response => {
-                                for (let i = 0; i < response.data.solarSystems.length; i++) {
-                                    // Detect which solar system to select from redirect.
-                                    response.data.solarSystems[i].selected = false;
-                                    if (route?.params?.solarSystem) {
-                                        if (response.data.solarSystems[i]._id == route.params.solarSystem._id) {
-                                            response.data.solarSystems[i].selected = true;
-                                            curSolarSystem = response.data.solarSystems[i];
-                                            setPlanets(response.data.solarSystems[i].planets);   
-                                        }
-                                    }
-                                    // Select first solar system on app launch.
-                                    else if (i == 0) {
-                                        response.data.solarSystems[i].selected = true;
-                                        curSolarSystem = response.data.solarSystems[i];
-                                        setPlanets(response.data.solarSystems[i].planets);
-                                    }
+                        for (let i = 0; i < response.data.solarSystems.length; i++) {
+                            // Detect which solar system to select from redirect.
+                            response.data.solarSystems[i].selected = false;
+                            if (route?.params?.solarSystem) {
+                                if (response.data.solarSystems[i]._id == route.params.solarSystem._id) {
+                                    response.data.solarSystems[i].selected = true;
+                                    curSolarSystem = response.data.solarSystems[i];
+                                    setPlanets(response.data.solarSystems[i].planets);   
                                 }
+                            }
+                            // Select first solar system on app launch.
+                            else if (i == 0) {
+                                response.data.solarSystems[i].selected = true;
+                                curSolarSystem = response.data.solarSystems[i];
+                                setPlanets(response.data.solarSystems[i].planets);
+                            }
+                        }
 
-                                setSolarSystems(response.data.solarSystems);
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
-                            });
+                        setSolarSystems(response.data.solarSystems);
                     })
                     .catch(async err => {
-                        // Logout
+                        // Logout & redirect to Sign In
                         await AsyncStorage.clear();
-
-                        // Redirect to Sign In
                         navigation.navigate('login');
                     });
             } else if (!clientSession) {
                 // Redirect to Sign In
-                navigation.navigate('solstice');
+                navigation.navigate('login');
             }
         }
 

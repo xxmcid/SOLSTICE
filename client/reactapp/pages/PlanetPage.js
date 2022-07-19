@@ -51,6 +51,50 @@ function Planet(props) {
         }
     }
 
+    useEffect(() => {
+        async function init() {
+            // Read from AsyncStorage.
+            const clientSession = await AsyncStorage.getItem('clientSession');
+
+            // We re check for an updated response from the API in case we changed a planet's attributes outside of the app.
+            if (typeof clientSession == 'string' && clientSession.length > 0) {
+                // Fetch the user's solar systems.
+                axios.get(`https://solstice-project.herokuapp.com/api/fetch-solar-systems/${clientSession}`)
+                    .then(response => {
+                        for (let i = 0; i < response.data.solarSystems.length; i++) {
+                            // Detect which solar system to read the planet's data from.
+                            if (response.data.solarSystems[i]._id == route.params.solarSystem._id) {
+                                for (let j = 0; j < response.data.solarSystems[i].planets.length; j++) {
+                                    // Find the matching planet.
+                                    if (response.data.solarSystems[i].planets[j]._id == route.params.planet._id) {
+                                        // Reassign the current state's values to the incoming planet attributes.
+                                        console.log('found matching planet');
+                                        setName(response.data.solarSystems[i].planets[j].name);
+                                        setMass(response.data.solarSystems[i].planets[j].mass.toString());
+                                        setGravitationalPull(response.data.solarSystems[i].planets[j].gravitationalPull.toString());
+                                        setDistance(response.data.solarSystems[i].planets[j].distance.toString());
+                                        setColor(response.data.solarSystems[i].planets[j].color);
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    })
+                    .catch(async err => {
+                        // Logout & redirect to Sign In
+                        await AsyncStorage.clear();
+                        navigation.navigate('login');
+                    });
+            } else if (!clientSession) {
+                // Redirect to Sign In
+                navigation.navigate('login');
+            }
+        }
+
+        init();
+    }, []);
+
     return (
         <View style={{backgroundColor: "black", width:'100%', height: '100%'}}>
             <SafeAreaView style={planetPageStyle.container}>
