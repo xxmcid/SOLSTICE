@@ -35,6 +35,7 @@ class Solstice extends Component
             // Page and Panel visibility states
             infopagevisible: false,
             sidepanelexpanded: false,
+            iseditingplanet: false,
 
             // Solstice States
             solarSystemId: '',
@@ -49,6 +50,11 @@ class Solstice extends Component
             selectedPlanetColor: '',
             selectedPlanetMoons: [],
 
+            // Spacing Parameters (Based on screensize and sun size)
+            // Don't want a planet going off screen.
+            maxalloweddistance: 0,
+            maxallowedplanetsize: 0,
+
             clientSession: localStorage.getItem('clientSession')
         };
 
@@ -58,16 +64,31 @@ class Solstice extends Component
         .then(response => {
                 let solarSystems = response.data.solarSystems;
                 let planetsArray = solarSystems[0].planets;
+                console.log("Retrieved solar system!");
+                console.log(solarSystems);
+
                 // Set our planets JSON to our state
                 // P5 should see this change in sketch.js and update accordingly.
                 this.setState({
-                    planets: planetsArray
-                })
+                    planets: planetsArray,
+                    solarSystemId: solarSystems[0]?._id
+                });
         })
         .catch(err => {
             console.log(err);
             console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
         });
+    }
+
+    setsizingparams(newdist, newplanetsize)
+    {
+        console.log("Setting sizing params based on P5's calculations");
+        console.log("Max Dist: " + newdist + " Max Size: " + newplanetsize);
+        this.setState({
+            maxalloweddistance: newdist,
+            maxallowedplanetsize: newplanetsize,
+        })
+
     }
 
     setvisibility()
@@ -83,12 +104,27 @@ class Solstice extends Component
         console.log((this.state.sidepanelexpanded ? "Closing" : "Expanding") + " Side Panel!");
         this.setState({
             sidepanelexpanded: !this.state.sidepanelexpanded
+        });
+    }
+
+    addplanethandler()
+    {
+        this.setState({
+            iseditingplanet: true
         })
+        this.expandsidepanel();
+    }
+
+    canceledit()
+    {
+        this.setState({
+            iseditingplanet: false
+        });
     }
 
     // When a certain planet is selected, P5 will call this function
     // with all the information of the planet sent as params.
-    setselections(spn, spm, spg, spd, spc, moons)
+    setselections(spn, spm, spg, spd, spc, moons, id)
     {
         this.setState({
             selectedPlanetName: spn,
@@ -97,6 +133,7 @@ class Solstice extends Component
             selectedPlanetDistance: spd,
             selectedPlanetColor: spc,
             selectedPlanetMoons: moons,
+            selectedPlanetId: id
         }, () => console.log("Selected planet: " + this.state.selectedPlanetName));
 
         // Only open sidepanel if it is not visible
@@ -121,7 +158,8 @@ class Solstice extends Component
             selectedPlanetGravity: 0,
             selectedPlanetDistance: 0,
             selectedPlanetColor: '',
-            selectedPlanetMoons: []
+            selectedPlanetMoons: [],
+            selectedPlanetId: ''
         })
     }
 
@@ -150,10 +188,15 @@ class Solstice extends Component
                     <Header onClick={ this.setvisibility.bind(this) }/>
                     { this.state.infopagevisible ? <Info onClick={this.setvisibility.bind(this)} /> : null }
                     <SidePanel 
+                        clientSession={this.state.clientSession}
+                        iseditingplanet={this.state.iseditingplanet}
+                        canceledit={this.canceledit.bind(this)}
                         editselection={this.editselection.bind(this)}
                         clearselection={this.clearselection.bind(this)}
                         open={this.state.sidepanelexpanded} 
                         close={this.expandsidepanel.bind(this)}
+                        maxalloweddistance={this.state.maxalloweddistance}
+                        maxallowedplanetsize={this.state.maxallowedplanetsize}
                         ssid={this.state.solarSystemId}
                         spi={this.state.selectedPlanetId}
                         spn={this.state.selectedPlanetName}
@@ -164,7 +207,7 @@ class Solstice extends Component
                         moons={this.state.selectedPlanetMoons}/>
                     { this.state.sidepanelexpanded ? null : 
                     <Button
-                        onClick={this.expandsidepanel.bind(this)}
+                        onClick={this.addplanethandler.bind(this)}
                         variant='contained'
                         id='addplanetbutton'
                         startIcon={<PublicIcon />}
@@ -175,6 +218,7 @@ class Solstice extends Component
                     }
                     {/* Wrapped P5 inside of React.memo to prevent unnecessary rerenders */}
                     <Memo 
+                        setsizingparams={this.setsizingparams.bind(this)}
                         planets={this.state.planets}
                         expandsidepanel={this.expandsidepanel.bind(this)}
                         setselections={this.setselections.bind(this)} />

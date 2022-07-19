@@ -6,10 +6,13 @@ import { getTheme } from '../../styles/mainTheme';
 import '../../styles/solstice.css';
 
 // MUI Components
-import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button } from '@mui/material';
+import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button, Slider } from '@mui/material';
 import { InputAdornment } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
+
+// Misc Components
+import { HexColorPicker } from "react-colorful";
 
 
 class SidePanel extends Component
@@ -42,6 +45,11 @@ class SidePanel extends Component
     // Also sends update to database.
     handleSave()
     {
+        // If we're editing an existing planet
+        if (this.props.iseditingplanet == true)
+        {
+
+        }
         // Closes the sidepanel
         this.props.close();
     }
@@ -51,7 +59,9 @@ class SidePanel extends Component
     {
         // Clears our selected planet from the state.
         this.props.clearselection();
-        // Closes the sidepanel
+        // Sets iseditingplanet back to false.
+        this.props.canceledit();
+        // Closes our side panel
         this.props.close();
     }
 
@@ -104,54 +114,44 @@ class SidePanel extends Component
                             </TextField>
                         </Grid>
                         <Grid item xs={11}>
-                            <Typography variant='h7' align='left'>Mass</Typography>
+                            <Typography variant='h7' align='left'>Mass (kg)</Typography>
                         </Grid>
-                        <Grid item xs={11}>
-                            <TextField 
-                                id='planetMassInput' 
-                                type="text" 
-                                InputProps={{ endAdornment: <InputAdornment position="end">kg</InputAdornment>}} 
-                                sx={{ width: '100%', borderRadius: 2}}
+                        <Grid item xs={9} sx={{ marginTop: 1 }}>
+                            <Slider
+                                max={this.props.maxallowedplanetsize}
                                 defaultValue={this.state.selectedPlanetMass}
-                                onChange={(e) => this.props.editselection('selectedPlanetMass', e.target.value)}>    
-                            </TextField>
+                                valueLabelDisplay="auto"
+                                onChange={(e) => this.props.editselection('selectedPlanetMass', e.target.value)}
+                                />
                         </Grid>
                         <Grid item xs={11}>
-                            <Typography variant='h7' align='left'>Gravitational Pull</Typography>
+                            <Typography variant='h7' align='left'>Gravitational Pull (m/s^2)</Typography>
                         </Grid>
-                        <Grid item xs={11}>
-                            <TextField 
-                                id='planetGravityInput' 
-                                type="text" 
+                        <Grid item xs={9} sx={{ marginTop: 1 }}>
+                            <Slider
                                 defaultValue={this.state.selectedPlanetGravity}
-                                InputProps={{ endAdornment: <InputAdornment position="end">m/s^2</InputAdornment>}} 
-                                sx={{ width: '100%', borderRadius: 2}}
-                                onChange={(e) => this.props.editselection('selectedPlanetGravity', e.target.value)}>
-                            </TextField>
+                                valueLabelDisplay="auto"
+                                onChange={(e) => this.props.editselection('selectedPlanetGravity', e.target.value)}
+                                />
                         </Grid>
                         <Grid item xs={11}>
                             <Typography variant='h7' align='left'>Distance (From nearest star)</Typography>
                         </Grid>
-                        <Grid item xs={11}>
-                            <TextField 
-                                id='planetDistanceInput' 
-                                type="text" 
+                        <Grid item xs={9} sx={{ marginTop: 1 }}>
+                            <Slider
+                                max={this.props.maxalloweddistance}
                                 defaultValue={this.state.selectedPlanetDistance}
-                                InputProps={{ endAdornment: <InputAdornment position="end">m</InputAdornment>}} 
-                                sx={{ width: '100%', borderRadius: 2}}
-                                onChange={(e) => this.props.editselection('selectedPlanetDistance', e.target.value)}>
-                            </TextField>
+                                valueLabelDisplay="auto"
+                                onChange={(e) => this.props.editselection('selectedPlanetDistance', e.target.value)}
+                                />
                         </Grid>
                         <Grid item xs={11}>
                             <Typography variant='h7' align='left'>Color</Typography>
                         </Grid>
-                        <Grid item xs={11}>
-                            <TextField 
-                                id='planetColorInput' 
-                                type="text" 
-                                select 
-                                sx={{ width: '100%', borderRadius: 2 }}>
-                            </TextField>
+                        <Grid item xs={10} sx={{ marginTop: 2 }}>
+                            <HexColorPicker 
+                                color={this.state.selectedPlanetColor} 
+                                onChange={(e) => this.props.editselection('selectedPlanetColor', e)}/>
                         </Grid>
                         <Grid item xs={11}>
                             <Typography variant='h7' align='left'>Moons</Typography>
@@ -163,6 +163,8 @@ class SidePanel extends Component
                                 sx={{ width: '100%', borderRadius: 2 }}>
                             </TextField>
                         </Grid>
+                    </Grid>
+                    <Grid container rowSpacing={1} justifyContent='center' paddingBottom={2}>
                         <Grid item xs={5} justifyContent='center'>
                             <Button
                                 onClick={this.handleSave}

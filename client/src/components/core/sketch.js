@@ -22,6 +22,7 @@ export default function sketch(p5) {
     let height;
 
     // Global State variables passed down from Solstice.js
+    let setsizingparams;
     let expandsidepanel;
     let setselections;
 
@@ -37,6 +38,8 @@ export default function sketch(p5) {
         planetsArray = props.planets;
         // Selection states to populate sidepanel when a planet is clicked.
         setselections = props.setselections;
+        // Set sizing function in solstice.js
+        setsizingparams = props.setsizingparams;
 
         if (planetsArray.length > 0)
         {
@@ -49,11 +52,12 @@ export default function sketch(p5) {
                 let mass = planetsArray[i]?.mass;
                 let color = planetsArray[i]?.color;
                 let distance = planetsArray[i]?.distance;
+                let id = planetsArray[i]?._id;
 
                 if (name == 'Sun')
                 {
                     console.log("Sun found in planet list, setting defaultSun");
-                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), color, name);
+                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), color, name, id);
                     continue;
                 }
 
@@ -67,8 +71,13 @@ export default function sketch(p5) {
                 planetVel.rotate(p5.HALF_PI);
                 planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ))
 
-                bodies.push(new Body(mass, randomPos, planetVel, color, name));
+                bodies.push(new Body(mass, randomPos, planetVel, color, name, id));
             }
+
+            // Calculate max allowed size for planet distance and size (mass).
+            let maxdist = (height/2);
+            let maxsize = defaultSun.mass;
+            setsizingparams(maxdist, maxsize);
         }
     }
 
@@ -127,15 +136,16 @@ export default function sketch(p5) {
     }
 
     // Generic Function for creating an astral body
-    function Body(_mass, _pos, _vel, _fill, _name){
+    function Body(_mass, _pos, _vel, _fill, _name, _id){
 
         this.mass = _mass;
-        this.pos = _pos;
-        this.vel = _vel;
-        this.name = _name;
         // Mass will be used for size of bodies.
         this.r = this.mass;
+        this.pos = _pos;
+        this.vel = _vel;
         this.color = _fill;
+        this.name = _name;
+        this.id = _id;
 
         // Actually "paints" our new planet
         this.reveal = function() {
@@ -186,7 +196,7 @@ export default function sketch(p5) {
             {
                 // Applying pythagorean theorem to get straight-line distance.
                 let convertedDist = p5.sqrt((this.pos.x * this.pos.x) + (this.pos.y * this.pos.y));
-                setselections(this.name, this.mass, G, convertedDist, this.color, null);
+                setselections(this.name, this.mass, G, convertedDist, this.color, null, this.id);
             }
         }
 

@@ -11,6 +11,7 @@ function Memo(props) {
                 sketch={sketch} 
                 planets={props.planets}
                 expandsidepanel={props.expandsidepanel}
+                setsizingparams={props.setsizingparams}
                 setselections={props.setselections}
             ></ReactP5Wrapper>
         </div>
