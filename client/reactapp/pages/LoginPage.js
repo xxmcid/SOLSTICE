@@ -16,8 +16,8 @@ import SignupPage from "./SignupPage";
 
 
 function LoginPage() {
-  const [email, setEmail] = useState('michaelvuolo1@gmail.com');
-  const [password, setPassword] = useState('Test1234*');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   let clientSession;
   const navigation = useNavigation();
 

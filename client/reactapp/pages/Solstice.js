@@ -26,7 +26,7 @@ const SystemCard = ({solarSystem, navigation}) => (
 const PlanetCard = ({planet, navigation}) => ( 
     <Card style={{width: "50%"}} onPress={() => {
             console.log('Clicked Planet: '+ planet.name);
-            navigation.navigate('planet', { planet: planet, solarSystem: curSolarSystem });
+            navigation.push('planet', { planet: planet, solarSystem: curSolarSystem });
         }}>
         <Card.Content>
             <Title style={{textAlign: "center"}}>{planet.name}</Title>
@@ -65,8 +65,6 @@ function Solstice() {
     const route = useRoute();
 
     useEffect(() => {
-        console.log('useEffect() called');
-
         async function init() {
             const clientSession = await AsyncStorage.getItem('clientSession');
 
@@ -78,6 +76,7 @@ function Solstice() {
                         axios.get(`https://solstice-project.herokuapp.com/api/fetch-solar-systems/${clientSession}`)
                             .then(response => {
                                 for (let i = 0; i < response.data.solarSystems.length; i++) {
+                                    // Detect which solar system to select from redirect.
                                     response.data.solarSystems[i].selected = false;
                                     if (route?.params?.solarSystem) {
                                         if (response.data.solarSystems[i]._id == route.params.solarSystem._id) {
@@ -85,7 +84,9 @@ function Solstice() {
                                             curSolarSystem = response.data.solarSystems[i];
                                             setPlanets(response.data.solarSystems[i].planets);   
                                         }
-                                    } else if (i == 0) {
+                                    }
+                                    // Select first solar system on app launch.
+                                    else if (i == 0) {
                                         response.data.solarSystems[i].selected = true;
                                         curSolarSystem = response.data.solarSystems[i];
                                         setPlanets(response.data.solarSystems[i].planets);
@@ -113,35 +114,16 @@ function Solstice() {
         }
 
         init();
-
-        // AsyncStorage
-        // .getItem('clientSession')
-        // .then(clientSession => {
-            
-        // })
-        // .catch(err => {
-        //     console.log(err);
-        //     // Logout
-        //     AsyncStorage
-        //         .clear()
-        //         .then(() => {
-        //             // Redirect to Sign In
-        //             navigation.navigate('login');
-        //         })
-        //         .catch(err => {
-        //             console.log(err);
-        //         });
-        // });
     }, []);
 
     return (
-        <View>
-            <View>
+        <View style={{backgroundColor: "black", width: "100%", height: "100%"}}>
+            <View style={{backgroundColor: "black"}}>
                 <ScrollView horizontal={true}>
                     {populateSolarSystems(solarSystems, navigation)}
                 </ScrollView>
             </View>
-            <View>
+            <View style={{backgroundColor: "black"}}>
                 <ScrollView contentContainerStyle={{flexDirection: "row", flexWrap: "wrap"}}>
                     {populatePlanets(planets, navigation)}
                 </ScrollView>

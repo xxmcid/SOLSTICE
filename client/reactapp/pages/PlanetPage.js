@@ -36,8 +36,6 @@ function Planet(props) {
             planet: planet
         }
 
-        console.log(data);
-
         try {
             // Send data to the server.
             const response = await axios.post(
@@ -46,14 +44,15 @@ function Planet(props) {
             );
     
             // Go to the main home screen
-            navigation.navigate('solstice', route.params.solarSystem);
+            navigation.push('solstice', {solarSystem: route.params.solarSystem});
         } catch (err) {
+            console.log('here');
             console.log(err.response.data);
         }
     }
 
     return (
-        <View style={{width:'100%', height: '100%'}}>
+        <View style={{backgroundColor: "black", width:'100%', height: '100%'}}>
             <SafeAreaView style={planetPageStyle.container}>
                 <Card style={planetPageStyle.card} >
                     <Card.Title titleStyle={{textAlign:"center"}} title="Planet Name"></Card.Title>
