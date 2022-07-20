@@ -42,6 +42,7 @@ class SidePanel extends Component {
             selectedPlanetMass: nextProps.spm,
             selectedPlanetGravity: nextProps.spg,
             selectedPlanetDistance: nextProps.spd,
+            selectedPlanetType: nextProps.spt,
             selectedPlanetColor: nextProps.spc,
             selectedPlanetMoons: nextProps.moons
         }
@@ -53,7 +54,7 @@ class SidePanel extends Component {
         // If we're editing an existing planet
         if (this.props.iseditingplanet == true) {
             // Update the current planet.
-            console.log('handleSave(): Updating the current planet in the DB.');
+            console.log('handleSave(): Updating the current planet in the databaase.');
 
             // Compile the request data.
             const requestData = {
@@ -82,17 +83,42 @@ class SidePanel extends Component {
                 // TODO: UPDATE SKETCH WITH NEW DATA
 
             } catch (err) { console.log(err?.response?.data); }
-
-
         } else {
-           // Add a new planet. 
+           // Add a new planet.
+           console.log('handleSave(): Adding a new to the databaase.');
+
+           // Compile the request data.
+           const requestData = {
+                "token": localStorage.getItem('clientSession'),
+                "solarSystemId": this.props.ssid,
+                "planet": {
+                    "name": this.props.spn,
+                    "mass": Number(this.props.spm),
+                    "gravitationalPull": Number(this.props.spg),
+                    "distance": Number(this.props.spd),
+                    "type": this.props.spt,
+                    "color": this.props.spc
+                }
+            }
+
+            try { // Send the new planet to the server.
+                const response = await axios.post(
+                    `${window.location.protocol}//${window.location.host}/api/add-planet`,
+                    requestData
+                );
+                
+                // Log the response.
+                console.log(response.data);
+
+                // TODO: UPDATE SKETCH WITH NEW DATA
+
+            } catch (err) { console.log(err?.response?.data); }
         }
         
-        console.log('handleSave(): SAVING...');
-
-        // Clears our selected planet from the state.
+        // Clear our selected planet from the state.
         this.props.clearselection();
-        // Closes the sidepanel
+
+        // Close the sidepanel.
         this.props.close();
     }
 
