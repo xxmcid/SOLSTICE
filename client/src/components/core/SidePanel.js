@@ -78,9 +78,10 @@ class SidePanel extends Component {
                 );
                 
                 // Log the response.
-                console.log(response.data);
+                const newPlanets = response.data.planets;
 
-                // TODO: UPDATE SKETCH WITH NEW DATA
+                //Update Sketch with new data!
+                this.props.updatePlanets(newPlanets);
 
             } catch (err) { console.log(err?.response?.data); }
         } else {

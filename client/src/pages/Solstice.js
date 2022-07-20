@@ -153,6 +153,16 @@ class Solstice extends Component
         })
     }
 
+    // Probably the most important handler in this entire app...
+    updatePlanets(newPlanets)
+    {
+        console.log("Solstice recieved updated planets from API. Updating now.")
+        // Tadaaaaa!
+        this.setState({
+            planets: newPlanets
+        })
+    }
+
     render() {
 
         console.log("Rendering Solstice");
@@ -179,6 +189,7 @@ class Solstice extends Component
                     { this.state.infopagevisible ? <Info onClick={this.setvisibility.bind(this)} /> : null }
                     <SidePanel 
                         clientSession={this.state.clientSession}
+                        updatePlanets={this.updatePlanets.bind(this)}
                         iseditingplanet={this.state.iseditingplanet}
                         editselection={this.editselection.bind(this)}
                         clearselection={this.clearselection.bind(this)}

@@ -56,7 +56,7 @@ export default function sketch(p5) {
                 let type = planetsArray[i]?.type;
                 let id = planetsArray[i]?._id;
 
-                if (name == 'Sun')
+                if (type == 'sun')
                 {
                     console.log("Sun found in planet list, setting defaultSun");
                     defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), type, color, name, id);
