@@ -32,6 +32,8 @@ class SidePanel extends Component
     // the result of changes in props.
     static getDerivedStateFromProps(nextProps) {    
         return {
+            solarSystemId: nextProps.ssid,
+            selectedPlanetId: nextProps.spi,
             selectedPlanetName: nextProps.spn,
             selectedPlanetMass: nextProps.spm,
             selectedPlanetGravity: nextProps.spg,
@@ -110,7 +112,7 @@ class SidePanel extends Component
                                 id='planetNameInput' 
                                 type="text" 
                                 sx={{ width: '100%', borderRadius: 2}}
-                                defaultValue={this.state.selectedPlanetName}
+                                value={this.state.selectedPlanetName}
                                 onChange={(e) => this.props.editselection('selectedPlanetName', e.target.value)}>
                             </TextField>
                         </Grid>
@@ -120,7 +122,7 @@ class SidePanel extends Component
                         <Grid item xs={9} sx={{ marginTop: 1 }}>
                             <Slider
                                 max={this.props.maxallowedplanetsize}
-                                defaultValue={this.state.selectedPlanetMass}
+                                value={this.state.selectedPlanetMass}
                                 valueLabelDisplay="auto"
                                 onChange={(e) => this.props.editselection('selectedPlanetMass', e.target.value)}
                                 />
@@ -130,7 +132,7 @@ class SidePanel extends Component
                         </Grid>
                         <Grid item xs={9} sx={{ marginTop: 1 }}>
                             <Slider
-                                defaultValue={this.state.selectedPlanetGravity}
+                                value={this.state.selectedPlanetGravity}
                                 valueLabelDisplay="auto"
                                 onChange={(e) => this.props.editselection('selectedPlanetGravity', e.target.value)}
                                 />
@@ -141,7 +143,7 @@ class SidePanel extends Component
                         <Grid item xs={9} sx={{ marginTop: 1 }}>
                             <Slider
                                 max={this.props.maxalloweddistance}
-                                defaultValue={this.state.selectedPlanetDistance}
+                                value={this.state.selectedPlanetDistance}
                                 valueLabelDisplay="auto"
                                 onChange={(e) => this.props.editselection('selectedPlanetDistance', e.target.value)}
                                 />

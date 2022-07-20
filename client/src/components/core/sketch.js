@@ -44,6 +44,7 @@ export default function sketch(p5) {
         if (planetsArray.length > 0)
         {
             // Makes sure that previous state of solar system is reset
+            // before adding another set of planets.
             bodies.length = 0;
 
             for (let i = 0; i < planetsArray.length; i++)
