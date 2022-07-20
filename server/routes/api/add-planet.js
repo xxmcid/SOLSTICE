@@ -50,8 +50,7 @@ app.post('/', async function (req, res) {
             return res.status(201).json({
                 "status": "success",
                 "error": "",
-                "solarSystemId": solarSystemId,
-                "planet": planet
+                "planets": solarSystem.planets
             });
         })
         .catch(err => {

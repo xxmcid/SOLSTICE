@@ -77,7 +77,7 @@ class SidePanel extends Component {
                     requestData
                 );
                 
-                // Log the response.
+                // Grab new planets array from response.
                 const newPlanets = response.data.planets;
 
                 //Update Sketch with new data!
@@ -108,10 +108,11 @@ class SidePanel extends Component {
                     requestData
                 );
                 
-                // Log the response.
-                console.log(response.data);
+            // Grab new planets array from response.
+            const newPlanets = response.data.planets;
 
-                // TODO: UPDATE SKETCH WITH NEW DATA
+            //Update Sketch with new data!
+            this.props.updatePlanets(newPlanets);
 
             } catch (err) { console.log(err?.response?.data); }
         }
