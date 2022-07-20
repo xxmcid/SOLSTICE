@@ -110,7 +110,7 @@ class Solstice extends Component
 
     // When a certain planet is selected, P5 will call this function
     // with all the information of the planet sent as params.
-    setselections(spn, spm, spg, spd, spc, moons, id)
+    setselections(spn, spm, spg, spd, spt, spc, moons, id)
     {
         this.setState({
             iseditingplanet: true,
@@ -118,6 +118,7 @@ class Solstice extends Component
             selectedPlanetMass: spm,
             selectedPlanetGravity: spg,
             selectedPlanetDistance: spd,
+            selectedPlanetType: spt,
             selectedPlanetColor: spc,
             selectedPlanetMoons: moons,
             selectedPlanetId: id
@@ -145,6 +146,7 @@ class Solstice extends Component
             selectedPlanetMass: 0,
             selectedPlanetGravity: 0,
             selectedPlanetDistance: 0,
+            selectedPlanetType: '',
             selectedPlanetColor: '',
             selectedPlanetMoons: [],
             selectedPlanetId: ''

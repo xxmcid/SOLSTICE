@@ -66,7 +66,7 @@ class SidePanel extends Component {
                     "mass": Number(this.props.spm),
                     "gravitationalPull": Number(this.props.spg),
                     "distance": Number(this.props.spd),
-                    "type": this.props.spt,
+                    "type": this.props.spt || 'planet', // 'planet' as default type to prevent errors
                     "color": this.props.spc
                 }
             }
@@ -96,7 +96,7 @@ class SidePanel extends Component {
                     "mass": Number(this.props.spm),
                     "gravitationalPull": Number(this.props.spg),
                     "distance": Number(this.props.spd),
-                    "type": this.props.spt,
+                    "type": this.props.spt || 'planet', // 'planet' as default type to prevent errors
                     "color": this.props.spc
                 }
             }

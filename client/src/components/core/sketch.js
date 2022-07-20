@@ -53,12 +53,13 @@ export default function sketch(p5) {
                 let mass = planetsArray[i]?.mass;
                 let color = planetsArray[i]?.color;
                 let distance = planetsArray[i]?.distance;
+                let type = planetsArray[i]?.type;
                 let id = planetsArray[i]?._id;
 
                 if (name == 'Sun')
                 {
                     console.log("Sun found in planet list, setting defaultSun");
-                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), color, name, id);
+                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), type, color, name, id);
                     continue;
                 }
 
@@ -72,7 +73,7 @@ export default function sketch(p5) {
                 planetVel.rotate(p5.HALF_PI);
                 planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ))
 
-                bodies.push(new Body(mass, randomPos, planetVel, color, name, id));
+                bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id));
             }
 
             // Calculate max allowed size for planet distance and size (mass).
@@ -137,13 +138,14 @@ export default function sketch(p5) {
     }
 
     // Generic Function for creating an astral body
-    function Body(_mass, _pos, _vel, _fill, _name, _id){
+    function Body(_mass, _pos, _vel, _type, _fill, _name, _id){
 
         this.mass = _mass;
         // Mass will be used for size of bodies.
         this.r = this.mass;
         this.pos = _pos;
         this.vel = _vel;
+        this.type = _type;
         this.color = _fill;
         this.name = _name;
         this.id = _id;
@@ -197,7 +199,7 @@ export default function sketch(p5) {
             {
                 // Applying pythagorean theorem to get straight-line distance.
                 let convertedDist = p5.sqrt((this.pos.x * this.pos.x) + (this.pos.y * this.pos.y));
-                setselections(this.name, this.mass, G, convertedDist, this.color, null, this.id);
+                setselections(this.name, this.mass, G, convertedDist, this.type, this.color, null, this.id);
             }
         }
 
