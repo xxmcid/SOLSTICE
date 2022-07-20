@@ -47,6 +47,7 @@ class Solstice extends Component
             selectedPlanetMass: 0,
             selectedPlanetGravity: 0,
             selectedPlanetDistance: 0,
+            selectedPlanetType: '',
             selectedPlanetColor: '',
             selectedPlanetMoons: [],
 
@@ -189,6 +190,7 @@ class Solstice extends Component
                         spm={this.state.selectedPlanetMass}
                         spg={this.state.selectedPlanetGravity}
                         spd={this.state.selectedPlanetDistance}
+                        spt={this.state.selectedPlanetType}
                         spc={this.state.selectedPlanetColor}
                         moons={this.state.selectedPlanetMoons}/>
                     { this.state.sidepanelexpanded ? null : 

@@ -1,5 +1,6 @@
 // Base Import
 import { React, Component } from 'react';
+import axios from "axios";
 
 // Styling Imports
 import { getTheme } from '../../styles/mainTheme';
@@ -48,16 +49,44 @@ class SidePanel extends Component {
 
     // Handles the updated parameters for planet.
     // Also sends update to database.
-    handleSave() {
+    async handleSave() {
         // If we're editing an existing planet
         if (this.props.iseditingplanet == true) {
             // Update the current planet.
-            console.log('handleSave(): DETECTED WE ARE EDITING A PLANET...');
+            console.log('handleSave(): Updating the current planet in the DB.');
+
+            // Compile the request data.
+            const requestData = {
+                "token": localStorage.getItem('clientSession'),
+                "solarSystemId": this.props.ssid,
+                "planet": {
+                    "_id": this.props.spi,
+                    "name": this.props.spn,
+                    "mass": Number(this.props.spm),
+                    "gravitationalPull": Number(this.props.spg),
+                    "distance": Number(this.props.spd),
+                    "type": this.props.spt,
+                    "color": this.props.spc
+                }
+            }
+
+            try { // Send the updated planet to the server.
+                const response = await axios.post(
+                    `${window.location.protocol}//${window.location.host}/api/update-planet`,
+                    requestData
+                );
+                
+                // Log the response.
+                console.log(response.data);
+
+                // TODO: UPDATE SKETCH WITH NEW DATA
+
+            } catch (err) { console.log(err?.response?.data); }
+
+
         } else {
            // Add a new planet. 
         }
-
-        // TODO: add a planet in the update-planet and add-planet api
         
         console.log('handleSave(): SAVING...');
 
