@@ -46,7 +46,9 @@ app.post('/', async function (req, res) {
         .then(() => {
             return res.status(201).json({
                 "status": "success",
-                "error": ""
+                "error": "",
+                "solarSystemId": solarSystemId,
+                "planetId": planetId
             });
         })
         .catch(err => {

@@ -47,7 +47,9 @@ app.post('/', async function (req, res) {
             // Return status code 201 (succesful and new resource was created).
             return res.status(201).json({
                 "status": "success",
-                "error": ""
+                "error": "",
+                "solarSystemId": solarSystemId,
+                "planet": req.body.planet
             });
         })
         .catch(err => {

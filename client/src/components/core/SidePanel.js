@@ -20,10 +20,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { HexColorPicker } from "react-colorful";
 
 
-class SidePanel extends Component
-{
-    constructor(props)
-    {
+class SidePanel extends Component {
+    constructor(props) {
         super(props);
         // Binds event handlers passed in from parent to event handlers that are local to SidePanel.js
         this.handleSave = this.handleSave.bind(this);
@@ -50,13 +48,18 @@ class SidePanel extends Component
 
     // Handles the updated parameters for planet.
     // Also sends update to database.
-    handleSave()
-    {
+    handleSave() {
         // If we're editing an existing planet
-        if (this.props.iseditingplanet == true)
-        {
-
+        if (this.props.iseditingplanet == true) {
+            // Update the current planet.
+            console.log('handleSave(): DETECTED WE ARE EDITING A PLANET...');
+        } else {
+           // Add a new planet. 
         }
+
+        // TODO: add a planet in the update-planet and add-planet api
+        
+        console.log('handleSave(): SAVING...');
 
         // Clears our selected planet from the state.
         this.props.clearselection();
@@ -65,16 +68,14 @@ class SidePanel extends Component
     }
 
     // This should only close the side panel.
-    handleCancel()
-    {
+    handleCancel() {
         // Clears our selected planet from the state.
         this.props.clearselection();
         // Closes the sidepanel
         this.props.close();
     }
 
-    render()
-    {
+    render() {
         return(
             <ThemeProvider theme={getTheme()}>
                 <Drawer 

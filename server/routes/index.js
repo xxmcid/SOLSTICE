@@ -10,6 +10,7 @@ app.use('/api/validate-session', require('./api/validate-session'));
 app.use('/api/verify', require('./api/verify'));
 app.use('/api/forgot-password', require('./api/forgot-password'));
 app.use('/api/reset-password', require('./api/reset-password'));
+app.use('/api/remove-user', require('./api/remove-user'));
 
 app.use('/api/add-solar-system', require('./api/add-solar-system'));
 app.use('/api/add-planet', require('./api/add-planet'));
@@ -18,10 +19,10 @@ app.use('/api/add-moon', require('./api/add-moon'));
 app.use('/api/remove-solar-system', require('./api/remove-solar-system'));
 app.use('/api/remove-planet', require('./api/remove-planet'));
 app.use('/api/remove-moon', require('./api/remove-moon'));
-app.use('/api/remove-user', require('./api/remove-user'));
 
-app.use('/api/update-planet', require('./api/update-planet'));
 app.use('/api/update-solar-system', require('./api/update-solar-system'));
+app.use('/api/update-planet', require('./api/update-planet'));
+app.use('/api/update-moon', require('./api/update-moon'));
 
 app.use('/api/fetch-solar-systems', require('./api/fetch-solar-systems'));
 

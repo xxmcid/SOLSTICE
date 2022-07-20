@@ -6,8 +6,8 @@ const jwt = require("../../resources/jwt");
 // Initialize express
 const app = express();
 
-// Remove Moon:
-// Removes a specified moon.
+// Add Planet:
+// Creates a new planet.
 app.post('/', async function (req, res) {
     // Validate the client's session.
     let token = req.body.token;
@@ -20,9 +20,9 @@ app.post('/', async function (req, res) {
     // Gather Ids from the request body arguments.
     let solarSystemId = req.body.solarSystemId;
     let planetId = req.body.planetId;
-    let moonId = req.body.moonId;
+    let moonId = req.body.moon._id;
 
-    // Find solar system from the database.
+    // Find document from the database.
     let solarSystem = await SolarSystem.findById(solarSystemId);
     if (!solarSystem)
         return res.status(400).json({
@@ -46,19 +46,20 @@ app.post('/', async function (req, res) {
             "error": "Could not find the specified moon."
         });
 
-    // Remove the moon from the planet object.
-    solarSystem.planets[planetIndex].moons.splice(moonIndex, 1);
+    // Update the moon in the solar system object.
+    solarSystem.planets[planetIndex].moons[moonIndex] = req.body.moon;
 
-    // Save the new planet to the database.
+    // Save the updated solar system to the database.
     await solarSystem
-        .save()
-        .then(() => {
+        .updateOne({planets: solarSystem.planets})
+        .then(() => {    
+            // Return status code 201 (succesful and new resource was created).
             return res.status(201).json({
                 "status": "success",
                 "error": "",
                 "solarSystemId": solarSystemId,
                 "planetId": planetId,
-                "moonId": moonId
+                "moon": req.body.moon
             });
         })
         .catch(err => {

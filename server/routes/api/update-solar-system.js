@@ -34,7 +34,8 @@ app.post('/', async function (req, res) {
         .then(() => {
             return res.status(200).json({
                 "status": "success",
-                "error": ""
+                "error": "",
+                "solarSystem": solarSystem
             });
         })
         .catch(err => {
