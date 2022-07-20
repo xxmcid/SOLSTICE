@@ -53,6 +53,7 @@ class Solstice extends Component
 
             // Spacing Parameters (Based on screensize and sun size)
             // Don't want a planet going off screen.
+            minalloweddistance: 0,
             maxalloweddistance: 0,
             maxallowedplanetsize: 0,
 
@@ -81,12 +82,12 @@ class Solstice extends Component
         });
     }
 
-    setsizingparams(newdist, newplanetsize)
+    setsizingparams(newmindist, newmaxdist, newplanetsize)
     {
         console.log("Setting sizing params based on P5's calculations");
-        console.log("Max Dist: " + newdist + " Max Size: " + newplanetsize);
         this.setState({
-            maxalloweddistance: newdist,
+            minalloweddistance: newmindist,
+            maxalloweddistance: newmaxdist,
             maxallowedplanetsize: newplanetsize,
         })
 
@@ -195,6 +196,7 @@ class Solstice extends Component
                         clearselection={this.clearselection.bind(this)}
                         open={this.state.sidepanelexpanded} 
                         close={this.expandsidepanel.bind(this)}
+                        minalloweddistance={this.state.minalloweddistance}
                         maxalloweddistance={this.state.maxalloweddistance}
                         maxallowedplanetsize={this.state.maxallowedplanetsize}
                         ssid={this.state.solarSystemId}

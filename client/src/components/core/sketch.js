@@ -77,34 +77,20 @@ export default function sketch(p5) {
             }
 
             // Calculate max allowed size for planet distance and size (mass).
-            let maxdist = (height/2);
-            let maxsize = defaultSun.mass;
-            setsizingparams(maxdist, maxsize);
+            const mindist = (defaultSun.mass + 20);
+            const maxdist = (height/2);
+            const maxsize = defaultSun.mass;
+            setsizingparams(mindist, maxdist, maxsize);
         }
     }
 
     // Sets up our main solar system canvas for drawing
     p5.setup = () => {
+        // Update Dimensions based on viewport size.
         updateCanvasDimensions();
-        
-        // create canvase
+        // Create Canvas
         canvas = p5.createCanvas(width, height);
         canvas.parent("canvaswrapper");
-        //OLD
-        // for (let i = 0; i < numPlanets; i++)
-        // {
-        //     // Setting random default planet position
-        //     let radius = p5.random(defaultSun.r, p5.min(width/2, height/2));
-        //     let theta = p5.random(p5.TWO_PI);
-        //     let randomPos = p5.createVector(radius*p5.cos(theta), radius*p5.sin(theta));
-
-        //     // Setting velocity vector for planet to travel in.
-        //     let planetVel = randomPos.copy();
-        //     planetVel.rotate(p5.HALF_PI);
-        //     planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ))
-
-        //     defaultPlanets.push(new Body(25, randomPos, planetVel, '#f1c232', 'defaultPlanet'));
-        // }
     }
 
     // This function is called repeatedly by P5 to give the illusion of
@@ -116,13 +102,6 @@ export default function sketch(p5) {
 
         p5.translate(width/2, height/2);
         p5.background('black');
-
-        // OLD
-        // for (let i = 0; i < defaultPlanets.length; i++) {
-        //     defaultSun.pulls(defaultPlanets[i]);
-        //     defaultPlanets[i].refresh();
-        //     defaultPlanets[i].reveal();
-        // }
 
         if (bodies.length > 0)
         {
@@ -198,8 +177,11 @@ export default function sketch(p5) {
             if (d < this.r)
             {
                 // Applying pythagorean theorem to get straight-line distance.
-                let convertedDist = p5.sqrt((this.pos.x * this.pos.x) + (this.pos.y * this.pos.y));
-                setselections(this.name, this.mass, G, convertedDist, this.type, this.color, null, this.id);
+                const convertedDist = p5.sqrt((this.pos.x * this.pos.x) + (this.pos.y * this.pos.y));
+                // Take the ceiling of the number so its rounded.
+                const roundedDist = p5.ceil(convertedDist);
+                // Update selected planet in solstice.
+                setselections(this.name, this.mass, G, roundedDist, this.type, this.color, null, this.id);
             }
         }
 
@@ -213,13 +195,6 @@ export default function sketch(p5) {
         // This for loop goes through all the planets
         // and checks where the mouse was clicked and which
         // planet the x and y coordinates are within bounds.
-        
-        // OLD
-        // for (let i = 0; i < defaultPlanets.length; i++)
-        // {
-        //     defaultPlanets[i].clicked();
-        //     defaultSun.clicked();
-        // }
         for (let i = 0; i < bodies.length; i++)
         {
             bodies[i].clicked();

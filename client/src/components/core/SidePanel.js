@@ -16,6 +16,7 @@ import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button, Slid
 import { InputAdornment } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 // Misc Components
 import { HexColorPicker } from "react-colorful";
@@ -27,6 +28,7 @@ class SidePanel extends Component {
         // Binds event handlers passed in from parent to event handlers that are local to SidePanel.js
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
 
         this.state = {};
     }
@@ -132,6 +134,15 @@ class SidePanel extends Component {
         this.props.close();
     }
 
+    handleDelete() {
+
+
+        // Clears our selected planet from the state.
+        this.props.clearselection();
+        // Closes the sidepanel
+        this.props.close();
+    }
+
     render() {
         return(
             <ThemeProvider theme={getTheme()}>
@@ -190,7 +201,8 @@ class SidePanel extends Component {
                         </Grid>
                         <Grid item xs={9} sx={{ marginTop: 1 }}>
                             <Slider
-                                max={this.props.maxallowedplanetsize}
+                                min={20}
+                                max={this.state.selectedPlanetType == 'sun' ? 300 : this.props.maxallowedplanetsize}
                                 value={this.state.selectedPlanetMass}
                                 valueLabelDisplay="auto"
                                 onChange={(e) => this.props.editselection('selectedPlanetMass', e.target.value)}
@@ -211,6 +223,7 @@ class SidePanel extends Component {
                         </Grid>
                         <Grid item xs={9} sx={{ marginTop: 1 }}>
                             <Slider
+                                min={this.props.minalloweddistance}
                                 max={this.props.maxalloweddistance}
                                 value={this.state.selectedPlanetDistance}
                                 valueLabelDisplay="auto"
@@ -236,7 +249,7 @@ class SidePanel extends Component {
                             </TextField>
                         </Grid>
                     </Grid>
-                    <Grid container rowSpacing={1} justifyContent='center' paddingBottom={2}>
+                    <Grid container rowSpacing={1} alignItems='center' justifyContent='center' paddingBottom={2}>
                         <Grid item xs={5} justifyContent='center'>
                             <Button
                                 onClick={this.handleSave}
@@ -254,9 +267,20 @@ class SidePanel extends Component {
                                 variant='contained'
                                 id='CancelChangesButton'
                                 startIcon={<CancelIcon/>}
-                                color={'error'}
+                                color={'warning'}
                                 sx={{ textTransform: 'none', fontWeight: 'bold' }}>
                                     Cancel
+                            </Button>
+                        </Grid>
+                        <Grid item xs={10} justifyContent='center'>
+                            <Button
+                                onClick={this.handleDelete}
+                                variant='contained'
+                                id='DeletePlanetButton'
+                                startIcon={<DeleteForeverIcon />}
+                                color={'error'}
+                                sx={{ textTransform: 'none', fontWeight: 'bold', width: '100%' }}>
+                                    Delete Forever
                             </Button>
                         </Grid>
                     </Grid>
