@@ -5,7 +5,12 @@ import { React, Component } from 'react';
 import { getTheme } from '../../styles/mainTheme';
 import '../../styles/solstice.css';
 
+//P5 Core
+import { ReactP5Wrapper } from "react-p5-wrapper";
+import miniSketch from './miniSketch';
+
 // MUI Components
+import { Box } from '@mui/system';
 import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button, Slider } from '@mui/material';
 import { InputAdornment } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
@@ -100,7 +105,13 @@ class SidePanel extends Component
                     </Typography>
                     <Grid container rowSpacing={1} justifyContent='center' paddingBottom={2}>
                         <Grid item xs={11}>
-                            <Paper elevation={10} sx={{ backgroundColor: 'grey', width: '100%', height: 200 }}></Paper>
+                            <Paper id='sideCanvasWrapper' elevation={10} sx={{ backgroundColor: 'grey', width: '100%', height: 200 }}>
+                                <ReactP5Wrapper
+                                    sketch={miniSketch}
+                                    mass={this.state.selectedPlanetMass}
+                                    color={this.state.selectedPlanetColor}>
+                                </ReactP5Wrapper>
+                            </Paper>
                         </Grid>
                     </Grid>
                     <Grid container rowSpacing={1} justifyContent='center' paddingBottom={3} maxHeight='100%' sx={{ overflowY: 'scroll' }}>

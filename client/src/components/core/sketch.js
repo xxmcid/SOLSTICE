@@ -229,7 +229,7 @@ export default function sketch(p5) {
         // calculate wrapper rect
         const wrapperRect = document.getElementById('canvaswrapper').getBoundingClientRect();
 
-        // get height and width of canvase
+        // get height and width of canvas
         width = wrapperRect.width;
         height = wrapperRect.height
     }
