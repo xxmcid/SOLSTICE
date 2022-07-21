@@ -7,11 +7,8 @@ export default function sketch(p5) {
     // Universal Variables controlling literally space and time
     // Gravitional Constant
     let G = 10;
-    let numPlanets = 5;
 
     // Default Astral bodies
-    let defaultPlanets = [];
-    // let defaultSun = new Body(100, p5.createVector(0, 0), p5.createVector(0, 0), '#f1c232', 'defaultSun');
     let defaultSun;
     let planetsArray = [];
     let bodies = [];
@@ -76,7 +73,7 @@ export default function sketch(p5) {
                 bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id));
             }
 
-            // Calculate max allowed size for planet distance and size (mass).
+            // Calculate max/min allowed size for planet distance and size (mass).
             const mindist = (defaultSun.mass + 20);
             const maxdist = (height/2);
             const maxsize = defaultSun.mass;
@@ -111,9 +108,9 @@ export default function sketch(p5) {
                 bodies[i].refresh();
                 bodies[i].reveal();
             }
-
-            defaultSun.reveal();
         }
+
+        defaultSun.reveal();
     }
 
     // Generic Function for creating an astral body

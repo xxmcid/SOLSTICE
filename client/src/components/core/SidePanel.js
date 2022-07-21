@@ -79,7 +79,7 @@ class SidePanel extends Component {
                     requestData
                 );
                 
-                // Grab new planets array from response.
+                // Grab updated planets array from response.
                 const newPlanets = response.data.planets;
 
                 //Update Sketch with new data!
@@ -110,7 +110,7 @@ class SidePanel extends Component {
                     requestData
                 );
                 
-            // Grab new planets array from response.
+            // Grab updated planets array from response.
             const newPlanets = response.data.planets;
 
             //Update Sketch with new data!
@@ -134,8 +134,27 @@ class SidePanel extends Component {
         this.props.close();
     }
 
-    handleDelete() {
+    async handleDelete() {
 
+        const requestData = {
+            "token": localStorage.getItem('clientSession'),
+            "solarSystemId": this.props.ssid,
+            "planetId": this.props.spi
+        }
+
+        try { // Send the new planet to the server.
+            const response = await axios.post(
+                `${window.location.protocol}//${window.location.host}/api/remove-planet`,
+                requestData
+            );
+            
+        // Grab updated planets array from response.
+        const newPlanets = response.data.planets;
+
+        //Update Sketch with new data!
+        this.props.updatePlanets(newPlanets);
+
+        } catch (err) { console.log(err?.response?.data); }
 
         // Clears our selected planet from the state.
         this.props.clearselection();
@@ -273,15 +292,19 @@ class SidePanel extends Component {
                             </Button>
                         </Grid>
                         <Grid item xs={10} justifyContent='center'>
-                            <Button
-                                onClick={this.handleDelete}
-                                variant='contained'
-                                id='DeletePlanetButton'
-                                startIcon={<DeleteForeverIcon />}
-                                color={'error'}
-                                sx={{ textTransform: 'none', fontWeight: 'bold', width: '100%' }}>
-                                    Delete Forever
-                            </Button>
+                            {/* Makes Sure that the delete button is only available for existing planets. */}
+                            { (this.state.iseditingplanet || this.state.selectedPlanetType == 'planet') ? 
+                                <Button
+                                    onClick={this.handleDelete}
+                                    variant='contained'
+                                    id='DeletePlanetButton'
+                                    startIcon={<DeleteForeverIcon />}
+                                    color={'error'}
+                                    sx={{ textTransform: 'none', fontWeight: 'bold', width: '100%' }}>
+                                        Delete Forever
+                                </Button>
+                                : null
+                            }
                         </Grid>
                     </Grid>
                 </Drawer>
