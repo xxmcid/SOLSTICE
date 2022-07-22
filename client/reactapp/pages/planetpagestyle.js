@@ -6,7 +6,7 @@ export const planetPageStyle = StyleSheet.create({
         flex: 1,
         justifyContent : "center",
         allignItems: "center",
-        flexDirection:"row",
+        flexDirection:"row"
     },
     containersize: {
         width: "80%",

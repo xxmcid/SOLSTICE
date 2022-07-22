@@ -26,6 +26,7 @@ app.post('/', async function (req, res) {
         color: req.body.moon.color,
         type: 'moon'
     });
+    moon.moons = undefined;
 
     // Gather Ids from the request body arguments.
     let solarSystemId = req.body.solarSystemId;

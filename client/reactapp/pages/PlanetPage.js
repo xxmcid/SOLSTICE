@@ -18,11 +18,40 @@ function Planet(props) {
     const [mass, setMass] = useState(route?.params?.planet?.mass);
     const [gravitationalPull, setGravitationalPull] = useState(route?.params?.planet?.gravitationalPull);
     const [distance, setDistance] = useState(route?.params?.planet?.distance);
+    const [type] = useState(route?.params?.planet?.type);
     const [color, setColor] = useState(route?.params?.planet?.color);
+    const [moons, setMoons] = useState(route?.params?.planet?.moons || []);
 
-    const redirectSolstice = () => {
-        navigation.navigate('solstice');
-      }
+    const addMoon = () => {
+        let moonsClone = [...moons];
+        moonsClone.push({
+            name: `Moon${moons.length >= 1 ? (' ' + (moons.length + 1)) : ''}`,
+            mass: 30,
+            gravitationalPull: 1,
+            distance: 35,
+            color: "#808080",
+            type: 'moon',
+            _id: `moon_${moons.length + 1}:${Math.random().toString(36).substr(2, 16)}`
+        });
+        setMoons([...moonsClone]);
+    }
+
+    const deleteMoon = (moonIndex) => {
+        let moonsClone = [...moons];
+        moonsClone.splice(moonIndex, 1);
+        setMoons([...moonsClone]);
+    }
+
+    const updateMoon = (moonIndex, attribute, value) => {
+        let moonsClone = [...moons];
+        let moonClone = moonsClone[moonIndex];
+        if (attribute == 'mass' || attribute == 'distance')
+            moonClone[attribute] = Number(value);
+        else
+            moonClone[attribute] = value;
+        moonsClone[moonIndex] = moonClone;
+        setMoons([...moonsClone]);
+    }
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -33,6 +62,7 @@ function Planet(props) {
         planet.gravitationalPull = Number(gravitationalPull);
         planet.distance = Number(distance);
         planet.color = color;
+        planet.moons = moons;
 
         const data = {
             token: await AsyncStorage.getItem('clientSession'),
@@ -50,8 +80,30 @@ function Planet(props) {
             // Go to the main home screen
             navigation.push('solstice', {solarSystem: route.params.solarSystem});
         } catch (err) {
-            console.log('here');
-            console.log(err.response.data);
+            console.log(err?.response?.data);
+        }
+    }
+
+    async function handleDelete(e) {
+        e.preventDefault();
+
+        const data = {
+            token: await AsyncStorage.getItem('clientSession'),
+            solarSystemId: route.params.solarSystem._id,
+            planetId: route.params.planet._id
+        }
+
+        try {
+            // Send data to the server.
+            const response = await axios.post(
+              "https://solstice-project.herokuapp.com/api/remove-planet",
+              data
+            );
+    
+            // Go to the main home screen
+            navigation.push('solstice', {solarSystem: route.params.solarSystem});
+        } catch (err) {
+            console.log(err?.response?.data);
         }
     }
 
@@ -72,7 +124,6 @@ function Planet(props) {
                                     // Find the matching planet.
                                     if (response.data.solarSystems[i].planets[j]._id == route.params.planet._id) {
                                         // Reassign the current state's values to the incoming planet attributes.
-                                        console.log('found matching planet');
                                         setName(response.data.solarSystems[i].planets[j].name);
                                         setMass(response.data.solarSystems[i].planets[j].mass.toString());
                                         setGravitationalPull(response.data.solarSystems[i].planets[j].gravitationalPull.toString());
@@ -103,24 +154,38 @@ function Planet(props) {
         <View style={{backgroundColor: "black", width:'100%', height: '100%'}}>
             <SafeAreaView style={planetPageStyle.container}>
                 <Card style={planetPageStyle.card} >
-                    <Card.Title style={{marginLeft:"2%",marginRight:"-16%"}}title="Planet"
-                    right={(props)=><Button {...props} style={{marginRight: "20%", width:"55%"}} color="red" mode="contained">DELETE</Button>}/>
+                    <Card.Title style={{marginLeft:"2%",marginRight:"-16%"}} title="Customize Planet"
+                    right={(props)=><Button onPress={handleDelete} disabled={type == 'sun'} {...props} style={{marginRight: "20%", width:"55%"}} color="red" mode="contained">DELETE</Button>}/>
                 
-                    <Card.Content>
-                        <TextInput onChangeText={setName} value={name} autoCapitalize='none' autoCorrect={false} label="Name"></TextInput>
-                        <TextInput onChangeText={setMass} value={mass.toString()} autoCapitalize='none' autoCorrect={false} label="Mass"></TextInput>
-                        <TextInput onChangeText={setGravitationalPull} value={gravitationalPull.toString()} autoCapitalize='none' autoCorrect={false} label="Gravitional Pull"></TextInput>
-                        <TextInput onChangeText={setDistance} value={distance.toString()} autoCapitalize='none' autoCorrect={false} label="Distance"></TextInput>
-                        <TextInput onChangeText={setColor} value={color} autoCapitalize='none' autoCorrect={false} label="Color"></TextInput>
-                        {/* <TextInput autoCapitalize='none' autoCorrect={false} label="Moons"></TextInput> */}
-                        <Card.Actions style={{justifyContent: "center"}}>
-                            <Button onPress={redirectSolstice} width="25%" color="white" mode="contained">Cancel</Button>
-                            <Button onPress={handleSubmit} width="25%" style={{marginLeft:"3%"}} color="green" mode="contained">Save</Button>
-                            {/* <Button color="blue" uppercase={false}>Forgot your password?</Button> */}
-                        </Card.Actions>
-                        {/* <Paragraph style={{textAlign:"center"}}>Don't have an account?</Paragraph>
-                            <Button onPress={redirectSignup} color="blue" uppercase={false}>Sign up now.</Button> */}
-                    </Card.Content>
+                    <ScrollView>
+                        <Card.Content>
+                            <TextInput onChangeText={setName} value={name} autoCapitalize='none' autoCorrect={false} label="Name"></TextInput>
+                            <TextInput onChangeText={setMass} value={mass.toString()} autoCapitalize='none' autoCorrect={false} label="Mass"></TextInput>
+                            {type == 'sun' && (<TextInput onChangeText={setGravitationalPull} value={gravitationalPull.toString()} autoCapitalize='none' autoCorrect={false} label="Gravitional Pull"></TextInput>)}
+                            <TextInput onChangeText={setDistance} value={distance.toString()} autoCapitalize='none' autoCorrect={false} label="Distance"></TextInput>
+                            <TextInput onChangeText={setColor} value={color} autoCapitalize='none' autoCorrect={false} label="Color"></TextInput>
+
+                            {type == 'planet' && (<Card.Title style={{marginLeft:"2%",marginRight:"-16%"}} title="Planet's Moons"
+                            right={(props)=><Button onPress={addMoon} {...props} style={{marginRight: "20%", width:"55%"}} color="green" mode="contained">+ ADD</Button>}/>)}
+                            
+                            {moons.map((moon, moonIndex) => (
+                                <Card key={moon._id} style={{borderColor: '#808080', borderStyle: "solid", borderWidth: 2, borderRadius: 3}}>
+                                    <Card.Title style={{backgroundColor: 'white'}} title={moon.name} right={(props)=><Button onPress={() => {deleteMoon(moonIndex)}} {...props} style={{marginRight: "20%", width:"80%"}} color="red" mode="contained">DELETE</Button>}/>
+                                    <TextInput onChangeText={(text) => {updateMoon(moonIndex, 'name', text)}} value={moon.name} autoCapitalize='none' autoCorrect={false} label="Name"/>
+                                    <TextInput onChangeText={(text) => {updateMoon(moonIndex, 'mass', text)}} value={moon.mass.toString()} autoCapitalize='none' autoCorrect={false} label="Mass"/>
+                                    <TextInput onChangeText={(text) => {updateMoon(moonIndex, 'distance', text)}} value={moon.distance.toString()} autoCapitalize='none' autoCorrect={false} label="Distance"/>
+                                    <TextInput onChangeText={(text) => {updateMoon(moonIndex, 'color', text)}} value={moon.color} autoCapitalize='none' autoCorrect={false} label="color"/>
+                                </Card>
+                            ))}
+
+                            <Card.Actions style={{justifyContent: "center"}}>
+                                <Button onPress={() => {navigation.navigate('solstice')}} width="25%" color="white" mode="contained">Cancel</Button>
+                                <Button onPress={handleSubmit} width="25%" style={{marginLeft:"3%"}} color="green" mode="contained">Save</Button>
+                            </Card.Actions>
+                            
+                        </Card.Content>
+                    </ScrollView>
+            
                 </Card>
             </SafeAreaView>
         </View>
