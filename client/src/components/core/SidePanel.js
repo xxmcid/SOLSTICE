@@ -1,5 +1,5 @@
 // Base Import
-import { React, Component } from 'react';
+import { React, Component, Fragment } from 'react';
 import axios from "axios";
 
 // Styling Imports
@@ -227,16 +227,21 @@ class SidePanel extends Component {
                                 onChange={(e) => this.props.editselection('selectedPlanetMass', e.target.value)}
                                 />
                         </Grid>
-                        <Grid item xs={11}>
-                            <Typography variant='h7' align='left'>Gravitational Pull (m/s^2)</Typography>
-                        </Grid>
-                        <Grid item xs={9} sx={{ marginTop: 1 }}>
-                            <Slider
-                                value={this.state.selectedPlanetGravity}
-                                valueLabelDisplay="auto"
-                                onChange={(e) => this.props.editselection('selectedPlanetGravity', e.target.value)}
-                                />
-                        </Grid>
+                        {this.state.selectedPlanetType == 'sun' ? 
+                            <Fragment>
+                                <Grid item xs={11}>
+                                    <Typography variant='h7' align='left'>Gravitational Pull (m/s^2)</Typography>
+                                </Grid>
+                                <Grid item xs={9} sx={{ marginTop: 1 }}>
+                                    <Slider
+                                        value={this.state.selectedPlanetGravity}
+                                        valueLabelDisplay="auto"
+                                        onChange={(e) => this.props.editselection('selectedPlanetGravity', e.target.value)}
+                                        />
+                                </Grid> 
+                            </Fragment>
+                        : null}
+
                         <Grid item xs={11}>
                             <Typography variant='h7' align='left'>Distance (From nearest star)</Typography>
                         </Grid>
@@ -293,7 +298,7 @@ class SidePanel extends Component {
                         </Grid>
                         <Grid item xs={10} justifyContent='center'>
                             {/* Makes Sure that the delete button is only available for existing planets. */}
-                            { (this.state.iseditingplanet || this.state.selectedPlanetType == 'planet') ? 
+                            { (this.state.selectedPlanetType == 'planet' || this.state.selectedPlanetType == 'moon') ? 
                                 <Button
                                     onClick={this.handleDelete}
                                     variant='contained'

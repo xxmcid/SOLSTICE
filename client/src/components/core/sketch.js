@@ -48,6 +48,7 @@ export default function sketch(p5) {
             {
                 let name = planetsArray[i]?.name;
                 let mass = planetsArray[i]?.mass;
+                let moons = planetsArray[i]?.moons;
                 let color = planetsArray[i]?.color;
                 let distance = planetsArray[i]?.distance;
                 let type = planetsArray[i]?.type;
@@ -63,19 +64,19 @@ export default function sketch(p5) {
                 // Setting random default planet position
                 let radius = distance;
                 let theta = p5.random(p5.TWO_PI);
-                let randomPos = p5.createVector(radius*p5.cos(theta), radius*p5.sin(theta));
+                let randomPos = p5.createVector(radius * p5.cos(theta), radius * p5.sin(theta));
 
                 // Setting velocity vector for planet to travel in.
                 let planetVel = randomPos.copy();
                 planetVel.rotate(p5.HALF_PI);
-                planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ))
+                planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ));
 
                 bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id));
-            }
 
-            for (let a = 0; a < bodies.length; a++)
-            {
-                bodies[a].initmoons();
+                if (moons.length > 0)
+                {
+                    bodies[bodies.length - 1].initMoons(moons);
+                }
             }
 
             // Calculate max/min allowed size for planet distance and size (mass).
@@ -112,13 +113,12 @@ export default function sketch(p5) {
                 defaultSun.pulls(bodies[i]);
                 bodies[i].refresh();
                 bodies[i].reveal();
-                for (let j = 0; j < bodies[i].moons.length; j++)
-                {
-                    bodies[i].pulls(bodies[i].moons[j]);
-                    bodies[i].moons[j].refresh();
+
+                // Update each moon
+                for (let j = 0; j < bodies[i].moons.length; j++) {
+                    bodies[i].moons[j].forceUpdateMoonPosUsingPlanet(bodies[i]);
                     bodies[i].moons[j].reveal();
                 }
-                console.log(bodies[i].moons);
             }
         }
 
@@ -138,24 +138,53 @@ export default function sketch(p5) {
         this.name = _name;
         this.id = _id;
         this.moons = [];
+        this.angle = 0;
+        this.moonSpeed = 0.025;
+
+        this.forceUpdateMoonPosUsingPlanet = function(planet) {
+
+            let planetPos = planet.pos.copy();
+    
+            let radius = 80;
+    
+            // Set moon position
+            let moonPos = p5.createVector(planetPos.x + radius * p5.cos(this.angle), planetPos.y + radius * p5.sin(this.angle));
+
+            this.pos.x = moonPos.x;
+            this.pos.y = moonPos.y;
+
+            this.angle += this.moonSpeed;
+        }
 
         // Moon engine setup
-        this.initmoons = function() {
+        this.initMoons = function(moons) {
+        
+            for (let i = 0; i < moons.length; i++)
+            {
+                // Grab all the moon info.
+                let radius = moons[i]?.distance;
+                let name = moons[i]?.name;
+                let color = moons[i]?.color;
+                let type = moons[i]?.type;
+                let id = moons[i]?.id;
 
-            let planetPos = this.pos.copy();
+                // Need current planet position to put moon next to it
+                let planetPos = this.pos.copy();
 
-            let radius = 30;
-            let moonPosx = planetPos.x + radius;
-            let moonPosy = planetPos.y + radius;
+                // Initial moon position
+                let moonPos = p5.createVector(planetPos.x + radius * p5.cos(this.angle), planetPos.y + radius * p5.sin(this.angle));
 
-            // Initial moon position
-            let moonPos = p5.createVector(moonPosx*p5.cos(0), moonPosy*p5.sin(0));
+                // Initial moon velocity
+                let moonVel = moonPos.copy();
+                moonVel.rotate(p5.HALF_PI);
+                moonVel.setMag(p5.sqrt(G * this.mass / moonPos.mag() ))
 
-            // Initial moon velocity
-            let moonVel = this.vel.copy();
+                // Create internal P5 object
+                let moon = new Body(20, moonPos, moonVel, type, color, name, id)
 
-            let moon = new Body(10, moonPos, moonVel, 'moon', '#ffffff', 'testMoon', '0')
-            this.moons.push(moon);
+                // Add moon to 'this' planets moon array.
+                this.moons.push(moon);
+            }
         }
 
         // Actually "paints" our new planet
@@ -227,6 +256,11 @@ export default function sketch(p5) {
         for (let i = 0; i < bodies.length; i++)
         {
             bodies[i].clicked();
+
+            for (let j = 0; j < bodies[i].moons.length; j++)
+            {
+                bodies[i].moons[j].clicked();
+            }
         }
         defaultSun.clicked();
     }
