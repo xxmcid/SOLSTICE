@@ -91,7 +91,16 @@ app.post('/', async function (req, res) {
                                 distance: 150,
                                 color: "#7FE54C",
                                 type: 'planet',
-                                moons: []
+                                moons: [
+                                    {
+                                        name: 'Moon',
+                                        mass: 30,
+                                        gravitationalPull: 1,
+                                        distance: 35,
+                                        color: "#808080",
+                                        type: 'moon'
+                                    }
+                                ]
                             }
                         ]
                     });
