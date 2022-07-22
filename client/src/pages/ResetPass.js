@@ -10,8 +10,9 @@ import { getTheme } from '../styles/mainTheme';
 import '../styles/resetpass.css';
 
 // Mui Components
-import { ThemeProvider, Paper, TextField, Button } from '@mui/material';
-import { Box } from '@mui/system';
+import { ThemeProvider, TextField, Button, Typography, Grid } from '@mui/material';
+import TitleHeader from '../components/TitleHeader';
+import Positioner from '../components/Positioner';
 
 class ResetPass extends Component {
 
@@ -64,73 +65,51 @@ class ResetPass extends Component {
 
         return (
             <ThemeProvider theme={getTheme()}>
-                <div id='titlecenterheader'>
-                    <div id='resetpagetitle' className='large'>SOLSTICE</div>
-                </div>
-                <Box sx={{
-                    display: 'flex',
-                    '& > :not(style)': {
-                    m: 1,
-                    width: 128,
-                    height: 128,
-                    },
-                }}>
-                    <Paper
-                        id="resetpasscontainer"
-                        variant='outlined'
-                        square
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            borderRadius: 5
-                        }}>
-                        <div id="resetpasstitle">Reset Password</div>
-                        <div id="instructprompt">Enter a new valid password below.</div>
-                        <div id ="resetlabelcontainer">
-                        <div  id="resetlabel" className="label">New Password</div>
-                        <TextField
-                            onChange={(e) => this.setState({ password: e.target.value })}
-                            id="passinput" 
-                            type="password"
-                            sx=
-                            {{  
-                                backgroundColor: 'none',
-                                width: 350,
-                                borderRadius: 2,
-                                marginBottom: '10%'
-                            }}
-                        />
-                        <div id="resetlabel" className="label">Confirm New Password</div>
-                        <TextField 
-                            onChange={(e) => this.setState({ confirmPassword: e.target.value })}
-                            id="confirmpassinput" 
-                            type="password"
-                            sx=
-                            {{  
-                                backgroundColor: 'none',
-                                width: 350,
-                                borderRadius: 2,
-                                marginBottom: '10%'
-                            }}
-                        />
-                        </div>
-                        <div id='updatebuttoncontainer'>
+                <TitleHeader/>
+                <Positioner color='text.primary' backgroundColor='background.paper' borderRadius={2}>
+                    <Grid container columns={4} rowSpacing={2} columnSpacing={2} padding='24px'>
+                        <Grid item xs={4}>
+                            <Typography align='center' fontWeight={'bold'} variant="h4">Reset Password</Typography>
+                        </Grid>
+
+                        <Grid item xs={4}>
+                            <Typography align='center'>Enter a new valid password below</Typography>
+                        </Grid>
+
+                        <Grid item xs={4}>
+                            <TextField type="password" size="small" label="New Password" 
+                                sx={{ width: '100%', borderRadius: 2 }}
+                                onChange={(e) => this.setState({ password: e.target.value })}
+                            />
+                        </Grid>
+
+                        <Grid item xs={4}>
+                            <TextField type="password" size="small" label="Confirm New Password" 
+                                sx={{ width: '100%', borderRadius: 2 }}
+                                onChange={(e) => this.setState({ confirmPassword: e.target.value })}
+                            />
+                        </Grid>
+
+                        <Grid item xs={4}>
                             <Button 
+                                align={'center'}
                                 variant='contained'
                                 size='large'
                                 onClick={this.handleSubmit}
-                                sx=
-                                {{ 
-                                    textTransform: 'none',
-                                    backgroundColor: 'black',
-                                    borderRadius: 5
-                                }}>
-                                    Update
+                                sx={{ 
+                                    textTransform: 'none', 
+                                    borderRadius: 2, 
+                                    padding: 'auto',
+                                    backgroundColor: 'primary.main',
+                                    left: '50%',
+                                    transform: 'translate(-50%,0%)',
+                                }}
+                            >
+                                Update
                             </Button>
-                        </div>
-                    </Paper>
-                </Box>
+                        </Grid>
+                    </Grid>
+                </Positioner>
             </ThemeProvider>
         );
     }
