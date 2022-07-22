@@ -73,6 +73,11 @@ export default function sketch(p5) {
                 bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id));
             }
 
+            for (let a = 0; a < bodies.length; a++)
+            {
+                bodies[a].initmoons();
+            }
+
             // Calculate max/min allowed size for planet distance and size (mass).
             const mindist = (defaultSun.mass + 20);
             const maxdist = (height/2);
@@ -107,10 +112,17 @@ export default function sketch(p5) {
                 defaultSun.pulls(bodies[i]);
                 bodies[i].refresh();
                 bodies[i].reveal();
+                for (let j = 0; j < bodies[i].moons.length; j++)
+                {
+                    bodies[i].pulls(bodies[i].moons[j]);
+                    bodies[i].moons[j].refresh();
+                    bodies[i].moons[j].reveal();
+                }
+                console.log(bodies[i].moons);
             }
         }
 
-        defaultSun.reveal();
+        defaultSun?.reveal();
     }
 
     // Generic Function for creating an astral body
@@ -125,6 +137,26 @@ export default function sketch(p5) {
         this.color = _fill;
         this.name = _name;
         this.id = _id;
+        this.moons = [];
+
+        // Moon engine setup
+        this.initmoons = function() {
+
+            let planetPos = this.pos.copy();
+
+            let radius = 30;
+            let moonPosx = planetPos.x + radius;
+            let moonPosy = planetPos.y + radius;
+
+            // Initial moon position
+            let moonPos = p5.createVector(moonPosx*p5.cos(0), moonPosy*p5.sin(0));
+
+            // Initial moon velocity
+            let moonVel = this.vel.copy();
+
+            let moon = new Body(10, moonPos, moonVel, 'moon', '#ffffff', 'testMoon', '0')
+            this.moons.push(moon);
+        }
 
         // Actually "paints" our new planet
         this.reveal = function() {
@@ -149,7 +181,7 @@ export default function sketch(p5) {
             // Creates a vector in the direction from child TO sun
             let F = this.pos.copy().sub(child.pos);
 
-            // Calculates the gravity of the child pulling on the sun.
+            // Calculates the gravity of the child pulling on the parent body.
             F.setMag( (G * this.mass * child.mass) / (r * r));
 
             // Applies gravity FROM CHILD TO SUN
