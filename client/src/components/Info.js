@@ -2,13 +2,12 @@
 import { React, Component } from "react";
 
 // Styling Imports
+import { getTheme } from "../styles/mainTheme";
+import '../styles/info.css';
 
 // MUI Components
 import { Paper, Divider, IconButton, Typography, Grid, ThemeProvider, Box } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-
-// Style
-import { getTheme } from "../styles/mainTheme";
 
 class Info extends Component
 {
@@ -23,7 +22,9 @@ class Info extends Component
     render() {
         return(
             <ThemeProvider theme={getTheme()}>
-                <Box sx={{
+                <Box 
+                    id="infoContainer"
+                    sx={{
                     backgroundColor: 'rgb(0, 0, 0, .8)',
                     position: "fixed",
                     zIndex: 1,
