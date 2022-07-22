@@ -142,7 +142,6 @@ export default function sketch(p5) {
         this.moonSpeed = 0.025;
 
         this.forceUpdateMoonPosUsingPlanet = function(planet) {
-
             let planetPos = planet.pos.copy();
     
             let radius = 80;

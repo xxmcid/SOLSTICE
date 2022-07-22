@@ -18,15 +18,16 @@ class ResetPass extends Component {
 
     constructor(props) {
         super(props)
+
         this.state = {
-            // JSON Payload for reset password
             password: '',
             confirmPassword: '',
-            token: ''
+            token: '',
+            errMsg: '',
         };
 
         if (window.location.href.includes('?token='))
-            this.state.token = window.location.href.split('?token=')[1];
+            this.setState({token: window.location.href.split('?token=')[1]})
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -34,31 +35,37 @@ class ResetPass extends Component {
     async handleSubmit(e) {
         e.preventDefault();
 
-        // TODO: compare this.state.password and this.state.confirmPassword!!!!
-        
-        const data = {
-            password: this.state.password,
-            token: this.state.token
-        };
+        if (this.state.password !== this.state.confirmPassword) {
+            this.setState({errMsg: 'The passwords do not match!'});
+        } else {
+            this.setState({errMsg: ''});
 
-        try {
-            // Send login to the server.
-            const response = await axios.post(
-                `${window.location.protocol}//${window.location.host}/api/reset-password`,
-                data
-            );
+            const data = {
+                password: this.state.password,
+                token: this.state.token
+            };
+    
+            try {
+                // Send login to the server.
+                const response = await axios.post(
+                    `${window.location.protocol}//${window.location.host}/api/reset-password`,
+                    data
+                );
+    
+                // Go to the sign in page.
+                window.location.href = '/password-reset-success';
+            } catch(err) {
+                console.log(err);
 
-            // Go to the sign in page.
-            window.location.href = '/password-reset-success';
-        } catch(err) {
-            console.log(err);
-            // TODO: Display error messages in red text to users.
-            // this.setState({ signuperror: err.response.data.error, signuperrorVisible: true });
+                if (err?.response?.data?.error)
+                    this.setState({errMsg: err.response.data.error})
+                else 
+                    this.setState({errMsg: "something went wrong"})
+            }    
         }
     };
 
     render() {
-
         console.log('Rendering Reset Password page!');
 
         // TODO: check and validate token before rendering the page
@@ -77,14 +84,23 @@ class ResetPass extends Component {
                         </Grid>
 
                         <Grid item xs={4}>
-                            <TextField type="password" size="small" label="New Password" 
+                            <TextField
+                                type="password" 
+                                size="small" 
+                                label="New Password" 
+                                error={this.state.errMsg !== ''}
                                 sx={{ width: '100%', borderRadius: 2 }}
                                 onChange={(e) => this.setState({ password: e.target.value })}
                             />
                         </Grid>
 
                         <Grid item xs={4}>
-                            <TextField type="password" size="small" label="Confirm New Password" 
+                            <TextField 
+                                type="password" 
+                                size="small"
+                                label="Confirm New Password" 
+                                error={this.state.errMsg !== ''}
+                                helperText={this.state.errMsg}
                                 sx={{ width: '100%', borderRadius: 2 }}
                                 onChange={(e) => this.setState({ confirmPassword: e.target.value })}
                             />
