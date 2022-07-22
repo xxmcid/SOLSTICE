@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ImageBackground } from 'react-native';
 import { SafeAreaView } from "react-native";
-import { Card, Paragraph, TextInput } from "react-native-paper";
+import { Card, Paragraph, TextInput, Title } from "react-native-paper";
 import { Button } from 'react-native-paper';
 import { loginpageStyle } from "./loginstyle";
 import { useState } from "react";
@@ -18,6 +18,10 @@ function LoginPage() {
 
   const redirectSignup = () => {
     navigation.navigate('signup');
+  }
+  
+  const redirectForgotPass = () => {
+    navigation.navigate('forgotpassword');
   }
 
   async function handleSubmit(e) {
@@ -52,6 +56,11 @@ function LoginPage() {
       <ImageBackground
         source ={require('.././assets/solar_mobile.png')}
         style={{width:'100%', height: '100%'}}>
+          <SafeAreaView>
+            <View>
+              <Title style={{marginTop:"20%",marginBottom:"25%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>WELCOME</Title>
+            </View>
+          </SafeAreaView>
           <SafeAreaView style={loginpageStyle.container}>
           <View style={loginpageStyle.containersize}>
               <Card style={loginpageStyle.card}>
@@ -60,8 +69,8 @@ function LoginPage() {
                       <TextInput onChangeText={setEmail} autoCapitalize='none' autoCorrect={false} autoCompleteType='email' label="Email" keyboardType="email-address"></TextInput>
                       <TextInput onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} label="Password" secureTextEntry={true}></TextInput>
                       <Card.Actions style={{justifyContent: "center"}}>
-                        <Button onPress={handleSubmit} color="grey" mode="contained">Sign in</Button>
-                        <Button color="blue" uppercase={false}>Forgot your password?</Button> 
+                        <Button onPress={handleSubmit} uppercase={false} color="grey" mode="contained">Sign in</Button>
+                        <Button onPress={redirectForgotPass} color="blue" uppercase={false}>Forgot your password?</Button> 
                       </Card.Actions>
                       <Paragraph style={{textAlign:"center"}}>Don't have an account?</Paragraph>
                         <Button onPress={redirectSignup} color="blue" uppercase={false}>Sign up now.</Button> 

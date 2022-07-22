@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { SafeAreaView, View } from 'react-native';
 import { ScrollView } from 'react-native';
-import { Card, Title } from 'react-native-paper';
+import { Button, Card, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginpageStyle } from "./loginstyle";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -16,7 +16,7 @@ const SystemCard = ({solarSystem, navigation}) => (
             navigation.push('solstice', { solarSystem: solarSystem });
         }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
-        <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : "#414141"), borderStyle: "solid", borderWidth: 5, borderRadius: 5}}>
+        <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : ""), borderStyle: "solid", borderWidth: 5, borderRadius: 5}}>
         {/* <Card.Content style={{borderColor: "#414141", borderStyle: "solid", borderWidth: 2, borderRadius: 5}}> */}
             <Title>{solarSystem.name}</Title>
         </Card.Content>
@@ -110,8 +110,11 @@ function Solstice() {
 
     return (
         <SafeAreaView style={{backgroundColor: "black"}}>
+            <View>
+              <Title style={{marginTop:"5%",marginBottom:"10%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
+            </View>
             <View style={{backgroundColor: "black", width: "100%", height: "100%"}}>
-                <View style={{backgroundColor: "black"}}>
+                <View style={{paddingBottom:"10%",backgroundColor: "black"}}>
                     <ScrollView horizontal={true}>
                         {populateSolarSystems(solarSystems, navigation)}
                     </ScrollView>

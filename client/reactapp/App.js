@@ -8,6 +8,9 @@ import SignupPage from "./pages/SignupPage";
 import Solstice from "./pages/Solstice";
 import Planet from "./pages/PlanetPage";
 import EmailVerification from "./pages/EmailVerification";
+import ForgotPassword from "./pages/ForgotPassword";
+import ForgotPassSuccess from "./pages/ForgotPassSuccess";
+
 const Stack = createNativeStackNavigator();
 
 export default function App(){
@@ -20,6 +23,8 @@ export default function App(){
               <Stack.Screen name="solstice" component={Solstice}/>
               <Stack.Screen name="planet" component={Planet}/>
               <Stack.Screen name="emailverify" component={EmailVerification}/>
+              <Stack.Screen name="forgotpassword" component={ForgotPassword}/>
+              <Stack.Screen name="forgotsuccess" component={ForgotPassSuccess}/>
           </Stack.Navigator>
         </NavigationContainer>
     );

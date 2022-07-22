@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useNavigation } from "@react-navigation/native";
 
-function EmailVerification(){
+function ForgotPassSuccess(){
     const navigation = useNavigation();
     const redirectHome = () => {
         navigation.navigate('login');
@@ -21,9 +21,9 @@ function EmailVerification(){
                         <Card.Title titleStyle={{textAlign:"center"}} title="Check your E-Mail"></Card.Title>
                         <Card.Content>
                             <Paragraph style={{textAlign:"center",paddingBottom: 20}}>
-                                We have sent an e-mail to verify your account. 
-                                Please be sure to verify your account before logging in! 
-                                You may need to check your spam/promotions folder.
+                            We have sent an e-mail to you with instructions on how to reset 
+                            your password if there is an account registered with the specified e-mail. 
+                            You may need to check your spam/promotions folder.
                             </Paragraph>
                             <Button onPress={redirectHome} color="grey" mode="contained">Go Home</Button>
                         </Card.Content>
@@ -33,4 +33,4 @@ function EmailVerification(){
         </ImageBackground>
     );
 }
-export default EmailVerification;
+export default ForgotPassSuccess;

@@ -3,7 +3,7 @@ import React from "react";
 import { View } from 'react-native';
 import { ImageBackground } from 'react-native';
 import { SafeAreaView } from "react-native";
-import { Card, Paragraph, TextInput } from "react-native-paper"
+import { Card, Paragraph, TextInput,Title } from "react-native-paper"
 import { Button } from 'react-native-paper';
 import { signuppageStyle } from "./signupstyle";
 import { useState } from "react";
@@ -48,6 +48,11 @@ export default function LoginPage() {
       <ImageBackground
         source ={require('.././assets/solar_mobile.png')}
         style={{width:'100%', height: '100%'}}>
+          <SafeAreaView>
+            <View>
+              <Title style={{marginTop:"20%",marginBottom:"20%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>WELCOME</Title>
+            </View>
+          </SafeAreaView>
           <SafeAreaView style={signuppageStyle.container}>
           <View style={signuppageStyle.containersize}>
               <Card style={signuppageStyle.card}>

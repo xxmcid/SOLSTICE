@@ -13,7 +13,6 @@ export const signuppageStyle = StyleSheet.create({
     },
     containersize: {
         width: "80%",
-        marginTop: "50%",
     },
     title: {
         alignItems: "center",

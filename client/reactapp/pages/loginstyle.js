@@ -10,7 +10,6 @@ export const loginpageStyle = StyleSheet.create({
     },
     containersize: {
         width: "80%",
-        marginTop: "55%"
     },
     card: {
         borderRadius: 20
