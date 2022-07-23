@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native";
 import { ImageBackground } from 'react-native';
 import { Card,Paragraph} from "react-native-paper";
 import { View } from 'react-native';
-import { Button,TextInput } from 'react-native-paper';
+import { Button,TextInput, HelperText} from 'react-native-paper';
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import axios from "axios";
@@ -11,6 +11,7 @@ import axios from "axios";
 function ForgotPassword(){
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
 
     const redirectHome = () => {
         navigation.navigate('login');
@@ -32,8 +33,11 @@ function ForgotPassword(){
             // Tell the user an email has been sent
             navigation.navigate('forgotsuccess');
         } catch(err) {
-            console.log(err);
 
+            if (err.response.data.error)
+               setError({errMsg: err.response.data.error})
+            else 
+               setError({errMsg: "something went wrong"})
             // TODO: Display error messages in red text to users.
             // this.setState({ signuperror: err.response.data.error, signuperrorVisible: true });
         }
@@ -51,6 +55,7 @@ function ForgotPassword(){
                                 Enter your email address below. You will receive a reset password email.
                             </Paragraph>
                             <TextInput onChangeText={setEmail} autoCapitalize='none' autoCorrect={false} autoCompleteType='email' label="Email" keyboardType="email-address"></TextInput>
+                            <HelperText visible={error.errMsg} style= {{textAlign: "center"}} type="error">{error.errMsg}</HelperText>
                             <Card.Actions style={{justifyContent: "center"}}>
                                 <Button onPress={redirectHome} width="32%" color="blue"  uppercase={false}>Go Back</Button>
                                 <Button onPress={handleSubmit} width="32%" color="grey" mode="contained" uppercase={false}>Reset</Button>

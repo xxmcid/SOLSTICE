@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ImageBackground } from 'react-native';
 import { SafeAreaView } from "react-native";
-import { Card, Paragraph, TextInput, Title } from "react-native-paper";
+import { Card, Paragraph, TextInput, Title, HelperText } from "react-native-paper";
 import { Button } from 'react-native-paper';
 import { loginpageStyle } from "./loginstyle";
 import { useState } from "react";
@@ -13,6 +13,12 @@ import { useNavigation } from "@react-navigation/native";
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState({
+    emailErr: false,
+    emailErrMsg: "",
+    passwordErr: false,
+    passwordErrMsg: "",
+});
   let clientSession;
   const navigation = useNavigation();
 
@@ -48,8 +54,34 @@ function LoginPage() {
         // Go to the main home screen
         navigation.navigate('solstice');
     } catch (err) {
-      console.log(err?.response?.data);
-    }
+            // Set Error Messages
+            if (err && err.response && err.response.data && err.response.data.error) {
+              setError({
+                  emailErr: false,
+                  emailErrMsg: "",
+                  passwordErr: false,
+                  passwordErrMsg: "",
+              })
+
+              const error = err.response.data.error;
+              const error2 = err.response.data.error.toLowerCase();
+
+              if (error2.includes('email')) {
+                    setError({
+                      emailErr: true,
+                      emailErrMsg: error
+                  });
+              } 
+              
+              if (error2.includes('password')) {
+                    setError({
+                      emailErrMsg: "", // remove "email or password incorrect" message 
+                      passwordErr: true,
+                      passwordErrMsg: error
+                  });
+              }
+          }    
+        }
   }
 
     return (
@@ -66,8 +98,10 @@ function LoginPage() {
               <Card style={loginpageStyle.card}>
                   <Card.Title titleStyle={{textAlign:"center"}} title="Sign In"></Card.Title>
                   <Card.Content>
-                      <TextInput onChangeText={setEmail} autoCapitalize='none' autoCorrect={false} autoCompleteType='email' label="Email" keyboardType="email-address"></TextInput>
+                      <TextInput onChangeText={setEmail} placeholderTextColor='red' autoCapitalize='none' autoCorrect={false} autoCompleteType='email' label="Email" keyboardType="email-address"></TextInput>
+                      <HelperText visible={error.emailErr} style={{textAlign: "center"}} type="error">{error.emailErrMsg}</HelperText>
                       <TextInput onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} label="Password" secureTextEntry={true}></TextInput>
+                      <HelperText visible={error.passwordErr} style= {{textAlign: "center"}} type="error">{error.passwordErrMsg}</HelperText>
                       <Card.Actions style={{justifyContent: "center"}}>
                         <Button onPress={handleSubmit} uppercase={false} color="grey" mode="contained">Sign in</Button>
                         <Button onPress={redirectForgotPass} color="blue" uppercase={false}>Forgot your password?</Button> 
