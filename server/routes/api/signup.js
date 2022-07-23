@@ -94,9 +94,9 @@ app.post('/', async function (req, res) {
                                 moons: [
                                     {
                                         name: 'Moon',
-                                        mass: 30,
+                                        mass: 15,
                                         gravitationalPull: 1,
-                                        distance: 35,
+                                        distance: 0,
                                         color: "#808080",
                                         type: 'moon'
                                     }

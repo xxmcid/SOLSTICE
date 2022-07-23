@@ -177,7 +177,7 @@ class SidePanel extends Component {
 
                             borderRadius: 12, 
                             backgroundColor: 'black',
-                            opacity: .85,
+                            // opacity: .85,
                             border: 'grey solid .5px',
                             
                             position: 'absolute', 

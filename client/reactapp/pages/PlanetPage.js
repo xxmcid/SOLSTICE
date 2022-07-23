@@ -26,10 +26,10 @@ function Planet(props) {
         let moonsClone = [...moons];
         moonsClone.push({
             name: `Moon${moons.length >= 1 ? (' ' + (moons.length + 1)) : ''}`,
-            mass: 30,
+            mass: 15,
             gravitationalPull: 1,
-            distance: 35,
-            color: "#808080",
+            distance: 0,
+            color: "#EFEFEF",
             type: 'moon',
             _id: `moon_${moons.length + 1}:${Math.random().toString(36).substr(2, 16)}`
         });
@@ -179,7 +179,7 @@ function Planet(props) {
                             ))}
 
                             <Card.Actions style={{justifyContent: "center"}}>
-                                <Button onPress={() => {navigation.navigate('solstice')}} width="25%" color="white" mode="contained">Cancel</Button>
+                                <Button onPress={() => {navigation.push('solstice', {solarSystem: route.params.solarSystem})}} width="25%" color="white" mode="contained">Cancel</Button>
                                 <Button onPress={handleSubmit} width="25%" style={{marginLeft:"3%"}} color="green" mode="contained">Save</Button>
                             </Card.Actions>
                             

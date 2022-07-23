@@ -1,34 +1,34 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import { SafeAreaView, View } from 'react-native';
-import { ScrollView } from 'react-native';
+import { SafeAreaView, View, ImageBackground, FlatList } from 'react-native';
+import { ScrollView} from 'react-native';
 import { Button, Card, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginpageStyle } from "./loginstyle";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState, useReducer } from "react";
+import { solsticeStyle } from "./solsticeStyle";
 
 var curSolarSystem;
 
 const SystemCard = ({solarSystem, navigation}) => (
-    <Card onPress={() => {
+    <Card style={{margin: 5, justifyContent: 'center'}} onPress={() => {
             console.log('Clicked Solar System: ' + solarSystem.name);
             navigation.push('solstice', { solarSystem: solarSystem });
         }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
         <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : ""), borderStyle: "solid", borderWidth: 5, borderRadius: 5}}>
-        {/* <Card.Content style={{borderColor: "#414141", borderStyle: "solid", borderWidth: 2, borderRadius: 5}}> */}
             <Title>{solarSystem.name}</Title>
         </Card.Content>
     </Card>
 );
 
 const PlanetCard = ({planet, navigation}) => ( 
-    <Card style={{width: "50%"}} onPress={() => {
+    <Card style={{width: "40%", margin: 5}} onPress={() => {
             console.log('Clicked Planet: '+ planet.name);
             navigation.push('planet', { planet: planet, solarSystem: curSolarSystem });
         }}>
-        <Card.Content>
+        <Card.Content style={{borderColor: "#000", borderStyle: "solid", borderWidth: 1, borderRadius: 5}}>
             <Title style={{textAlign: "center"}}>{planet.name}</Title>
         </Card.Content>
         {/* <Card.Cover source={{uri: "https://http.cat/401"}} /> */}
@@ -63,10 +63,6 @@ function Solstice() {
     const navigation = useNavigation();
 
     const route = useRoute();
-    const redirectPlanet = () => {
-        navigation.push('addplanet', {solarSystem: curSolarSystem });
-        
-    }
 
     useEffect(() => {
         async function init() {
@@ -113,24 +109,35 @@ function Solstice() {
     }, []);
 
     return (
-        <SafeAreaView style={{backgroundColor: "black"}}>
+        <ImageBackground
+            source ={require('.././assets/solar_mobile.png')}
+            style={{width:'100%', height: '100%'}}>
+          <SafeAreaView>
             <View>
-              <Title style={{marginTop:"5%",marginBottom:"10%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
+              <Title style={{marginTop:"20%", marginBottom:"10%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
             </View>
-            <View style={{backgroundColor: "black", width: "100%", height: "100%"}}>
-                <View style={{paddingBottom:"10%",backgroundColor: "black"}}>
-                    <ScrollView horizontal={true}>
-                        {populateSolarSystems(solarSystems, navigation)}
-                    </ScrollView>
-                </View>
-                <View style={{backgroundColor: "black"}}>
-                    <ScrollView contentContainerStyle={{flexDirection: "row", flexWrap: "wrap"}}>
-                        {populatePlanets(planets, navigation)}
-                    </ScrollView>
-                </View>
-                <Button onPress={redirectPlanet} style={{marginLeft: "32%",marginTop:"100%", width:"35%"}} color="green" mode="contained">Add Planet</Button>
+          </SafeAreaView>
+
+          <SafeAreaView style={solsticeStyle.container}>
+            <View style={solsticeStyle.containersize}>
+                <Card style={solsticeStyle.card}>
+                    <Card.Content>
+                        <ScrollView horizontal={true} contentContainerStyle={{flexDirection: "row", flexWrap: "wrap", alignSelf: 'center'}}>
+                            {populateSolarSystems(solarSystems, navigation)}
+                        </ScrollView>
+                        <ScrollView style={{maxHeight: 240}}>
+                            <View style={{flexDirection: "row", flexWrap: "wrap", justifyContent: 'center', marginBottom: 0}}>
+                                {populatePlanets(planets, navigation)}
+                            </View>
+                        </ScrollView>
+                        <Card.Actions style={{justifyContent: 'center'}}>
+                            <Button onPress={() => {navigation.push('addplanet', { solarSystem: curSolarSystem })}} color="green" mode="contained">ADD PLANET</Button>
+                        </Card.Actions>
+                    </Card.Content>
+                </Card>
             </View>
-        </SafeAreaView>
+          </SafeAreaView>
+      </ImageBackground>
     );
   }
 export default Solstice;
