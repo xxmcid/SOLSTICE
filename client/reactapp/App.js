@@ -10,6 +10,7 @@ import Planet from "./pages/PlanetPage";
 import EmailVerification from "./pages/EmailVerification";
 import ForgotPassword from "./pages/ForgotPassword";
 import ForgotPassSuccess from "./pages/ForgotPassSuccess";
+import AddPlanet from "./pages/AddPlanet";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App(){
               <Stack.Screen name="emailverify" component={EmailVerification}/>
               <Stack.Screen name="forgotpassword" component={ForgotPassword}/>
               <Stack.Screen name="forgotsuccess" component={ForgotPassSuccess}/>
+              <Stack.Screen name="addplanet" component={AddPlanet}/>
           </Stack.Navigator>
         </NavigationContainer>
     );

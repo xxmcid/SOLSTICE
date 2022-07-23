@@ -63,6 +63,10 @@ function Solstice() {
     const navigation = useNavigation();
 
     const route = useRoute();
+    const redirectPlanet = () => {
+        navigation.push('addplanet', {solarSystem: curSolarSystem });
+        
+    }
 
     useEffect(() => {
         async function init() {
@@ -124,6 +128,7 @@ function Solstice() {
                         {populatePlanets(planets, navigation)}
                     </ScrollView>
                 </View>
+                <Button onPress={redirectPlanet} style={{marginLeft: "32%",marginTop:"100%", width:"35%"}} color="green" mode="contained">Add Planet</Button>
             </View>
         </SafeAreaView>
     );
