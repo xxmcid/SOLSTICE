@@ -81,6 +81,18 @@ class Info extends Component
                         <Typography>
                             React components made using <a target="_blank" href="https://mui.com/">Material UI</a>.
                         </Typography>
+
+                        <br></br>
+                        <Typography variant="h5">
+                            Authors
+                        </Typography>
+
+                        <Typography> Isaac Liljeros (Project Manager & Front-End)</Typography>
+                        <Typography> Michael Vuolo (API & Mobile) </Typography>
+                        <Typography> Humza Rahman (Front-End) </Typography>
+                        <Typography> Jonathan Gilbert (API & Mobile) </Typography>
+                        <Typography> Gani Begawala (Front End & Mobile) </Typography>
+                        <Typography> Carlos Bermudez (Database) </Typography>
                     </Paper>
                 </Box>
             </ThemeProvider>
