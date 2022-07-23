@@ -23,7 +23,7 @@ class ResetPass extends Component {
             password: '',
             confirmPassword: '',
             token: '',
-            errMsg: '',
+            errMsg: ''
         };
 
         if (window.location.href.includes('?token='))
@@ -35,33 +35,33 @@ class ResetPass extends Component {
     async handleSubmit(e) {
         e.preventDefault();
 
-        if (this.state.password !== this.state.confirmPassword) {
-            this.setState({errMsg: 'The passwords do not match!'});
-        } else {
-            this.setState({errMsg: ''});
+        if (this.state.password !== this.state.confirmPassword)
+            return this.setState({errMsg: 'The passwords do not match!'});
 
-            const data = {
-                password: this.state.password,
-                token: this.state.token
-            };
-    
-            try {
-                // Send login to the server.
-                const response = await axios.post(
-                    `${window.location.protocol}//${window.location.host}/api/reset-password`,
-                    data
-                );
-    
-                // Go to the sign in page.
-                window.location.href = '/password-reset-success';
-            } catch(err) {
-                console.log(err);
+        // Clear error message
+        this.setState({errMsg: ''});
 
-                if (err?.response?.data?.error)
-                    this.setState({errMsg: err.response.data.error})
-                else 
-                    this.setState({errMsg: "something went wrong"})
-            }    
+        const data = {
+            password: this.state.password,
+            token: this.state.token
+        };
+
+        try {
+            // Send login to the server.
+            const response = await axios.post(
+                `${window.location.protocol}//${window.location.host}/api/reset-password`,
+                data
+            );
+
+            // Go to the sign in page.
+            window.location.href = '/password-reset-success';
+        } catch(err) {
+            console.log(err);
+
+            if (err?.response?.data?.error)
+                this.setState({errMsg: err.response.data.error})
+            else 
+                this.setState({errMsg: "something went wrong"})
         }
     };
 

@@ -23,8 +23,8 @@ class ForgotPass extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            // JSON Payload
-            email: ''
+            email: '',
+            errMsg: ''
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,6 +32,9 @@ class ForgotPass extends React.Component {
 
     async handleSubmit(e) {
         e.preventDefault();
+
+        // Clear error message
+        this.setState({errMsg: ''});
         
         const data = {
             email: this.state.email
@@ -49,8 +52,10 @@ class ForgotPass extends React.Component {
         } catch(err) {
             console.log(err);
 
-            // TODO: Display error messages in red text to users.
-            // this.setState({ signuperror: err.response.data.error, signuperrorVisible: true });
+            if (err?.response?.data?.error)
+                this.setState({errMsg: err.response.data.error})
+            else 
+                this.setState({errMsg: "something went wrong"})
         }
     };
 
@@ -71,7 +76,10 @@ class ForgotPass extends React.Component {
                         </Grid>
 
                         <Grid item xs={4}>
-                            <TextField onChange={(e) => this.setState({ email: e.target.value })} id="emailinput" size="small" label="Email" type="text" sx={{ width: '100%', borderRadius: 2 }}/>                                    
+                            <TextField
+                                error={this.state.errMsg !== ''}
+                                helperText={this.state.errMsg}
+                                onChange={(e) => this.setState({ email: e.target.value })} id="emailinput" size="small" label="Email" type="text" sx={{ width: '100%', borderRadius: 2 }}/>
                         </Grid>
 
                         <Grid item xs={2}>

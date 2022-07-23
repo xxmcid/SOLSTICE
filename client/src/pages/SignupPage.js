@@ -40,6 +40,9 @@ class SignupPage extends Component {
             password: '',
             passwordErr: false,
             passwordErrMsg: '',
+
+            confirmPassword: '',
+            confirmPasswordErrorMsg: '',
             
             // page specific states.
             signuperrorVisible: false,
@@ -51,6 +54,12 @@ class SignupPage extends Component {
 
     async handleSubmit(e) {
         e.preventDefault();
+
+        if (this.state.password !== this.state.confirmPassword)
+            return this.setState({confirmPasswordErrorMsg: 'The passwords do not match!'});
+
+        // Clear error message
+        this.setState({confirmPasswordErrorMsg: ''});
         
         const signup = {
             firstName: this.state.firstName,
@@ -183,6 +192,18 @@ class SignupPage extends Component {
                                 error={this.state.passwordErr}
                                 helperText={this.state.passwordErrMsg}
                                 sx={{width: '100%'}}
+                            />
+                        </Grid>
+
+                        <Grid item xs={4}>
+                            <TextField 
+                                type="password" 
+                                size="small"
+                                label="Confirm New Password" 
+                                error={this.state.confirmPasswordErrorMsg !== ''}
+                                helperText={this.state.confirmPasswordErrorMsg}
+                                sx={{ width: '100%', borderRadius: 2 }}
+                                onChange={(e) => this.setState({ confirmPassword: e.target.value })}
                             />
                         </Grid>
 
