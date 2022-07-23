@@ -57,12 +57,12 @@ export default function sketch(p5) {
                 if (type == 'sun')
                 {
                     console.log("Sun found in planet list, setting defaultSun");
-                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), type, color, name, id);
+                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), type, color, name, id, 0, 0);
                     continue;
                 }
 
                 // Setting random default planet position
-                let radius = distance;
+                let radius = distance + (defaultSun.mass || 0);
                 let theta = p5.random(p5.TWO_PI);
                 let randomPos = p5.createVector(radius * p5.cos(theta), radius * p5.sin(theta));
 
@@ -71,7 +71,7 @@ export default function sketch(p5) {
                 planetVel.rotate(p5.HALF_PI);
                 planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ));
 
-                bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id));
+                bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id, 0, radius));
 
                 if (moons.length > 0)
                 {
@@ -116,7 +116,7 @@ export default function sketch(p5) {
 
                 // Update each moon
                 for (let j = 0; j < bodies[i].moons.length; j++) {
-                    bodies[i].moons[j].forceUpdateMoonPosUsingPlanet(bodies[i]);
+                    bodies[i].moons[j].forceUpdateMoonPosUsingPlanet(bodies[i], bodies[i].moons[j].distance);
                     bodies[i].moons[j].reveal();
                 }
             }
@@ -126,11 +126,11 @@ export default function sketch(p5) {
     }
 
     // Generic Function for creating an astral body
-    function Body(_mass, _pos, _vel, _type, _fill, _name, _id){
+    function Body(_mass, _pos, _vel, _type, _fill, _name, _id, _angle, _distance){
 
         this.mass = _mass;
         // Mass will be used for size of bodies.
-        this.r = this.mass;
+        this.r = _distance;
         this.pos = _pos;
         this.vel = _vel;
         this.type = _type;
@@ -138,29 +138,28 @@ export default function sketch(p5) {
         this.name = _name;
         this.id = _id;
         this.moons = [];
-        this.angle = 0;
+        this.angle = _angle;
         this.moonSpeed = 0.025;
 
         this.forceUpdateMoonPosUsingPlanet = function(planet) {
             let planetPos = planet.pos.copy();
-    
-            let radius = 80;
+            let radius = this.r;
     
             // Set moon position
             let moonPos = p5.createVector(planetPos.x + radius * p5.cos(this.angle), planetPos.y + radius * p5.sin(this.angle));
-
             this.pos.x = moonPos.x;
             this.pos.y = moonPos.y;
 
+            // Adjust angle for next frame (rotate)
             this.angle += this.moonSpeed;
         }
 
         // Moon engine setup
         this.initMoons = function(moons) {
-        
             for (let i = 0; i < moons.length; i++)
             {
                 // Grab all the moon info.
+                let mass = moons[i]?.mass;
                 let radius = moons[i]?.distance;
                 let name = moons[i]?.name;
                 let color = moons[i]?.color;
@@ -179,7 +178,7 @@ export default function sketch(p5) {
                 moonVel.setMag(p5.sqrt(G * this.mass / moonPos.mag() ))
 
                 // Create internal P5 object
-                let moon = new Body(20, moonPos, moonVel, type, color, name, id)
+                let moon = new Body(mass, moonPos, moonVel, type, color, name, id, (230 * i), this.mass + radius)
 
                 // Add moon to 'this' planets moon array.
                 this.moons.push(moon);
@@ -190,7 +189,7 @@ export default function sketch(p5) {
         this.reveal = function() {
             p5.noStroke();
             p5.fill(this.color);
-            p5.ellipse(this.pos.x, this.pos.y, this.r, this.r);
+            p5.ellipse(this.pos.x, this.pos.y, this.mass, this.mass);
         }
 
         // Updates the position of a body
@@ -231,7 +230,7 @@ export default function sketch(p5) {
             let xOffset = p5.mouseX - (width / 2);
             let yOffset = p5.mouseY - (height / 2);
             let d = p5.dist(xOffset, yOffset, this.pos.x, this.pos.y)
-            if (d < this.r)
+            if (d < this.mass)
             {
                 // Applying pythagorean theorem to get straight-line distance.
                 const convertedDist = p5.sqrt((this.pos.x * this.pos.x) + (this.pos.y * this.pos.y));
