@@ -75,7 +75,11 @@ class Info extends Component
                         </Typography>
 
                         <Typography>
-                            Background by Material UI, protected by Creative Commons.
+                            Background by <a target="_blank" href="https://www.artstation.com/artwork/8ePZ8O">ArtStation</a>.
+                        </Typography>
+
+                        <Typography>
+                            React components made using <a target="_blank" href="https://mui.com/">Material UI</a>.
                         </Typography>
                     </Paper>
                 </Box>

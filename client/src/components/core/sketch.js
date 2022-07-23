@@ -27,7 +27,7 @@ export default function sketch(p5) {
     // database into the global planets array for the canvas renderer.
     // VERY IMPORTANT ** This method is automatically called whenever
     // the props from the parent change OR when the component rerenders.
-    p5.updateWithProps = props => { 
+    p5.updateWithProps = props => {
 
         // Link all local states to solstice.js states
         expandsidepanel = props.expandsidepanel;
@@ -44,8 +44,7 @@ export default function sketch(p5) {
             // before adding another set of planets.
             bodies.length = 0;
 
-            for (let i = 0; i < planetsArray.length; i++)
-            {
+            for (let i = 0; i < planetsArray.length; i++) {
                 let name = planetsArray[i]?.name;
                 let mass = planetsArray[i]?.mass;
                 let moons = planetsArray[i]?.moons;
@@ -54,8 +53,7 @@ export default function sketch(p5) {
                 let type = planetsArray[i]?.type;
                 let id = planetsArray[i]?._id;
 
-                if (type == 'sun')
-                {
+                if (type == 'sun') {
                     console.log("Sun found in planet list, setting defaultSun");
                     defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), type, color, name, id, 0, 0);
                     continue;
