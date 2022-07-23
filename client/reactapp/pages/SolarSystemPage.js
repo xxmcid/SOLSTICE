@@ -145,7 +145,8 @@ function Planet(props) {
 
                             <Card.Actions style={{justifyContent: "center"}}>
                                 <Button onPress={() => {navigation.push('solstice', {solarSystem: route.params.solarSystem})}} width="25%" color="white" mode="contained">Cancel</Button>
-                                <Button onPress={handleSubmit} width="25%" style={{marginLeft:"3%"}} color="green" mode="contained">Save</Button>
+                                {route.params.solarSystem && (<Button onPress={handleSubmit} width="25%" style={{marginLeft:"3%"}} color="green" mode="contained">Save</Button>)}
+                                {!route.params.solarSystem && (<Button onPress={handleSubmit} width="25%" style={{marginLeft:"3%"}} color="green" mode="contained">Add</Button>)}
                             </Card.Actions>
                             
                         </Card.Content>
