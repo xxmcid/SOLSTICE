@@ -13,13 +13,14 @@ import miniSketch from './miniSketch';
 // MUI Components
 import { Box } from '@mui/system';
 import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button, Slider } from '@mui/material';
-import { InputAdornment } from '@mui/material';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Cancel';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 // Misc Components
 import { HexColorPicker } from "react-colorful";
+
+// Font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSave, faCircleXmark} from '@fortawesome/free-solid-svg-icons';
+
 
 
 class SidePanel extends Component {
@@ -165,8 +166,7 @@ class SidePanel extends Component {
     render() {
         return(
             <ThemeProvider theme={getTheme()}>
-                <Drawer 
-                    id='sidepanel' 
+                <Drawer id='sidepanel' 
                     open={this.props.open}
                     hideBackdrop
                     PaperProps={{ 
@@ -174,26 +174,30 @@ class SidePanel extends Component {
                             display: 'flex',
                             flexDirection: 'column',
                             gap: 12,
-                            height: '95vh', 
-                            position: 'absolute', 
-                            top: '6%', 
-                            width: '15.5%', 
-                            opacity: '75%', 
+
+                            borderRadius: 12, 
                             backgroundColor: 'black',
-                            color: 'white',
-                            borderRadius: 5 } }}>
-                    <Typography 
-                        variant='h4' 
-                        align='center' 
-                        sx={{ 
-                            marginTop: 2,
-                            color: 'white',
-                            fontWeight: 'bold' }}>
-                        {this.state.selectedPlanetName}
-                    </Typography>
-                    <Grid container rowSpacing={1} justifyContent='center' paddingBottom={2}>
+                            opacity: .75,
+                            border: 'grey solid .5px',
+                            
+                            position: 'absolute', 
+                            left: '20px', 
+                            top: '90px',
+                            height: 'calc(100% - 110px)',
+                            width: '300px', 
+                        }
+                    }}
+                >
+                    {/* Title & Preview */}
+                    <Grid container columns={11} rowSpacing={2} justifyContent={'center'} paddingTop={2}>
                         <Grid item xs={11}>
-                            <Paper id='sideCanvasWrapper' elevation={10} sx={{ backgroundColor: 'grey', width: '100%', height: 200 }}>
+                            <Typography variant='h4' align='center' fontWeight={'bold'}>
+                                {this.state.selectedPlanetName ? this.state.selectedPlanetName : 'New planet'}
+                            </Typography>
+                        </Grid>
+
+                        <Grid item xs={9}>
+                            <Paper id='sideCanvasWrapper' elevation={10} sx={{ backgroundColor: 'grey', height: 200 }}>
                                 <ReactP5Wrapper
                                     sketch={miniSketch}
                                     mass={this.state.selectedPlanetMass}
@@ -202,30 +206,40 @@ class SidePanel extends Component {
                             </Paper>
                         </Grid>
                     </Grid>
-                    <Grid container rowSpacing={1} justifyContent='center' paddingBottom={3} maxHeight='100%' sx={{ overflowY: 'scroll' }}>
-                        <Grid item xs={11}>
-                            <Typography variant='h7' align='left'>Name</Typography>
-                        </Grid>
-                        <Grid item xs={11}>
+
+                    {/* Planet Configuration */}
+                    <Grid container 
+                        rowSpacing={1} 
+                        columns={11}
+                        justifyContent='center' 
+                        paddingBottom={3} 
+                        maxHeight='100%' 
+                        sx={{ overflowY: 'scroll' }}
+                    >
+                        <Grid item xs={9} marginTop={2}>
                             <TextField 
-                                id='planetNameInput' 
-                                type="text" 
+                                type="text"
+                                size={'small'}
+                                label={'Planet Name'}
                                 sx={{ width: '100%', borderRadius: 2}}
                                 value={this.state.selectedPlanetName}
                                 onChange={(e) => this.props.editselection('selectedPlanetName', e.target.value)}>
                             </TextField>
                         </Grid>
-                        <Grid item xs={11}>
+
+                        <Grid item xs={9} marginTop={2}>
                             <Typography variant='h7' align='left'>Mass (kg)</Typography>
                         </Grid>
-                        <Grid item xs={9} sx={{ marginTop: 1 }}>
+
+                        <Grid item xs={9}>
                             <Slider
+                                label={'Mass (Kg)'}
                                 min={20}
                                 max={this.state.selectedPlanetType == 'sun' ? 300 : this.props.maxallowedplanetsize}
                                 value={this.state.selectedPlanetMass}
                                 valueLabelDisplay="auto"
                                 onChange={(e) => this.props.editselection('selectedPlanetMass', e.target.value)}
-                                />
+                            />
                         </Grid>
                         {this.state.selectedPlanetType == 'sun' ? 
                             <Fragment>
@@ -242,9 +256,10 @@ class SidePanel extends Component {
                             </Fragment>
                         : null}
 
-                        <Grid item xs={11}>
+                        <Grid item xs={9}>
                             <Typography variant='h7' align='left'>Distance (From nearest star)</Typography>
                         </Grid>
+
                         <Grid item xs={9} sx={{ marginTop: 1 }}>
                             <Slider
                                 min={this.props.minalloweddistance}
@@ -254,59 +269,83 @@ class SidePanel extends Component {
                                 onChange={(e) => this.props.editselection('selectedPlanetDistance', e.target.value)}
                                 />
                         </Grid>
-                        <Grid item xs={11}>
+
+                        <Grid item xs={9} marginTop={2}>
                             <Typography variant='h7' align='left'>Color</Typography>
                         </Grid>
-                        <Grid item xs={10} sx={{ marginTop: 2 }}>
+
+                        <Grid item xs={9} marginTop={2}>
                             <HexColorPicker 
+                                style={{width: "100%"}} 
                                 color={this.state.selectedPlanetColor} 
-                                onChange={(e) => this.props.editselection('selectedPlanetColor', e)}/>
+                                onChange={(e) => this.props.editselection('selectedPlanetColor', e)}
+                            />
                         </Grid>
-                        <Grid item xs={11}>
-                            <Typography variant='h7' align='left'>Moons</Typography>
-                        </Grid>
-                        <Grid item xs={11} paddingBottom={2}>
-                            <TextField 
-                                id='planetMoonInput' 
+
+                        <Grid item xs={9} marginTop={2}>
+                            <TextField id='planetMoonInput' 
                                 type="text" 
-                                sx={{ width: '100%', borderRadius: 2 }}>
-                            </TextField>
+                                size={'small'}
+                                label={'Moons'}
+                                sx={{ width: '100%', borderRadius: 2}}
+                            />
                         </Grid>
                     </Grid>
-                    <Grid container rowSpacing={1} alignItems='center' justifyContent='center' paddingBottom={2}>
-                        <Grid item xs={5} justifyContent='center'>
-                            <Button
+
+                    {/* Action Buttons */}
+                    <Grid container rowSpacing={2.5} columnGap={0} columns={10} justifyContent={'space-evenly'}>
+                        <Grid item xs={4}>
+                            <Button id='saveChangesButton'
                                 onClick={this.handleSave}
                                 variant='contained'
-                                id='saveChangesButton'
-                                startIcon={<SaveIcon/>}
                                 color={'success'}
-                                sx={{ textTransform: 'none', fontWeight: 'bold' }}>
-                                    Save
+                                size={'large'}
+                                sx={{ 
+                                    textTransform: 'none', 
+                                    fontWeight: 'bold', 
+                                    width: '100%',
+                                    borderRadius: '8px',
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faSave}/> &nbsp; Save
                             </Button>
                         </Grid>
-                        <Grid item xs={5} justifyContent='center'>
-                            <Button
+
+                        <Grid item xs={4}>
+                            <Button id='CancelChangesButton'
                                 onClick={this.handleCancel}
                                 variant='contained'
-                                id='CancelChangesButton'
-                                startIcon={<CancelIcon/>}
                                 color={'warning'}
-                                sx={{ textTransform: 'none', fontWeight: 'bold' }}>
-                                    Cancel
+                                size={'large'}
+                                sx={{ 
+                                    textTransform: 'none', 
+                                    fontWeight: 'bold', 
+                                    width: '100%',
+                                    borderRadius: '8px',
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faCircleXmark}/> &nbsp; Cancel
                             </Button>
                         </Grid>
-                        <Grid item xs={10} justifyContent='center'>
+
+                        <Grid item xs={10}>
                             {/* Makes Sure that the delete button is only available for existing planets. */}
                             { (this.state.selectedPlanetType == 'planet' || this.state.selectedPlanetType == 'moon') ? 
                                 <Button
                                     onClick={this.handleDelete}
                                     variant='contained'
                                     id='DeletePlanetButton'
-                                    startIcon={<DeleteForeverIcon />}
                                     color={'error'}
-                                    sx={{ textTransform: 'none', fontWeight: 'bold', width: '100%' }}>
-                                        Delete Forever
+                                    size={'large'}
+                                    sx={{ 
+                                        textTransform: 'none', 
+                                        fontWeight: 'bold', 
+                                        width: '100%',
+                                        borderRadius: '8px',
+
+                                    }}
+                                >
+                                    Delete Forever
                                 </Button>
                                 : null
                             }
