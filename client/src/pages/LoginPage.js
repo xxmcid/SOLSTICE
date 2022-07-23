@@ -85,8 +85,7 @@ class LoginPage extends Component {
         try {
             // Send login to the server.
             const response = await axios.post(
-                'http://localhost:8080/api/signin',
-                // `${window.location.protocol}//${window.location.host}/api/signin`,
+                `${window.location.protocol}//${window.location.host}/api/signin`,
                 login
             );
     
