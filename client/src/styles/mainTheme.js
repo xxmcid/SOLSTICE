@@ -35,6 +35,7 @@ export const getTheme = mode => (mode === "light")
       background: {
         paper: '#323031',
         default: '#323031',
+        dark: '#1a1819',
       }
     },
     typography: {

@@ -17,12 +17,11 @@ import Memo from '../components/core/Memo';
 
 // Custom Components
 import TitleHeader from '../components/TitleHeader';
-import Header from '../components/Header';
 import Positioner from '../components/Positioner';
 import SidePanel from '../components/core/SidePanel';
-import Info from '../components/Info';
 import { ThemeProvider } from '@emotion/react';
 import { getTheme } from '../styles/mainTheme';
+import AppHeader from '../components/core/AppHeader';
 
 class Solstice extends Component
 {
@@ -30,12 +29,15 @@ class Solstice extends Component
     {
         super(props);
 
-        this.state = {
-            
+        this.state = {            
             // Page and Panel visibility states
             infopagevisible: false,
             sidepanelexpanded: false,
             iseditingplanet: false,
+
+            // cache all solar systems
+            solarSystems: [],
+            solarSystemButtonObjs: [],
 
             // Solstice States
             solarSystemId: '',
@@ -60,25 +62,42 @@ class Solstice extends Component
             clientSession: localStorage.getItem('clientSession')
         };
 
-
         // Fetch the user's solar systems.
         axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
         .then(response => {
-                let solarSystems = response.data.solarSystems;
-                let planetsArray = solarSystems[0].planets;
-                console.log("Retrieved solar system!");
-                console.log(solarSystems);
+            let solarSystems = response.data.solarSystems;
+            let planetsArray = solarSystems[0].planets;
+            console.log("Retrieved solar system!");
+            console.log(solarSystems);
 
-                // Set our planets JSON to our state
-                // P5 should see this change in sketch.js and update accordingly.
-                this.setState({
-                    planets: planetsArray,
-                    solarSystemId: solarSystems[0]?._id
-                });
+            // Set our planets JSON to our state
+            // P5 should see this change in sketch.js and update accordingly.
+            this.setState({
+                solarSystems: solarSystems,
+                planets: planetsArray,
+                solarSystemId: solarSystems[0]?._id
+            });
+
+            this.generateSolarSystemButtonObjs();
         })
         .catch(err => {
             console.log(err);
             console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
+        });
+    }
+
+    updateSelectedSolarSystem(id) {
+        this.state.solarSystems.forEach(solarSystem => {
+            if (solarSystem._id === id) {
+                const planetsArray = solarSystem ? solarSystem.planets : null;
+        
+                if (solarSystem && planetsArray) {
+                    this.setState({
+                        planets: planetsArray,
+                        solarSystemId: solarSystem._id,
+                    });
+                }
+            }
         });
     }
 
@@ -186,8 +205,11 @@ class Solstice extends Component
 
             return (
                 <ThemeProvider theme={getTheme()} id='masterContainer'>
-                    <Header onClick={ this.setvisibility.bind(this) }/>
-                    { this.state.infopagevisible ? <Info onClick={this.setvisibility.bind(this)} /> : null }
+                    <AppHeader 
+                        solarSystems={this.state.solarSystems} 
+                        switchSolarSystem={id => this.updateSelectedSolarSystem(id)}
+                    />
+
                     <SidePanel 
                         clientSession={this.state.clientSession}
                         updatePlanets={this.updatePlanets.bind(this)}
@@ -207,30 +229,43 @@ class Solstice extends Component
                         spd={this.state.selectedPlanetDistance}
                         spt={this.state.selectedPlanetType}
                         spc={this.state.selectedPlanetColor}
-                        moons={this.state.selectedPlanetMoons}/>
+                        moons={this.state.selectedPlanetMoons}
+                    /> 
+                    
                     { this.state.sidepanelexpanded ? null : 
-                    <Button
-                        onClick={this.expandsidepanel.bind(this)}
-                        variant='contained'
-                        id='addplanetbutton'
-                        startIcon={<PublicIcon />}
-                        color={'success'}
-                        sx={{ textTransform: 'none', fontWeight: 'bold', position: 'absolute', bottom: '16px', left: '16px' }}>
-                            Add Planet
-                    </Button>
+                        <Button
+                            onClick={this.expandsidepanel.bind(this)}
+                            variant='contained'
+                            id='addplanetbutton'
+                            startIcon={<PublicIcon />}
+                            color={'success'}
+                            sx={{ textTransform: 'none', fontWeight: 'bold', position: 'absolute', bottom: '16px', left: '16px', zIndex: 0 }}>
+                                Add Planet
+                        </Button>
                     }
+
+
                     {/* Wrapped P5 inside of React.memo to prevent unnecessary rerenders */}
                     <Memo 
                         setsizingparams={this.setsizingparams.bind(this)}
                         planets={this.state.planets}
-                        setselections={this.setselections.bind(this)} />
+                        setselections={this.setselections.bind(this)} 
+                    />
+
                     <Link to='/logout'>
                         <Button 
                             id='logoutbutton'
                             variant='contained' 
                             color={'error'} 
-                            sx={{  textTransform: 'none', fontWeight: 'bold', position: 'absolute', bottom: '16px', right: '16px' }}>
-                                Log Out
+                            sx={{  
+                                textTransform: 'none', 
+                                fontWeight: 'bold', 
+                                position: 'absolute', 
+                                bottom: '16px', 
+                                right: '16px' 
+                            }}
+                        >
+                            Log Out
                         </Button>
                     </Link>
                 </ThemeProvider>

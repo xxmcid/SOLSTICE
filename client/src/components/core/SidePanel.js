@@ -11,7 +11,6 @@ import { ReactP5Wrapper } from "react-p5-wrapper";
 import miniSketch from './miniSketch';
 
 // MUI Components
-import { Box } from '@mui/system';
 import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button, Slider } from '@mui/material';
 
 // Misc Components
@@ -166,9 +165,9 @@ class SidePanel extends Component {
     render() {
         return(
             <ThemeProvider theme={getTheme()}>
-                <Drawer id='sidepanel' 
+                <Drawer 
                     open={this.props.open}
-                    hideBackdrop
+                    onClose={this.handleCancel.bind(this)}
                     PaperProps={{ 
                         style: { 
                             display: 'flex',
@@ -293,7 +292,7 @@ class SidePanel extends Component {
                     </Grid>
 
                     {/* Action Buttons */}
-                    <Grid container rowSpacing={2.5} columnGap={0} columns={10} justifyContent={'space-evenly'}>
+                    <Grid container rowSpacing={2.5} columnGap={0} columns={10} justifyContent={'space-evenly'} paddingBottom={2.5}>
                         <Grid item xs={4}>
                             <Button id='saveChangesButton'
                                 onClick={this.handleSave}
@@ -328,15 +327,16 @@ class SidePanel extends Component {
                             </Button>
                         </Grid>
 
-                        <Grid item xs={10}>
-                            {/* Makes Sure that the delete button is only available for existing planets. */}
-                            { (this.state.selectedPlanetType == 'planet' || this.state.selectedPlanetType == 'moon') ? 
+                        {/* Makes Sure that the delete button is only available for existing planets. */}
+                        { !(this.state.selectedPlanetType == 'planet' || this.state.selectedPlanetType == 'moon') ? null :
+                            <Grid item xs={9}>
                                 <Button
                                     onClick={this.handleDelete}
                                     variant='contained'
                                     id='DeletePlanetButton'
                                     color={'error'}
                                     size={'large'}
+                                    paddingBottom={2}
                                     sx={{ 
                                         textTransform: 'none', 
                                         fontWeight: 'bold', 
@@ -347,9 +347,8 @@ class SidePanel extends Component {
                                 >
                                     Delete Forever
                                 </Button>
-                                : null
-                            }
-                        </Grid>
+                            </Grid>
+                        }
                     </Grid>
                 </Drawer>
             </ThemeProvider>
