@@ -177,7 +177,7 @@ class SidePanel extends Component {
 
                             borderRadius: 12, 
                             backgroundColor: 'black',
-                            opacity: .75,
+                            opacity: .85,
                             border: 'grey solid .5px',
                             
                             position: 'absolute', 
@@ -192,7 +192,7 @@ class SidePanel extends Component {
                     <Grid container columns={11} rowSpacing={2} justifyContent={'center'} paddingTop={2}>
                         <Grid item xs={11}>
                             <Typography variant='h4' align='center' fontWeight={'bold'}>
-                                {this.state.selectedPlanetName ? this.state.selectedPlanetName : 'New planet'}
+                                {this.state.selectedPlanetName ? this.state.selectedPlanetName : 'New Planet'}
                             </Typography>
                         </Grid>
 
