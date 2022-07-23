@@ -50,7 +50,7 @@ function AddPlanet() {
         setMoons([...moonsClone]);
     }
 
-    async function handleSubmit(e){
+    async function handleSubmit(e) {
         e.preventDefault();
 
         let planet = {

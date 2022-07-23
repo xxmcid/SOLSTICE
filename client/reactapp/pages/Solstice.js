@@ -14,7 +14,10 @@ var curSolarSystem;
 const SystemCard = ({solarSystem, navigation}) => (
     <Card style={{margin: 5, justifyContent: 'center'}} onPress={() => {
             console.log('Clicked Solar System: ' + solarSystem.name);
-            navigation.push('solstice', { solarSystem: solarSystem });
+            if (!solarSystem.selected)
+                navigation.push('solstice', { solarSystem: solarSystem });
+            else
+                navigation.push('solarsystem', { solarSystem: solarSystem });
         }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
         <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : ""), borderStyle: "solid", borderWidth: 5, borderRadius: 5}}>
@@ -125,6 +128,9 @@ function Solstice() {
                         <ScrollView horizontal={true} contentContainerStyle={{flexDirection: "row", flexWrap: "wrap", alignSelf: 'center'}}>
                             {populateSolarSystems(solarSystems, navigation)}
                         </ScrollView>
+                        <Card.Actions style={{justifyContent: 'center'}}>
+                            <Button onPress={() => {navigation.push('solarsystem', { solarSystem: undefined })}} color="black" mode="contained">ADD SOLAR SYSTEM</Button>
+                        </Card.Actions>
                         <ScrollView style={{maxHeight: 240}}>
                             <View style={{flexDirection: "row", flexWrap: "wrap", justifyContent: 'center', marginBottom: 0}}>
                                 {populatePlanets(planets, navigation)}

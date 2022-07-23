@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Solstice from "./pages/Solstice";
 import Planet from "./pages/PlanetPage";
+import SolarSystem from "./pages/SolarSystemPage";
 import EmailVerification from "./pages/EmailVerification";
 import ForgotPassword from "./pages/ForgotPassword";
 import ForgotPassSuccess from "./pages/ForgotPassSuccess";
@@ -23,6 +24,7 @@ export default function App(){
               <Stack.Screen name="signup" component={SignupPage}/>
               <Stack.Screen name="solstice" component={Solstice}/>
               <Stack.Screen name="planet" component={Planet}/>
+              <Stack.Screen name="solarsystem" component={SolarSystem}/>
               <Stack.Screen name="emailverify" component={EmailVerification}/>
               <Stack.Screen name="forgotpassword" component={ForgotPassword}/>
               <Stack.Screen name="forgotsuccess" component={ForgotPassSuccess}/>
