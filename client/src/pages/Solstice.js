@@ -169,20 +169,20 @@ class Solstice extends Component
         console.log("Rendering Solstice");
 
         // Validate clientSession token AND CLEAR if invalid / expired...
-        // if (typeof this.state.clientSession == 'string' && this.state.clientSession.length > 0) {
-        //     axios.get(`${window.location.protocol}//${window.location.host}/api/validate-session/${this.state.clientSession}`)
-        //         .then(response => {
-        //             // Logout
-        //             if (response.status != 200) {
-        //                 localStorage.clear();
-        //                 window.location.href = '';
-        //             }
-        //         })
-        //         .catch(err => {
-        //             // Logout
-        //             localStorage.clear();
-        //             window.location.href = '';
-        //         });
+        if (typeof this.state.clientSession == 'string' && this.state.clientSession.length > 0) {
+            axios.get(`${window.location.protocol}//${window.location.host}/api/validate-session/${this.state.clientSession}`)
+                .then(response => {
+                    // Logout
+                    if (response.status != 200) {
+                        localStorage.clear();
+                        window.location.href = '';
+                    }
+                })
+                .catch(err => {
+                    // Logout
+                    localStorage.clear();
+                    window.location.href = '';
+                });
 
             return (
                 <ThemeProvider theme={getTheme()} id='masterContainer'>
@@ -235,10 +235,10 @@ class Solstice extends Component
                     </Link>
                 </ThemeProvider>
             );
-        // } else if (!this.state.clientSession) {
-        //     // Redirect to Sign In
-        //     window.location.href = '';
-        // }
+        } else if (!this.state.clientSession) {
+            // Redirect to Sign In
+            window.location.href = '';
+        }
 
         return (
             <ThemeProvider theme={getTheme()}>
