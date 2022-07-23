@@ -19,8 +19,7 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
 class ForgotPass extends React.Component {
     render() {
-        
-        return(
+        return (
             <ThemeProvider theme={getTheme()}>
                 <TitleHeader/>
                 <Positioner color='text.primary' backgroundColor='background.paper' borderRadius={2}>

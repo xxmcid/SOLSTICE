@@ -87,6 +87,8 @@ export default function sketch(p5) {
         }
     }
 
+    let bgImage;
+
     // Sets up our main solar system canvas for drawing
     p5.setup = () => {
         // Update Dimensions based on viewport size.
@@ -104,12 +106,10 @@ export default function sketch(p5) {
         p5.resizeCanvas(width, height); 
 
         p5.translate(width/2, height/2);
-        p5.background('black');
+        // p5.background('black');
 
-        if (bodies.length > 0)
-        {
-            for (let i = 0; i < bodies.length; i++)
-            {
+        if (bodies.length > 0) {
+            for (let i = 0; i < bodies.length; i++) {
                 defaultSun.pulls(bodies[i]);
                 bodies[i].refresh();
                 bodies[i].reveal();
