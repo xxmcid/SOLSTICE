@@ -51,7 +51,8 @@ class Solstice extends Component
             selectedPlanetDistance: 0,
             selectedPlanetType: '',
             selectedPlanetColor: '',
-            selectedPlanetMoons: [],
+            selectedPlanetMoonId: '',
+            selectedPlanetParent: null,
 
             // Spacing Parameters (Based on screensize and sun size)
             // Don't want a planet going off screen.
@@ -104,6 +105,7 @@ class Solstice extends Component
     setsizingparams(newmindist, newmaxdist, newplanetsize)
     {
         console.log("Setting sizing params based on P5's calculations");
+        console.log(newmindist + " " + newmaxdist + " " + newplanetsize);
         this.setState({
             minalloweddistance: newmindist,
             maxalloweddistance: newmaxdist,
@@ -130,7 +132,7 @@ class Solstice extends Component
 
     // When a certain planet is selected, P5 will call this function
     // with all the information of the planet sent as params.
-    setselections(spn, spm, spg, spd, spt, spc, moons, id)
+    setselections(spn, spm, spg, spd, spt, spc, moonId, id, parent)
     {
         this.setState({
             iseditingplanet: true,
@@ -140,9 +142,10 @@ class Solstice extends Component
             selectedPlanetDistance: spd,
             selectedPlanetType: spt,
             selectedPlanetColor: spc,
-            selectedPlanetMoons: moons,
-            selectedPlanetId: id
-        }, () => console.log("Selected planet: " + this.state.selectedPlanetName));
+            selectedPlanetMoonId: moonId,
+            selectedPlanetId: id,
+            selectedPlanetParent: parent
+        }, () => console.log("Selected body type: " + this.state.selectedPlanetType));
 
         // Only open sidepanel if it is not visible
         if (this.state.sidepanelexpanded == false)
@@ -168,8 +171,9 @@ class Solstice extends Component
             selectedPlanetDistance: 0,
             selectedPlanetType: '',
             selectedPlanetColor: '',
-            selectedPlanetMoons: [],
-            selectedPlanetId: ''
+            selectedPlanetMoonId: '',
+            selectedPlanetId: '',
+            selectedPlanetParent: null
         })
     }
 
@@ -229,7 +233,8 @@ class Solstice extends Component
                         spd={this.state.selectedPlanetDistance}
                         spt={this.state.selectedPlanetType}
                         spc={this.state.selectedPlanetColor}
-                        moons={this.state.selectedPlanetMoons}
+                        spp={this.state.selectedPlanetParent}
+                        moonId={this.state.selectedPlanetMoonId}
                     /> 
                     
                     { this.state.sidepanelexpanded ? null : 

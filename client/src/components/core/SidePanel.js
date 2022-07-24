@@ -18,7 +18,7 @@ import { HexColorPicker } from "react-colorful";
 
 // Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faCircleXmark} from '@fortawesome/free-solid-svg-icons';
+import { faSave, faCircleXmark, faMoon} from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -29,6 +29,7 @@ class SidePanel extends Component {
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.addMoon = this.addMoon.bind(this);
 
         this.state = {};
     }
@@ -46,7 +47,8 @@ class SidePanel extends Component {
             selectedPlanetDistance: nextProps.spd,
             selectedPlanetType: nextProps.spt,
             selectedPlanetColor: nextProps.spc,
-            selectedPlanetMoons: nextProps.moons
+            selectedPlanetParent: nextProps.spp,
+            selectedPlanetMoonId: nextProps.moonId,
         }
       }
 
@@ -55,6 +57,13 @@ class SidePanel extends Component {
     async handleSave() {
         // If we're editing an existing planet
         if (this.props.iseditingplanet == true) {
+
+            if (this.props.spt == "moon")
+            {
+                this.updateMoon();
+                return;
+            }
+
             // Update the current planet.
             console.log('handleSave(): Updating the current planet in the databaase.');
 
@@ -136,6 +145,12 @@ class SidePanel extends Component {
 
     async handleDelete() {
 
+        if (this.props.spt == 'moon')
+        {
+            this.deleteMoon();
+            return;
+        }
+
         const requestData = {
             "token": localStorage.getItem('clientSession'),
             "solarSystemId": this.props.ssid,
@@ -157,6 +172,100 @@ class SidePanel extends Component {
         } catch (err) { console.log(err?.response?.data); }
 
         // Clears our selected planet from the state.
+        this.props.clearselection();
+        // Closes the sidepanel
+        this.props.close();
+    }
+
+    // Adds a generic moon to the currently selected planet.
+    async addMoon() {
+        const requestData = {
+            "token": localStorage.getItem('clientSession'),
+            "solarSystemId": this.props.ssid,
+            "planetId": this.props.spi,
+            "moon" : {
+                "name": "moon",
+                "mass": Number(25),
+                "gravitationalPull": Number(0),
+                "distance": Number(this.props.spm + 20),
+                "color": '#83807F'
+            }
+        }
+
+        try { // Send the new planet to the server.
+            const response = await axios.post(
+                `${window.location.protocol}//${window.location.host}/api/add-moon`,
+                requestData
+            );
+            
+        // Grab updated planets array from response.
+        const newPlanets = response.data.planets;
+
+        //Update Sketch with new data!
+        this.props.updatePlanets(newPlanets);
+
+        } catch (err) { console.log(err?.response?.data); }
+
+    }
+
+    async updateMoon() {
+        const requestData = {
+            "token": localStorage.getItem('clientSession'),
+            "solarSystemId": this.props.ssid,
+            "planetId": this.props.spp.id,
+            "moon" : {
+                "_id": this.props.moonId,
+                "name": "moon",
+                "mass": Number(this.props.spm),
+                "gravitationalPull": Number(0),
+                "distance": Number(this.props.spd),
+                "color": this.props.spc
+            }
+        }
+
+        try { // Send the new planet to the server.
+            const response = await axios.post(
+                `${window.location.protocol}//${window.location.host}/api/update-moon`,
+                requestData
+            );
+            
+        // Grab updated planets array from response.
+        const newPlanets = response.data.planets;
+
+        //Update Sketch with new data!
+        this.props.updatePlanets(newPlanets);
+
+        } catch (err) { console.log(err?.response?.data); }
+
+        // Clears our selected moon from the state.
+        this.props.clearselection();
+        // Closes the sidepanel
+        this.props.close();
+    }
+
+    async deleteMoon() {
+        const requestData = {
+            "token": localStorage.getItem('clientSession'),
+            "solarSystemId": this.props.ssid,
+            "planetId": this.props.spp.id,
+            "moonId": this.props.moonId
+        }
+
+        try { // Send the new planet to the server.
+            const response = await axios.post(
+                `${window.location.protocol}//${window.location.host}/api/remove-moon`,
+                requestData
+            );
+            
+        // Grab updated planets array from response.
+        const newPlanets = response.data.planets;
+
+        //Update Sketch with new data!
+        this.props.updatePlanets(newPlanets);
+
+        } catch (err) { console.log(err?.response?.data); }
+
+        // Clears our selected moon from the state.
         this.props.clearselection();
         // Closes the sidepanel
         this.props.close();
@@ -240,9 +349,11 @@ class SidePanel extends Component {
                                 onChange={(e) => this.props.editselection('selectedPlanetMass', e.target.value)}
                             />
                         </Grid>
+
+                        {/* Sun should be the only body that can change gravity */}
                         {this.state.selectedPlanetType == 'sun' ? 
                             <Fragment>
-                                <Grid item xs={11}>
+                                <Grid item xs={9}>
                                     <Typography variant='h7' align='left'>Gravitational Pull (m/s^2)</Typography>
                                 </Grid>
                                 <Grid item xs={9} sx={{ marginTop: 1 }}>
@@ -255,19 +366,22 @@ class SidePanel extends Component {
                             </Fragment>
                         : null}
 
-                        <Grid item xs={9}>
-                            <Typography variant='h7' align='left'>Distance (From nearest star)</Typography>
-                        </Grid>
-
-                        <Grid item xs={9} sx={{ marginTop: 1 }}>
-                            <Slider
-                                min={this.props.minalloweddistance}
-                                max={this.props.maxalloweddistance}
-                                value={this.state.selectedPlanetDistance}
-                                valueLabelDisplay="auto"
-                                onChange={(e) => this.props.editselection('selectedPlanetDistance', e.target.value)}
-                                />
-                        </Grid>
+                        {/* Distance shouldn't be visible if we have the sun selected  */}
+                        {this.state.selectedPlanetType == 'sun' ?  null :
+                        <Fragment>
+                            <Grid item xs={9}>
+                                <Typography variant='h7' align='left'>Distance (From nearest body)</Typography>
+                            </Grid>
+                            <Grid item xs={9} sx={{ marginTop: 1 }}>
+                                <Slider
+                                    min={this.props.minalloweddistance}
+                                    max={this.props.maxalloweddistance}
+                                    value={this.state.selectedPlanetDistance}
+                                    valueLabelDisplay="auto"
+                                    onChange={(e) => this.props.editselection('selectedPlanetDistance', e.target.value)}
+                                    />
+                            </Grid>
+                        </Fragment>}
 
                         <Grid item xs={9} marginTop={2}>
                             <Typography variant='h7' align='left'>Color</Typography>
@@ -281,14 +395,28 @@ class SidePanel extends Component {
                             />
                         </Grid>
 
-                        <Grid item xs={9} marginTop={2}>
-                            <TextField id='planetMoonInput' 
-                                type="text" 
-                                size={'small'}
-                                label={'Moons'}
-                                sx={{ width: '100%', borderRadius: 2}}
-                            />
-                        </Grid>
+                        {/* Add moon button shouldn't be available for sun and moon objects */}
+                        {(this.state.selectedPlanetType == 'moon' || this.state.selectedPlanetType == 'sun') ? null :
+                        <Fragment>
+                            <Grid item xs={9} marginTop={2}>
+                                <Button
+                                    id='addMoonButton'
+                                    onClick={this.addMoon}
+                                    variant='contained'
+                                    color={'success'}
+                                    size={'large'}
+                                    startIcon={<FontAwesomeIcon icon={faMoon} />}
+                                    sx={{ 
+                                        textTransform: 'none', 
+                                        fontWeight: 'bold', 
+                                        width: '100%',
+                                        borderRadius: '8px',
+                                    }}
+                                >
+                                    Add Moon
+                                </Button>
+                            </Grid>
+                        </Fragment>}
                     </Grid>
 
                     {/* Action Buttons */}

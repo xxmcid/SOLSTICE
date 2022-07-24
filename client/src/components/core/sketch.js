@@ -55,21 +55,21 @@ export default function sketch(p5) {
 
                 if (type == 'sun') {
                     console.log("Sun found in planet list, setting defaultSun");
-                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), type, color, name, id, 0, 0);
+                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), type, color, name, id, 0, 0, null);
                     continue;
                 }
 
-                // Setting random default planet position
-                let radius = distance + (defaultSun.mass || 0);
+                // Setting planet position
+                let radius = (distance == 0) ? (distance + defaultSun.mass) : (distance);
                 let theta = p5.random(p5.TWO_PI);
                 let randomPos = p5.createVector(radius * p5.cos(theta), radius * p5.sin(theta));
 
                 // Setting velocity vector for planet to travel in.
                 let planetVel = randomPos.copy();
                 planetVel.rotate(p5.HALF_PI);
-                planetVel.setMag(p5.sqrt(G * defaultSun.mass / randomPos.mag() ));
+                planetVel.setMag( p5.sqrt(G * defaultSun.mass / randomPos.mag()) );
 
-                bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id, 0, radius));
+                bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id, 0, radius, defaultSun));
 
                 if (moons.length > 0)
                 {
@@ -78,10 +78,10 @@ export default function sketch(p5) {
             }
 
             // Calculate max/min allowed size for planet distance and size (mass).
-            const mindist = (defaultSun.mass + 20);
+            const mindist = (defaultSun.mass);
             const maxdist = (height/2);
-            const maxsize = defaultSun.mass;
-            setsizingparams(mindist, maxdist, maxsize);
+            const maxPlanetSize = defaultSun.mass;
+            setsizingparams(mindist, maxdist, maxPlanetSize);
         }
     }
 
@@ -124,7 +124,7 @@ export default function sketch(p5) {
     }
 
     // Generic Function for creating an astral body
-    function Body(_mass, _pos, _vel, _type, _fill, _name, _id, _angle, _distance){
+    function Body(_mass, _pos, _vel, _type, _fill, _name, _id, _angle, _distance, _parent){
 
         this.mass = _mass;
         // Mass will be used for size of bodies.
@@ -138,6 +138,7 @@ export default function sketch(p5) {
         this.moons = [];
         this.angle = _angle;
         this.moonSpeed = 0.025;
+        this.parent = _parent;
 
         this.forceUpdateMoonPosUsingPlanet = function(planet) {
             let planetPos = planet.pos.copy();
@@ -154,15 +155,23 @@ export default function sketch(p5) {
 
         // Moon engine setup
         this.initMoons = function(moons) {
+            // Iterate over 'this' planets' moon array.
             for (let i = 0; i < moons.length; i++)
             {
                 // Grab all the moon info.
                 let mass = moons[i]?.mass;
                 let radius = moons[i]?.distance;
+                if (radius == 0)
+                {
+                    radius += this.mass;
+                }
+
                 let name = moons[i]?.name;
                 let color = moons[i]?.color;
-                let type = moons[i]?.type;
-                let id = moons[i]?.id;
+                let id = moons[i]?._id;
+
+                // Set moons parent to 'this' planet.
+                let parent = this;
 
                 // Need current planet position to put moon next to it
                 let planetPos = this.pos.copy();
@@ -176,7 +185,7 @@ export default function sketch(p5) {
                 moonVel.setMag(p5.sqrt(G * this.mass / moonPos.mag() ))
 
                 // Create internal P5 object
-                let moon = new Body(mass, moonPos, moonVel, type, color, name, id, (230 * i), this.mass + radius)
+                let moon = new Body(mass, moonPos, moonVel, 'moon', color, name, id, (230 * i), radius, parent)
 
                 // Add moon to 'this' planets moon array.
                 this.moons.push(moon);
@@ -230,12 +239,9 @@ export default function sketch(p5) {
             let d = p5.dist(xOffset, yOffset, this.pos.x, this.pos.y)
             if (d < this.mass)
             {
-                // Applying pythagorean theorem to get straight-line distance.
-                const convertedDist = p5.sqrt((this.pos.x * this.pos.x) + (this.pos.y * this.pos.y));
-                // Take the ceiling of the number so its rounded.
-                const roundedDist = p5.ceil(convertedDist);
                 // Update selected planet in solstice.
-                setselections(this.name, this.mass, G, roundedDist, this.type, this.color, null, this.id);
+                let moonId = (this.type == 'moon') ? this.id : null;
+                setselections(this.name, this.mass, G, this.r, this.type, this.color, moonId, this.id, this.parent);
             }
         }
 
