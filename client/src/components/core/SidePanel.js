@@ -78,6 +78,7 @@ class SidePanel extends Component {
                     "gravitationalPull": Number(this.props.spg),
                     "distance": Number(this.props.spd),
                     "type": this.props.spt || 'planet', // 'planet' as default type to prevent errors
+                    "texturePreset": "earth",
                     "color": this.props.spc
                 }
             }
@@ -109,6 +110,7 @@ class SidePanel extends Component {
                     "gravitationalPull": Number(this.props.spg),
                     "distance": Number(this.props.spd),
                     "type": this.props.spt || 'planet', // 'planet' as default type to prevent errors
+                    "texturePreset": "earth",
                     "color": this.props.spc
                 }
             }
@@ -188,7 +190,8 @@ class SidePanel extends Component {
                 "mass": Number(25),
                 "gravitationalPull": Number(0),
                 "distance": Number(this.props.spm + 20),
-                "color": '#83807F'
+                "texturePreset": "moon",
+                "color": '#EFEFEF'
             }
         }
 
@@ -219,6 +222,7 @@ class SidePanel extends Component {
                 "mass": Number(this.props.spm),
                 "gravitationalPull": Number(0),
                 "distance": Number(this.props.spd),
+                "texturePreset": "moon",
                 "color": this.props.spc
             }
         }
