@@ -37,7 +37,7 @@ class SidePanel extends Component {
     // getDerivedStateFromProps exists for only one purpose. 
     // It enables a component to update its internal state as 
     // the result of changes in props.
-    static getDerivedStateFromProps(nextProps) {    
+    static getDerivedStateFromProps(nextProps) {
         return {
             solarSystemId: nextProps.ssid,
             selectedPlanetId: nextProps.spi,
@@ -186,7 +186,7 @@ class SidePanel extends Component {
             "solarSystemId": this.props.ssid,
             "planetId": this.props.spi,
             "moon" : {
-                "name": "moon",
+                "name": "Moon",
                 "mass": Number(25),
                 "gravitationalPull": Number(0),
                 "distance": Number(this.props.spm + 20),
@@ -218,7 +218,7 @@ class SidePanel extends Component {
             "planetId": this.props.spp.id,
             "moon" : {
                 "_id": this.props.moonId,
-                "name": "moon",
+                "name": "Moon",
                 "mass": Number(this.props.spm),
                 "gravitationalPull": Number(0),
                 "distance": Number(this.props.spd),
@@ -380,7 +380,7 @@ class SidePanel extends Component {
                                 <Slider
                                     min={this.props.minalloweddistance}
                                     max={this.props.maxalloweddistance}
-                                    value={this.state.selectedPlanetDistance}
+                                    value={Number(this.state.selectedPlanetDistance)}
                                     valueLabelDisplay="auto"
                                     onChange={(e) => this.props.editselection('selectedPlanetDistance', e.target.value)}
                                     />
