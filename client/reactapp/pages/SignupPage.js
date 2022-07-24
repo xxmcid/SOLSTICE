@@ -103,7 +103,7 @@ export default function LoginPage() {
         style={{width:'100%', height: '100%'}}>
           <SafeAreaView>
             <View>
-              <Title style={{marginTop:"20%",marginBottom:"20%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>WELCOME</Title>
+              <Title style={{marginTop:"15%",marginBottom:"10%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
             </View>
           </SafeAreaView>
           <SafeAreaView style={signuppageStyle.container}>

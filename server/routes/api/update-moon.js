@@ -52,14 +52,12 @@ app.post('/', async function (req, res) {
     // Save the updated solar system to the database.
     await solarSystem
         .updateOne({planets: solarSystem.planets})
-        .then(() => {    
+        .then(() => {  
             // Return status code 201 (succesful and new resource was created).
             return res.status(201).json({
                 "status": "success",
                 "error": "",
-                "solarSystemId": solarSystemId,
-                "planetId": planetId,
-                "moon": req.body.moon
+                "planets": solarSystem.planets
             });
         })
         .catch(err => {

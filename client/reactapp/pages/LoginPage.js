@@ -14,11 +14,12 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState({
-    emailErr: false,
-    emailErrMsg: "",
-    passwordErr: false,
-    passwordErrMsg: "",
-});
+      emailErr: false,
+      emailErrMsg: "",
+      passwordErr: false,
+      passwordErrMsg: "",
+  });
+
   let clientSession;
   const navigation = useNavigation();
 
@@ -90,7 +91,7 @@ function LoginPage() {
         style={{width:'100%', height: '100%'}}>
           <SafeAreaView>
             <View>
-              <Title style={{marginTop:"20%",marginBottom:"25%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>WELCOME</Title>
+              <Title style={{marginTop:"20%",marginBottom:"15%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
             </View>
           </SafeAreaView>
           <SafeAreaView style={loginpageStyle.container}>
