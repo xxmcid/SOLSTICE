@@ -38,7 +38,9 @@ app.post('/', async function (req, res) {
         });
 
     // Update the planet in the solar system object.
-    solarSystem.planets[planetIndex] = req.body.planet;
+    Object.keys(req.body.planet).forEach((key) => {
+        solarSystem.planets[planetIndex][key] = req.body.planet[key];
+    });
 
     // Save the updated solar system to the database.
     await solarSystem

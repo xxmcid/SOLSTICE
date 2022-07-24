@@ -25,6 +25,7 @@ app.post('/', async function (req, res) {
         distance: req.body.planet.distance,
         color: req.body.planet.color,
         type: req.body.planet.type,
+        texturePreset: req.body.planet.texturePreset,
         moons: []
     });
 

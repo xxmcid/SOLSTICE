@@ -47,7 +47,9 @@ app.post('/', async function (req, res) {
         });
 
     // Update the moon in the solar system object.
-    solarSystem.planets[planetIndex].moons[moonIndex] = req.body.moon;
+    Object.keys(req.body.moon).forEach((key) => {
+        solarSystem.planets[planetIndex].moons[moonIndex][key] = req.body.moon[key];
+    });
 
     // Save the updated solar system to the database.
     await solarSystem

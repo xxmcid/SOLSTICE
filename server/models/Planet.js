@@ -7,6 +7,7 @@ const schema = mongoose.Schema({
     distance: Number,
     color: String,
     type: String,
+    texturePreset: String,
     moons: [this]
 });
 
