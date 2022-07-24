@@ -1,5 +1,15 @@
 // Main Boilerplate for how a generic solar system needs to look like
 // All code in here will be from the P5 dependency
+import { text } from '@fortawesome/fontawesome-svg-core';
+import earthTex from '../../assets/Earth.gif';
+import dryTex from '../../assets/Dry.gif';
+import GasTex from '../../assets/Gas.gif';
+import GasTex2 from '../../assets/Gas2.gif';
+import iceTex from '../../assets/Ice.gif';
+import moonTex from '../../assets/Moon.gif';
+import waterTex from '../../assets/Water.gif';
+import sunTex from '../../assets/Sun.gif';
+import backgroundgif from '../../assets/BackgroundGif.gif';
 
 // THIS IS NOT A REACT SCRIPT!!!
 export default function sketch(p5) {
@@ -52,13 +62,14 @@ export default function sketch(p5) {
                 let distance = planetsArray[i]?.distance;
                 let type = planetsArray[i]?.type;
                 let id = planetsArray[i]?._id;
+                let texturePreset = planetsArray[i]?.texturePreset;
 
                 if (type == 'sun') {
                     console.log("Sun found in planet list, setting defaultSun");
 
                     let Gravity = planetsArray[i]?.gravitationalPull;
                     G = Gravity;
-                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), type, color, name, id, 0, 0, null);
+                    defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), type, color, name, id, 0, 0, null, texturePreset);
                     continue;
                 }
 
@@ -72,7 +83,7 @@ export default function sketch(p5) {
                 planetVel.rotate(p5.HALF_PI);
                 planetVel.setMag( p5.sqrt(G * defaultSun.mass / randomPos.mag()) );
 
-                bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id, 0, radius, defaultSun));
+                bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id, 0, radius, defaultSun, texturePreset));
 
                 if (moons.length > 0)
                 {
@@ -82,21 +93,33 @@ export default function sketch(p5) {
 
             // Calculate max/min allowed size for planet distance and size (mass).
             const mindist = (defaultSun.mass);
-            const maxdist = (height/2);
+            const maxdist = Number((height/2));
             const maxPlanetSize = defaultSun.mass;
             setsizingparams(mindist, maxdist, maxPlanetSize);
         }
     }
 
-    let bgImage;
+    const textureMap = new Map();
 
     // Sets up our main solar system canvas for drawing
     p5.setup = () => {
         // Update Dimensions based on viewport size.
         updateCanvasDimensions();
         // Create Canvas
-        canvas = p5.createCanvas(width, height);
+        canvas = p5.createCanvas(width, height, p5.WEBGL);
         canvas.parent("canvaswrapper");
+    }
+
+    p5.preload = () => {
+        textureMap.set('earth', p5.loadImage(earthTex));
+        textureMap.set('dry', p5.loadImage(dryTex));
+        textureMap.set('gas1', p5.loadImage(GasTex));
+        textureMap.set('gas2', p5.loadImage(GasTex2));
+        textureMap.set('ice', p5.loadImage(iceTex));
+        textureMap.set('water', p5.loadImage(waterTex));
+        textureMap.set('moon', p5.loadImage(moonTex));
+        textureMap.set('sun', p5.loadImage(sunTex));
+        textureMap.set('background', p5.loadImage(backgroundgif));
     }
 
     // This function is called repeatedly by P5 to give the illusion of
@@ -104,30 +127,39 @@ export default function sketch(p5) {
     p5.draw = () => {
         // ensure canvas fits window (could be more efficient)
         updateCanvasDimensions();
-        p5.resizeCanvas(width, height); 
+        p5.resizeCanvas(width, height);
+        p5.clear();
 
-        p5.translate(width/2, height/2);
-        // p5.background('black');
+        p5.beginShape();
+        p5.texture(textureMap.get('background'));
+        textureMap.get('background').delay(100);
+        p5.rect(-width/2, -height/2, width, height);
+        p5.endShape();
 
         if (bodies.length > 0) {
             for (let i = 0; i < bodies.length; i++) {
                 defaultSun.pulls(bodies[i]);
                 bodies[i].refresh();
+                bodies[i].setTexture(textureMap.get(bodies[i].texturePreset));
+                bodies[i].setTint();
                 bodies[i].reveal();
 
                 // Update each moon
                 for (let j = 0; j < bodies[i].moons.length; j++) {
                     bodies[i].moons[j].forceUpdateMoonPosUsingPlanet(bodies[i], bodies[i].moons[j].distance);
+                    bodies[i].moons[j].setTexture(textureMap.get(bodies[i].moons[j].texturePreset));
+                    bodies[i].moons[j].setTint();
                     bodies[i].moons[j].reveal();
                 }
             }
         }
-
+        defaultSun?.setTexture(textureMap.get('sun'));
+        defaultSun?.setTint();
         defaultSun?.reveal();
     }
 
     // Generic Function for creating an astral body
-    function Body(_mass, _pos, _vel, _type, _fill, _name, _id, _angle, _distance, _parent){
+    function Body(_mass, _pos, _vel, _type, _fill, _name, _id, _angle, _distance, _parent, _texturePreset){
 
         this.mass = _mass;
         // Mass will be used for size of bodies.
@@ -142,6 +174,7 @@ export default function sketch(p5) {
         this.angle = _angle;
         this.moonSpeed = 0.025;
         this.parent = _parent;
+        this.texturePreset = _texturePreset;
 
         this.forceUpdateMoonPosUsingPlanet = function(planet) {
             let planetPos = planet.pos.copy();
@@ -154,6 +187,16 @@ export default function sketch(p5) {
 
             // Adjust angle for next frame (rotate)
             this.angle += this.moonSpeed;
+        }
+        
+        this.setTexture = function(texture) {
+            p5.texture(texture);
+            //texture.delay(this.mass);
+        }
+
+        this.setTint = function() {
+            let color = hexToRgbA(this.color);
+            p5.tint(color.r, color.g, color.b);
         }
 
         // Moon engine setup
@@ -185,10 +228,10 @@ export default function sketch(p5) {
                 // Initial moon velocity
                 let moonVel = moonPos.copy();
                 moonVel.rotate(p5.HALF_PI);
-                moonVel.setMag(p5.sqrt(G * this.mass / moonPos.mag() ))
+                moonVel.setMag(p5.sqrt(G * this.mass / moonPos.mag() ));
 
                 // Create internal P5 object
-                let moon = new Body(mass, moonPos, moonVel, 'moon', color, name, id, (230 * i), radius, parent)
+                let moon = new Body(mass, moonPos, moonVel, 'moon', color, name, id, (230 * i), radius, parent, "moon");
 
                 // Add moon to 'this' planets moon array.
                 this.moons.push(moon);
@@ -198,9 +241,10 @@ export default function sketch(p5) {
         // Actually "paints" our new planet
         this.reveal = function() {
             p5.noStroke();
-            p5.fill(this.color);
             p5.ellipse(this.pos.x, this.pos.y, this.mass, this.mass);
         }
+
+        
 
         // Updates the position of a body
         this.refresh = function() {
@@ -237,14 +281,14 @@ export default function sketch(p5) {
         // Click Handler for planets
         this.clicked = function()
         {
-            let xOffset = p5.mouseX - (width / 2);
-            let yOffset = p5.mouseY - (height / 2);
+            let xOffset = p5.mouseX - (width/2);
+            let yOffset = p5.mouseY - (height/2);
             let d = p5.dist(xOffset, yOffset, this.pos.x, this.pos.y)
             if (d < this.mass)
             {
                 // Update selected planet in solstice.
                 let moonId = (this.type == 'moon') ? this.id : null;
-                setselections(this.name, this.mass, G, this.r, this.type, this.color, moonId, this.id, this.parent);
+                setselections(this.name, this.mass, G, this.r, this.type, this.color, moonId, this.id, this.parent, this.texturePreset);
             }
         }
 
@@ -277,5 +321,27 @@ export default function sketch(p5) {
         // get height and width of canvas
         width = wrapperRect.width;
         height = wrapperRect.height
+    }
+
+    const hexToRgbA = (hex) => {
+        var c;
+        if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+            c= hex.substring(1).split('');
+            if(c.length== 3){
+                c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+            }
+            c= '0x'+c.join('');
+            let color = {};
+            color.r = (c>>16)&255;
+            color.g = (c>>8)&255;
+            color.b = c&255;
+            //return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',1)';
+            return color;
+        }
+        let color = {}
+        color.r = 0;
+        color.g = 0;
+        color.b = 0;
+        return color;
     }
 }

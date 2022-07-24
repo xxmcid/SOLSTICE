@@ -82,6 +82,10 @@ class Info extends Component
                             React components made using <a target="_blank" href="https://mui.com/">Material UI</a>.
                         </Typography>
 
+                        <Typography>
+                            Textures made using <a target="_blank" href="https://deep-fold.itch.io">Deep-Fold's Generators</a>
+                        </Typography>
+
                         <br></br>
                         <Typography variant="h5">
                             Authors
