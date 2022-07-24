@@ -25,7 +25,38 @@ app.post('/', async function (req, res) {
     let solarSystem = new SolarSystem({
         ownerId: user._id,
         name: req.body.name || 'New Solar System',
-        planets: req.body.planets || []
+        planets: req.body.planets || [
+            {
+                name: 'Sun',
+                mass: 100,
+                gravitationalPull: 1,
+                distance: 0,
+                color: "#FFEA00",
+                type: 'sun',
+                texturePreset: 'earth',
+                moons: []
+            },
+            {
+                name: 'Earth',
+                mass: 25,
+                gravitationalPull: 1,
+                distance: 150,
+                color: "#7FE54C",
+                type: 'planet',
+                texturePreset: 'earth',
+                moons: [
+                    {
+                        name: 'Moon',
+                        mass: 15,
+                        gravitationalPull: 1,
+                        distance: 0,
+                        color: "#808080",
+                        type: 'moon',
+                        texturePreset: 'moon'
+                    }
+                ]
+            }
+        ]
     });
     
     // Save the new planet to the database.
