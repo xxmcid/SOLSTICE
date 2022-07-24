@@ -37,7 +37,6 @@ class Solstice extends Component
 
             // cache all solar systems
             solarSystems: [],
-            solarSystemButtonObjs: [],
 
             // Solstice States
             solarSystemId: '',
@@ -78,8 +77,6 @@ class Solstice extends Component
                 planets: planetsArray,
                 solarSystemId: solarSystems[0]?._id
             });
-
-            this.generateSolarSystemButtonObjs();
         })
         .catch(err => {
             console.log(err);
@@ -99,6 +96,24 @@ class Solstice extends Component
                     });
                 }
             }
+        });
+    }
+
+    refreshSolarSystems() {
+        const url = `${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`
+        
+        // Fetch the user's solar systems.
+        axios.get(url).then(response => {
+            let solarSystems = response.data.solarSystems;
+
+            // Set our planets JSON to our state
+            // P5 should see this change in sketch.js and update accordingly.
+            this.setState({
+                solarSystems: solarSystems,
+            });
+        }).catch(err => {
+            console.log(err);
+            console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
         });
     }
 
@@ -212,6 +227,8 @@ class Solstice extends Component
                     <AppHeader 
                         solarSystems={this.state.solarSystems} 
                         switchSolarSystem={id => this.updateSelectedSolarSystem(id)}
+                        clientSession={this.state.clientSession}
+                        refreshSolarSystems={() => this.refreshSolarSystems()}
                     />
 
                     <SidePanel 

@@ -290,8 +290,8 @@ class SidePanel extends Component {
                             
                             position: 'absolute', 
                             left: '20px', 
-                            top: '90px',
-                            height: 'calc(100% - 110px)',
+                            top: '76px',
+                            height: 'calc(100% - 96px)',
                             width: '300px', 
                         }
                     }}
