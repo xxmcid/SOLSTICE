@@ -55,6 +55,9 @@ export default function sketch(p5) {
 
                 if (type == 'sun') {
                     console.log("Sun found in planet list, setting defaultSun");
+
+                    let Gravity = planetsArray[i]?.gravitationalPull;
+                    G = Gravity;
                     defaultSun = new Body(mass, p5.createVector(0, 0), p5.createVector(0, 0), type, color, name, id, 0, 0, null);
                     continue;
                 }
