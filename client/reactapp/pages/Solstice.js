@@ -8,7 +8,6 @@ import { loginpageStyle } from "./loginstyle";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState, useReducer } from "react";
 import { solsticeStyle } from "./solsticeStyle";
-import Dialog, { DialogTitle,DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 var curSolarSystem;
@@ -128,16 +127,6 @@ function Solstice() {
                 <Title style={{marginTop:"20%", color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
                 
                 <Ionicons onPress={() => {setLogoutModalVisibility(true)}} style={{marginLeft: "87%", marginTop: -38, marginBottom: 45}} name="ios-settings-sharp" size={32} color="white"/>
-                {/* <Dialog visible={state} footer={
-                    <DialogFooter>
-                        <DialogButton text="Cancel" onPress={()=>{setState(false)}}/>
-                        <DialogButton text="Yes" onPress={redirectHome} />
-                    </DialogFooter>}>
-                    <DialogTitle title="Logout"></DialogTitle>
-                    <DialogContent>
-                        <Text>Are you sure you want to log out?</Text>
-                    </DialogContent>
-                </Dialog> */}
             </View>
           </SafeAreaView>
 
