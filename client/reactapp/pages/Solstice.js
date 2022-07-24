@@ -1,13 +1,15 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { SafeAreaView, View, ImageBackground, FlatList } from 'react-native';
-import { ScrollView} from 'react-native';
+import { ScrollView,Text} from 'react-native';
 import { Button, Card, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginpageStyle } from "./loginstyle";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState, useReducer } from "react";
 import { solsticeStyle } from "./solsticeStyle";
+import Dialog, { DialogTitle,DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
+import Ionicons from '@expo/vector-icons/Ionicons'
 
 var curSolarSystem;
 
@@ -62,11 +64,17 @@ const populatePlanets = (planets, navigation) => {
 function Solstice() {
     const [solarSystems, setSolarSystems] = useState([]);
     const [planets, setPlanets] = useState([]);
+    const [state, setState] = useState(false);
 
     const navigation = useNavigation();
 
     const route = useRoute();
 
+    const redirectHome = async() => {  
+         await AsyncStorage.clear();
+        setState(false);
+        navigation.push('login');
+    }
     useEffect(() => {
         async function init() {
             // Read from AsyncStorage.
@@ -117,7 +125,18 @@ function Solstice() {
             style={{width:'100%', height: '100%'}}>
           <SafeAreaView>
             <View>
-              <Title style={{marginTop:"20%", marginBottom:"10%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
+                <Title style={{marginTop:"20%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
+                <Ionicons onPress={() => {setState(true)}} style={{marginLeft:"87%",marginTop:-38,marginBottom:45}} name="ios-settings-sharp" size={32} color="white"/>
+                <Dialog visible={state} footer={
+                    <DialogFooter>
+                        <DialogButton text="Cancel" onPress={()=>{setState(false)}}/>
+                        <DialogButton text="Yes" onPress={redirectHome} />
+                    </DialogFooter>}>
+                    <DialogTitle title="Logout"></DialogTitle>
+                    <DialogContent>
+                        <Text>Are you sure you want to log out?</Text>
+                    </DialogContent>    
+                </Dialog>
             </View>
           </SafeAreaView>
 

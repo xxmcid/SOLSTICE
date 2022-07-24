@@ -28,3 +28,4 @@ sendgrid.env
 
 server/.env
 .env
+.expo/README.md
