@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { SafeAreaView, View, ImageBackground, FlatList } from 'react-native';
 import { ScrollView,Text} from 'react-native';
-import { Button, Card, Title } from 'react-native-paper';
+import { Button, Card, Title, Modal, Paragraph } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loginpageStyle } from "./loginstyle";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -64,17 +64,17 @@ const populatePlanets = (planets, navigation) => {
 function Solstice() {
     const [solarSystems, setSolarSystems] = useState([]);
     const [planets, setPlanets] = useState([]);
-    const [state, setState] = useState(false);
+    const [showLogoutModal, setLogoutModalVisibility] = useState(false);
 
     const navigation = useNavigation();
-
     const route = useRoute();
 
-    const redirectHome = async() => {  
-         await AsyncStorage.clear();
-        setState(false);
+    const doLogout = async () => {  
+        await AsyncStorage.clear();
+        setLogoutModalVisibility(false);
         navigation.push('login');
     }
+
     useEffect(() => {
         async function init() {
             // Read from AsyncStorage.
@@ -125,9 +125,10 @@ function Solstice() {
             style={{width:'100%', height: '100%'}}>
           <SafeAreaView>
             <View>
-                <Title style={{marginTop:"20%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
-                <Ionicons onPress={() => {setState(true)}} style={{marginLeft:"87%",marginTop:-38,marginBottom:45}} name="ios-settings-sharp" size={32} color="white"/>
-                <Dialog visible={state} footer={
+                <Title style={{marginTop:"20%", color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
+                
+                <Ionicons onPress={() => {setLogoutModalVisibility(true)}} style={{marginLeft: "87%", marginTop: -38, marginBottom: 45}} name="ios-settings-sharp" size={32} color="white"/>
+                {/* <Dialog visible={state} footer={
                     <DialogFooter>
                         <DialogButton text="Cancel" onPress={()=>{setState(false)}}/>
                         <DialogButton text="Yes" onPress={redirectHome} />
@@ -135,8 +136,8 @@ function Solstice() {
                     <DialogTitle title="Logout"></DialogTitle>
                     <DialogContent>
                         <Text>Are you sure you want to log out?</Text>
-                    </DialogContent>    
-                </Dialog>
+                    </DialogContent>
+                </Dialog> */}
             </View>
           </SafeAreaView>
 
@@ -162,6 +163,23 @@ function Solstice() {
                 </Card>
             </View>
           </SafeAreaView>
+
+          {showLogoutModal && (<SafeAreaView style={{width: "100%", height: "100%", position: "absolute"}}>
+            <Modal visible={showLogoutModal} onDismiss={() => {setLogoutModalVisibility(false)}}>
+                <View style={solsticeStyle.modalContainer}>
+                    <Card style={solsticeStyle.modalCard}>
+                        <Card.Content>
+                            <Card.Title titleStyle={{textAlign:"center"}} title="Log out?"></Card.Title>
+                            <Paragraph style={{textAlign: "center", marginBottom: 10}}>You will be redirected to the landing page and will have to sign in again.</Paragraph>
+                            <Card.Actions style={{justifyContent: 'center'}}>
+                                <Button onPress={() => {setLogoutModalVisibility(false)}} style={{marginRight: 30}} color="black" mode="contained">Go Back</Button>
+                                <Button onPress={doLogout} color="red" mode="contained">Log Out</Button>
+                            </Card.Actions>
+                        </Card.Content>
+                    </Card>
+                </View>
+            </Modal>
+          </SafeAreaView>)}
       </ImageBackground>
     );
   }
