@@ -119,9 +119,13 @@ class Solstice extends Component
 
     setsizingparams(newmindist, newmaxdist, newplanetsize)
     {
+        // NaN fix
         newmaxdist = typeof newmaxdist == 'number' ? newmaxdist : (newmindist * 2 + newplanetsize);
+        newmaxdist = newmaxdist ? newmaxdist : (newmindist * 2 + newplanetsize);
+
         console.log("Setting sizing params based on P5's calculations");
         console.log(newmindist + " " + newmaxdist + " " + newplanetsize);
+
         this.setState({
             minalloweddistance: newmindist,
             maxalloweddistance: newmaxdist,
