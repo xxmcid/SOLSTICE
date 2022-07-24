@@ -12,6 +12,7 @@ import EmailVerification from "./pages/EmailVerification";
 import ForgotPassword from "./pages/ForgotPassword";
 import ForgotPassSuccess from "./pages/ForgotPassSuccess";
 import AddPlanet from "./pages/AddPlanet";
+import HomePage from "./pages/HomePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +20,7 @@ export default function App(){
     return (
         <NavigationContainer>
           <StatusBar barStyle="light-content"/>
-          <Stack.Navigator screenOptions={{headerShown: false, animation: 'none'}} initialRouteName="login">
+          <Stack.Navigator screenOptions={{headerShown: false, animation: 'none'}} initialRouteName="homepage">
               <Stack.Screen name="login" component={LoginPage}/>
               <Stack.Screen name="signup" component={SignupPage}/>
               <Stack.Screen name="solstice" component={Solstice}/>
@@ -29,6 +30,7 @@ export default function App(){
               <Stack.Screen name="forgotpassword" component={ForgotPassword}/>
               <Stack.Screen name="forgotsuccess" component={ForgotPassSuccess}/>
               <Stack.Screen name="addplanet" component={AddPlanet}/>
+              <Stack.Screen name="homepage" component={HomePage}/>
           </Stack.Navigator>
         </NavigationContainer>
     );

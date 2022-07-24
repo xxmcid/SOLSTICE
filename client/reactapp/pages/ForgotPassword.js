@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView } from "react-native";
 import { ImageBackground } from 'react-native';
-import { Card,Paragraph} from "react-native-paper";
+import { Card,Paragraph,Title} from "react-native-paper";
 import { View } from 'react-native';
 import { Button,TextInput, HelperText} from 'react-native-paper';
 import { useNavigation } from "@react-navigation/native";
@@ -46,8 +46,13 @@ function ForgotPassword(){
         <ImageBackground
         source ={require('.././assets/solar_mobile.png')}
         style={{width:'100%', height: '100%'}}>
+            <SafeAreaView>
+                <View>
+                <Title style={{marginTop:"20%",color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
+                </View>
+            </SafeAreaView>
             <SafeAreaView style={{display: "flex", flex: 1,justifyContent : "center",allignItems: "center", flexDirection:"row"}}>
-                <View style={{width: "80%", marginTop: "55%"}}>
+                <View style={{width: "80%", marginTop: "27%"}}>
                     <Card style={{borderRadius: 20}}>
                         <Card.Title titleStyle={{textAlign:"center"}} title="Forgot Password?"></Card.Title>
                         <Card.Content>
