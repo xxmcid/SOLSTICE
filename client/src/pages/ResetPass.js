@@ -41,9 +41,13 @@ class ResetPass extends Component {
         // Clear error message
         this.setState({errMsg: ''});
 
+        let token = '';
+        if (window.location.href.includes('?token='))
+            token = window.location.href.split('?token=')[1];
+
         const data = {
             password: this.state.password,
-            token: this.state.token
+            token: token
         };
 
         try {
@@ -54,7 +58,7 @@ class ResetPass extends Component {
             );
 
             // Go to the sign in page.
-            window.location.href = '/password-reset-success';
+            window.location.href = '/reset-password-success';
         } catch(err) {
             console.log(err);
 
