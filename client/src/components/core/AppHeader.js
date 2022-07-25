@@ -23,6 +23,9 @@ class AppHeader extends Component
 
         this.state = {
             infopagevisible: false,
+            isSettingsPage: false,
+            firstName: "",
+            lastName: "",
 
             // css
             isExpanded: false,
@@ -33,6 +36,27 @@ class AppHeader extends Component
         this.toggleInfoPage = this.toggleInfoPage.bind(this);
         this.expand = this.expand.bind(this);
         
+        this.initializeUserName();
+    }
+
+    async initializeUserName() {
+        const url = `${window.location.protocol}//${window.location.host}/api/fetch-user`
+        const data = {
+            token: this.props.clientSession
+        }
+
+        // Fetch the user's solar systems.
+        try {
+            const response = await axios.post(url, data);
+            
+            this.setState({
+                firstName: response?.data?.user?.firstName || "",
+                lastName: response?.data?.user?.lastName || "",
+                email: response?.data?.user?.email || ""
+            });
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     theme = getTheme();
@@ -99,12 +123,13 @@ class AppHeader extends Component
         }
     }
 
-    toggleInfoPage() {
+    toggleInfoPage(isSettingsPage) {
         console.log("Info page visible: " + !this.state.infopagevisible);
 
-        this.setState({
-            infopagevisible: !this.state.infopagevisible
-        });
+        this.setState({infopagevisible: !this.state.infopagevisible});
+
+        if (isSettingsPage === false || isSettingsPage === true)
+            this.setState({isSettingsPage: isSettingsPage});
     }
 
     expand() {
@@ -137,7 +162,7 @@ class AppHeader extends Component
                     <Grid container paddingX={2} paddingY={1} justifyContent={'space-between'} alignItems={'center'} columns={{ sm: 4, md: 8}} height={'100%'}>
                         {
                             // Info panel: only shown when toggled
-                            this.state.infopagevisible ? <Info onClose={this.toggleInfoPage}/> : null 
+                            this.state.infopagevisible ? <Info onClose={this.toggleInfoPage} isSettingsPage={this.state.isSettingsPage} firstName={this.state.firstName} lastName={this.state.lastName} email={this.state.email}/> : null 
                         }
 
                         <Grid item sm={2} md={1}>
@@ -165,7 +190,7 @@ class AppHeader extends Component
                         </Grid>
 
                         <Grid item sm={2} md={'auto'} alignContent={'center'}>
-                            <IconButton sx={{ float: 'right' }} size={'medium'} onClick={this.toggleInfoPage}>
+                            <IconButton sx={{ float: 'right' }} size={'medium'} onClick={() => {this.toggleInfoPage(true)}}>
                                 <FontAwesomeIcon icon={faGear}/>
                             </IconButton>
                             <IconButton sx={{ float: 'right' }} size={'medium'} onClick={this.expand}>
