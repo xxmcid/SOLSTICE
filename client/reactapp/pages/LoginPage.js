@@ -101,10 +101,10 @@ function LoginPage() {
                   <Card.Content>
                   <TextInput activeOutlineColor="blue" outlineColor="black" onChangeText={setEmail} placeholderTextColor='red' autoCapitalize='none' autoCorrect={false} mode="outlined" autoCompleteType='email' label="Email" keyboardType="email-address"></TextInput>
                       <HelperText visible={error.emailErr} style={{textAlign: "center"}} type="error">{error.emailErrMsg}</HelperText>
-                      <TextInput activeOutlineColor="blue" outlineColor="black" onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} label="Password" secureTextEntry={true}></TextInput>
+                      <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} label="Password" secureTextEntry={true}></TextInput>
                       <HelperText visible={error.passwordErr} style= {{textAlign: "center"}} type="error">{error.passwordErrMsg}</HelperText>
                       <Card.Actions style={{justifyContent: "center"}}>
-                        <Button onPress={handleSubmit} uppercase={false} color="grey" mode="contained">Sign in</Button>
+                        <Button onPress={handleSubmit} uppercase={false} color="black" mode="contained">Sign in</Button>
                         <Button onPress={redirectForgotPass} color="blue" uppercase={false}>Forgot your password?</Button> 
                       </Card.Actions>
                       <Paragraph style={{textAlign:"center"}}>Don't have an account?</Paragraph>

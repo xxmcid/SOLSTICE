@@ -144,7 +144,7 @@ function Planet(props) {
                 
                     <ScrollView>
                         <Card.Content>
-                            <TextInput onChangeText={setName} value={name} autoCapitalize='none' autoCorrect={false} label="Name"></TextInput>
+                            <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setName} value={name} autoCapitalize='none' autoCorrect={false} label="Name"></TextInput>
 
                             <Card.Actions style={{justifyContent: "center"}}>
                                 <Button onPress={() => {navigation.push('solstice', {solarSystem: route.params.solarSystem})}} width="25%" color="white" mode="contained">Cancel</Button>

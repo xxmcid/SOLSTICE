@@ -59,7 +59,7 @@ function ForgotPassword(){
                             <Paragraph style={{textAlign:"center",paddingBottom: 15}}>
                                 Enter your email address below. You will receive a reset password email.
                             </Paragraph>
-                            <TextInput onChangeText={setEmail} autoCapitalize='none' autoCorrect={false} autoCompleteType='email' label="Email" keyboardType="email-address"></TextInput>
+                            <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setEmail} autoCapitalize='none' autoCorrect={false} autoCompleteType='email' label="Email" keyboardType="email-address"></TextInput>
                             <HelperText visible={error.errMsg} style= {{textAlign: "center"}} type="error">{error.errMsg}</HelperText>
                             <Card.Actions style={{justifyContent: "center"}}>
                                 <Button onPress={redirectHome} width="32%" color="blue"  uppercase={false}>Go Back</Button>
