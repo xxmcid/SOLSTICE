@@ -120,14 +120,14 @@ class Solstice extends Component
                             planets: solarSystem.planets,
                             solarSystemId: solarSystem._id
                         });
-                        this.updateSelectedSolarSystem(solarSystem._id)
+                        this.updateSelectedSolarSystem(solarSystem._id, true)
                     }
                 });
             } catch(err) { console.log(err?.response?.data) };
         }, BACKGROUND_REFRESH_DELAY);
     }
 
-    async updateSelectedSolarSystem(id) {
+    async updateSelectedSolarSystem(id, preventSelection) {
         try { // Fetch the user's solar systems.
             const response = await axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
 
@@ -143,18 +143,18 @@ class Solstice extends Component
             solarSystems.forEach((solarSystem, solarSystemIndex) => {
                 if (solarSystem._id === id) {
                     const planetsArray = solarSystem ? solarSystem.planets : [];
+                    if (!preventSelection) solarSystems[solarSystemIndex].selected = true;
             
                     if (solarSystem && planetsArray) {
                         this.setState({
-                            solarSystems: solarSystems,
                             planets: planetsArray,
                             solarSystemId: solarSystem._id,
                         });
                     }
-
-                    return;
-                }
+                } else if (!preventSelection) solarSystems[solarSystemIndex].selected = false;
             });
+
+            this.setState({solarSystems: solarSystems});
         } catch(err) { console.log(err?.response?.data) };
     }
 
@@ -167,12 +167,9 @@ class Solstice extends Component
 
             // Set our planets JSON to our state
             // P5 should see this change in sketch.js and update accordingly.
-            this.setState({
-                solarSystems: solarSystems,
-            });
+            this.setState({solarSystems: solarSystems});
         }).catch(err => {
-            console.log(err);
-            console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
+            console.log(err?.response?.data);
         });
     }
 
@@ -293,7 +290,7 @@ class Solstice extends Component
                 <ThemeProvider theme={getTheme()} id='masterContainer'>
                     <AppHeader 
                         solarSystems={this.state.solarSystems} 
-                        switchSolarSystem={id => this.updateSelectedSolarSystem(id)}
+                        switchSolarSystem={id => this.updateSelectedSolarSystem(id, false)}
                         clientSession={this.state.clientSession}
                         refreshSolarSystems={() => this.refreshSolarSystems()}
                     />
