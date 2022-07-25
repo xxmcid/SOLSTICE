@@ -9,8 +9,10 @@ import iceTex from '../../assets/Ice.gif';
 import moonTex from '../../assets/Moon.gif';
 import waterTex from '../../assets/Water.gif';
 import sunTex from '../../assets/Sun.gif';
-import backgroundgif from '../../assets/BackgroundGif.gif';
+import background from '../../assets/Background.png';
 
+
+const textureMap = new Map();
 // THIS IS NOT A REACT SCRIPT!!!
 export default function sketch(p5) {
 
@@ -102,8 +104,6 @@ export default function sketch(p5) {
         }
     }
 
-    const textureMap = new Map();
-
     // Sets up our main solar system canvas for drawing
     p5.setup = () => {
         // Update Dimensions based on viewport size.
@@ -116,15 +116,24 @@ export default function sketch(p5) {
     }
 
     p5.preload = () => {
-        textureMap.set('earth', p5.loadImage(earthTex));
-        textureMap.set('dry', p5.loadImage(dryTex));
-        textureMap.set('gas1', p5.loadImage(GasTex));
-        textureMap.set('gas2', p5.loadImage(GasTex2));
-        textureMap.set('ice', p5.loadImage(iceTex));
-        textureMap.set('water', p5.loadImage(waterTex));
-        textureMap.set('moon', p5.loadImage(moonTex));
-        textureMap.set('sun', p5.loadImage(sunTex));
-        textureMap.set('background', p5.loadImage(backgroundgif));
+        if (!textureMap.has('earth'))
+            textureMap.set('earth', p5.loadImage(earthTex));
+        if (!textureMap.has('dry'))
+            textureMap.set('dry', p5.loadImage(dryTex));
+        if (!textureMap.has('gas1'))
+            textureMap.set('gas1', p5.loadImage(GasTex));
+        if (!textureMap.has('gas2'))
+            textureMap.set('gas2', p5.loadImage(GasTex2));
+        if (!textureMap.has('ice'))
+            textureMap.set('ice', p5.loadImage(iceTex));
+        if (!textureMap.has('water'))
+            textureMap.set('water', p5.loadImage(waterTex));
+        if (!textureMap.has('moon'))
+            textureMap.set('moon', p5.loadImage(moonTex));
+        if (!textureMap.has('sun'))
+            textureMap.set('sun', p5.loadImage(sunTex));
+        if (!textureMap.has('background'))
+            textureMap.set('background', p5.loadImage(background));
     }
 
     // This function is called repeatedly by P5 to give the illusion of
@@ -137,8 +146,6 @@ export default function sketch(p5) {
 
         p5.beginShape();
         p5.texture(textureMap.get('background'));
-        textureMap.get('background').delay(100);
-        // p5.background(0, 0);
         p5.rect(-width/2, -height/2, width, height);
         p5.endShape();
 

@@ -51,7 +51,7 @@ class Solstice extends Component
             selectedPlanetGravity: 0,
             selectedPlanetDistance: 200,
             selectedPlanetType: 'planet',
-            selectedPlanetColor: 'earth',
+            selectedPlanetColor: '#FFFFFF',
             selectedPlanetTexturePreset: 'earth',
             selectedPlanetMoonId: '',
             selectedPlanetParent: null,
