@@ -213,8 +213,9 @@ export default function sketch(p5) {
                 }
 
                 let name = moons[i]?.name;
-                let color = moons[i]?.color;
+                let color = moons[i]?.color || '#efefef';
                 let id = moons[i]?._id;
+                let texturePreset = moons[i]?.texturePreset || 'moon';
 
                 // Set moons parent to 'this' planet.
                 let parent = this;
@@ -231,7 +232,7 @@ export default function sketch(p5) {
                 moonVel.setMag(p5.sqrt(G * this.mass / moonPos.mag() ));
 
                 // Create internal P5 object
-                let moon = new Body(mass, moonPos, moonVel, 'moon', color, name, id, (230 * i), radius, parent, "moon");
+                let moon = new Body(mass, moonPos, moonVel, 'moon', color, name, id, (230 * i), radius, parent, texturePreset);
 
                 // Add moon to 'this' planets moon array.
                 this.moons.push(moon);

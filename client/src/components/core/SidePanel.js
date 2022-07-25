@@ -193,7 +193,7 @@ class SidePanel extends Component {
                 "mass": Number(25),
                 "gravitationalPull": Number(0),
                 "distance": Number(this.props.spm + 20),
-                "texturePreset": "moon",
+                "texturePreset": this.props.sptp || 'moon',
                 "color": '#EFEFEF'
             }
         }
@@ -225,7 +225,7 @@ class SidePanel extends Component {
                 "mass": Number(this.props.spm),
                 "gravitationalPull": Number(0),
                 "distance": Number(this.props.spd),
-                "texturePreset": "moon",
+                "texturePreset": this.props.sptp || "moon",
                 "color": this.props.spc || '#FFFFFF'
             }
         }
@@ -337,7 +337,7 @@ class SidePanel extends Component {
                             <TextField 
                                 type="text"
                                 size={'small'}
-                                label={'Planet Name'}
+                                label={this.props.spt == 'moon' ? 'Moon Name' : 'Planet Name'}
                                 sx={{ width: '100%', borderRadius: 2}}
                                 value={this.state.selectedPlanetName}
                                 onChange={(e) => this.props.editselection('selectedPlanetName', e.target.value)}>
@@ -379,7 +379,7 @@ class SidePanel extends Component {
                         {this.state.selectedPlanetType == 'sun' ?  null :
                         <Fragment>
                             <Grid item xs={9}>
-                                <Typography variant='h7' align='left'>Distance (From nearest body)</Typography>
+                                <Typography variant='h7' align='left'>{this.props.spt == 'moon' ? 'Distance (from the planet)' : 'Distance (from nearest body)'}</Typography>
                             </Grid>
                             <Grid item xs={9} sx={{ marginTop: 1 }}>
                                 <Slider
