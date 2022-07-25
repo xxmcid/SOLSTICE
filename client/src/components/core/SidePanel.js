@@ -481,7 +481,7 @@ class SidePanel extends Component {
                         </Grid>
 
                         {/* Add moon button shouldn't be available for sun and moon objects */}
-                        {(this.state.selectedPlanetType == 'moon' || this.state.selectedPlanetType == 'sun') ? null :
+                        {(this.state.selectedPlanetType == 'moon' || this.state.selectedPlanetType == 'sun' || !this.props.iseditingplanet) ? null :
                         <Fragment>
                             <Grid item xs={9} marginTop={2}>
                                 <Button
