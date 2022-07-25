@@ -10,7 +10,7 @@ export default class Positioner extends React.Component {
   theme = getTheme();
 
   render() {
-    return(
+    return (
       <Box sx={{
           color: this.props.color ? this.props.color : "none",
           backgroundColor: this.props.backgroundColor ? this.props.backgroundColor : "none",
@@ -19,6 +19,7 @@ export default class Positioner extends React.Component {
           maxWidth: this.props.isLoadingScreen ? "min(275px, calc(100% - 40px))" : "min(400px, calc(100% - 40px))",
           position: 'fixed',
           top: '50%',
+          marginTop: this.props.isSettingsPage ? "22%" : "",
           left: (this.props.position === 'left') ? '300px' : '50%',
           transform: 'translate(-50%, -50%)',
           [this.theme.breakpoints.down('sm')]: {
