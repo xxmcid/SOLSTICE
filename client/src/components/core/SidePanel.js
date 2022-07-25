@@ -25,6 +25,7 @@ import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons';
 
 
 class SidePanel extends Component {
+
     constructor(props) {
         super(props);
         // Binds event handlers passed in from parent to event handlers that are local to SidePanel.js
@@ -50,7 +51,7 @@ class SidePanel extends Component {
             selectedPlanetGravity: nextProps.spg,
             selectedPlanetDistance: nextProps.spd,
             selectedPlanetType: nextProps.spt,
-            selectedPlanetColor: nextProps.spc,
+            selectedPlanetColor: nextProps.spc || '#FFFFFF',
             selectedPlanetTexturePreset: nextProps.sptp || 'earth',
             selectedPlanetParent: nextProps.spp,
             selectedPlanetMoonId: nextProps.moonId,
@@ -63,6 +64,7 @@ class SidePanel extends Component {
         // If we're editing an existing planet
         if (this.props.iseditingplanet == true) {
 
+            // Checks to see if selected body is a moon of some sort.
             if (this.props.spt == "moon") {
                 this.updateMoon(); return;
             }
@@ -316,7 +318,8 @@ class SidePanel extends Component {
                                 <ReactP5Wrapper
                                     sketch={miniSketch}
                                     mass={this.state.selectedPlanetMass}
-                                    color={this.state.selectedPlanetColor}>
+                                    color={this.state.selectedPlanetColor}
+                                    texturePreset={this.state.selectedPlanetTexturePreset}>
                                 </ReactP5Wrapper>
                             </Paper>
                         </Grid>
