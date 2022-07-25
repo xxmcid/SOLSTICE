@@ -45,6 +45,9 @@ class ResetPass extends Component {
         if (window.location.href.includes('?token='))
             token = window.location.href.split('?token=')[1];
 
+        if (!token)
+            return this.setState({errMsg: 'Could not find the token in the URL query parameters.'});
+
         const data = {
             password: this.state.password,
             token: token
