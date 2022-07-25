@@ -128,21 +128,25 @@ class AppHeader extends Component
                     left: this.state.isExpanded ? '10px' : '0px',
                     width: this.state.isExpanded ? 'calc(100% - 22px)' : '100%',
                     height: this.state.isExpanded ? '160px' : '56px',
-                    transition: "all .2s ease-in-out"
+                    transition: "all .2s ease-in-out",
+                    [this.theme.breakpoints.down('md')]: {
+                        height: this.state.isExpanded ? '230px' : '56px',
+                    }
                 }}>
-                    <Grid container paddingX={2} paddingY={1} justifyContent={'space-between'} alignItems={'center'} columns={{ xs: 4, sm: 8}} height={'100%'}>
+                    <Grid container paddingX={2} paddingY={1} justifyContent={'space-between'} alignItems={'center'} columns={{ sm: 4, md: 8}} height={'100%'}>
                         {
                             // Info panel: only shown when toggled
                             this.state.infopagevisible ? <Info onClose={this.toggleInfoPage}/> : null 
                         }
 
-                        <Grid item xs={1}>
+                        <Grid item sm={2} md={1}>
                             <Typography color={'white'} fontWeight={'bold'} variant="h4" lineHeight={'30px'}>
                                 SOLSTICE
                             </Typography>
                         </Grid>
 
-                        <Grid item container xs={6} sx={2} justifyContent={'center'} columnSpacing={2} rowSpacing={2}>
+                        
+                        <Grid item container md={"auto"} justifyContent={'center'} columnSpacing={2} rowSpacing={2} sx={{[this.theme.breakpoints.down('md')]: {'display': 'none'}}}>
                             {
                                 this.props.solarSystems.map((ss) => 
                                     <Grid item>
@@ -157,9 +161,39 @@ class AppHeader extends Component
                                     </Grid>
                                 )
                             }
+                            <Grid item>
+                                <SolarSystemBtn 
+                                    systemName={"test"}
+                                    isSelected={true}
+                                    isExpanded={this.state.isExpanded}
+                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
+                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
+                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <SolarSystemBtn 
+                                    systemName={"test"}
+                                    isSelected={false}
+                                    isExpanded={this.state.isExpanded}
+                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
+                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
+                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <SolarSystemBtn 
+                                    systemName={"test"}
+                                    isSelected={false}
+                                    isExpanded={this.state.isExpanded}
+                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
+                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
+                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
+                                />
+                            </Grid>
                         </Grid>
 
-                        <Grid item xs={1} alignContent={'center'}>
+                        <Grid item sm={2} md={'auto'} alignContent={'center'}>
                             <IconButton sx={{ float: 'right' }} size={'medium'} onClick={this.toggleInfoPage}>
                                 <FontAwesomeIcon icon={faGear}/>
                             </IconButton>
@@ -172,6 +206,61 @@ class AppHeader extends Component
                             <IconButton sx={{ float: 'right' }} size={'medium'} disabled={this.state.solarSystems?.length >= 4} onClick={this.createNewSolarSystem}>
                                 <FontAwesomeIcon icon={faPlusCircle}/>
                             </IconButton>
+                        </Grid>
+
+                        <Grid item container md={4} justifyContent={'center'} columnSpacing={2} rowSpacing={2} zeroMinWidth
+                            sx={{
+                                opacity: this.state.isExpanded ? 1 : 0,
+                                transition: 'all .2s ease-in-out',
+                                [this.theme.breakpoints.up('md')]: {
+                                    'display': 'none'
+                                }
+                            }}
+                        >
+                            {
+                                this.props.solarSystems.map((ss) => 
+                                    <Grid item>
+                                        <SolarSystemBtn 
+                                            systemName={ss.name}
+                                            isSelected={ss.selected}
+                                            isExpanded={this.state.isExpanded}
+                                            switchSolarSystem={() => this.switchSolarSystem(ss._id)}
+                                            changeSolarSystemName={name => this.renameSolarSystem(ss._id, name)}
+                                            removeSolarSystem={() => this.removeSolarSystem(ss._id)}
+                                        />
+                                    </Grid>
+                                )
+                            }
+                            <Grid item>
+                                <SolarSystemBtn 
+                                    systemName={"test"}
+                                    isSelected={false}
+                                    isExpanded={this.state.isExpanded}
+                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
+                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
+                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <SolarSystemBtn 
+                                    systemName={"test"}
+                                    isSelected={false}
+                                    isExpanded={this.state.isExpanded}
+                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
+                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
+                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <SolarSystemBtn 
+                                    systemName={"test"}
+                                    isSelected={false}
+                                    isExpanded={this.state.isExpanded}
+                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
+                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
+                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Box>
