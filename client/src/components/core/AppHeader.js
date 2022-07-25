@@ -161,36 +161,6 @@ class AppHeader extends Component
                                     </Grid>
                                 )
                             }
-                            <Grid item>
-                                <SolarSystemBtn 
-                                    systemName={"test"}
-                                    isSelected={true}
-                                    isExpanded={this.state.isExpanded}
-                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
-                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
-                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <SolarSystemBtn 
-                                    systemName={"test"}
-                                    isSelected={false}
-                                    isExpanded={this.state.isExpanded}
-                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
-                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
-                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <SolarSystemBtn 
-                                    systemName={"test"}
-                                    isSelected={false}
-                                    isExpanded={this.state.isExpanded}
-                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
-                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
-                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
-                                />
-                            </Grid>
                         </Grid>
 
                         <Grid item sm={2} md={'auto'} alignContent={'center'}>
@@ -231,36 +201,6 @@ class AppHeader extends Component
                                     </Grid>
                                 )
                             }
-                            <Grid item>
-                                <SolarSystemBtn 
-                                    systemName={"test"}
-                                    isSelected={false}
-                                    isExpanded={this.state.isExpanded}
-                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
-                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
-                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <SolarSystemBtn 
-                                    systemName={"test"}
-                                    isSelected={false}
-                                    isExpanded={this.state.isExpanded}
-                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
-                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
-                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <SolarSystemBtn 
-                                    systemName={"test"}
-                                    isSelected={false}
-                                    isExpanded={this.state.isExpanded}
-                                    switchSolarSystem={() => this.switchSolarSystem("ss._id")}
-                                    changeSolarSystemName={name => this.renameSolarSystem("ss._id", "name")}
-                                    removeSolarSystem={() => this.removeSolarSystem("ss._id")}
-                                />
-                            </Grid>
                         </Grid>
                     </Grid>
                 </Box>
