@@ -408,7 +408,7 @@ class SidePanel extends Component {
                             </ListItemButton>
                             <Collapse in={this.state.texturePresetListOpened} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
-                                    <ListItemButton onClick={() => this.props.editselection('selectedPlanetTexturePreset', 'water')} sx={{ pl: 4, backgroundColor: this.props.sptp == 'sun' ? "#606060" : "rgb(255,255,255,0.1)" }}>
+                                    <ListItemButton onClick={() => this.props.editselection('selectedPlanetTexturePreset', 'sun')} sx={{ pl: 4, backgroundColor: this.props.sptp == 'sun' ? "#606060" : "rgb(255,255,255,0.1)" }}>
                                         <ListItemIcon>
                                             <FontAwesomeIcon icon={faSun} color="gold" />
                                         </ListItemIcon>
