@@ -23,6 +23,9 @@ class AppHeader extends Component
 
         this.state = {
             infopagevisible: false,
+            isSettingsPage: false,
+            firstName: "",
+            lastName: "",
 
             // css
             isExpanded: false,
@@ -33,6 +36,27 @@ class AppHeader extends Component
         this.toggleInfoPage = this.toggleInfoPage.bind(this);
         this.expand = this.expand.bind(this);
         
+        this.initializeUserName();
+    }
+
+    async initializeUserName() {
+        const url = `${window.location.protocol}//${window.location.host}/api/fetch-user`
+        const data = {
+            token: this.props.clientSession
+        }
+
+        // Fetch the user's solar systems.
+        try {
+            const response = await axios.post(url, data);
+            
+            this.setState({
+                firstName: response?.data?.user?.firstName || "",
+                lastName: response?.data?.user?.lastName || "",
+                email: response?.data?.user?.email || ""
+            });
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     theme = getTheme();
@@ -52,8 +76,8 @@ class AppHeader extends Component
         // Fetch the user's solar systems.
         try {
             const response = await axios.post(url, data);
-
             this.props.refreshSolarSystems();
+            this.props.switchSolarSystem(response?.data?.solarSystem?._id, false);
         } catch (err) {
             console.log(err);
         }
@@ -72,6 +96,7 @@ class AppHeader extends Component
         try {
             const response = await axios.post(url, data);
 
+            this.switchSolarSystem();
             this.props.refreshSolarSystems();
         } catch (err) {
             console.log(err);
@@ -98,12 +123,13 @@ class AppHeader extends Component
         }
     }
 
-    toggleInfoPage() {
+    toggleInfoPage(isSettingsPage) {
         console.log("Info page visible: " + !this.state.infopagevisible);
 
-        this.setState({
-            infopagevisible: !this.state.infopagevisible
-        });
+        this.setState({infopagevisible: !this.state.infopagevisible});
+
+        if (isSettingsPage === false || isSettingsPage === true)
+            this.setState({isSettingsPage: isSettingsPage});
     }
 
     expand() {
@@ -128,21 +154,25 @@ class AppHeader extends Component
                     left: this.state.isExpanded ? '10px' : '0px',
                     width: this.state.isExpanded ? 'calc(100% - 22px)' : '100%',
                     height: this.state.isExpanded ? '160px' : '56px',
-                    transition: "all .2s ease-in-out"
+                    transition: "all .2s ease-in-out",
+                    [this.theme.breakpoints.down('md')]: {
+                        height: this.state.isExpanded ? '230px' : '56px',
+                    }
                 }}>
-                    <Grid container paddingX={2} paddingY={1} justifyContent={'space-between'} alignItems={'center'} columns={{ xs: 4, sm: 8}} height={'100%'}>
+                    <Grid container paddingX={2} paddingY={1} justifyContent={'space-between'} alignItems={'center'} columns={{ sm: 4, md: 8}} height={'100%'}>
                         {
                             // Info panel: only shown when toggled
-                            this.state.infopagevisible ? <Info onClose={this.toggleInfoPage}/> : null 
+                            this.state.infopagevisible ? <Info onClose={this.toggleInfoPage} isSettingsPage={this.state.isSettingsPage} firstName={this.state.firstName} lastName={this.state.lastName} email={this.state.email}/> : null 
                         }
 
-                        <Grid item xs={1}>
+                        <Grid item sm={2} md={1}>
                             <Typography color={'white'} fontWeight={'bold'} variant="h4" lineHeight={'30px'}>
                                 SOLSTICE
                             </Typography>
                         </Grid>
 
-                        <Grid item container xs={6} sx={2} justifyContent={'center'} columnSpacing={2} rowSpacing={2}>
+                        
+                        <Grid item container md={"auto"} justifyContent={'center'} columnSpacing={2} rowSpacing={2} sx={{[this.theme.breakpoints.down('md')]: {'display': 'none'}}}>
                             {
                                 this.props.solarSystems.map((ss) => 
                                     <Grid item>
@@ -159,8 +189,8 @@ class AppHeader extends Component
                             }
                         </Grid>
 
-                        <Grid item xs={1} alignContent={'center'}>
-                            <IconButton sx={{ float: 'right' }} size={'medium'} onClick={this.toggleInfoPage}>
+                        <Grid item sm={2} md={'auto'} alignContent={'center'}>
+                            <IconButton sx={{ float: 'right' }} size={'medium'} onClick={() => {this.toggleInfoPage(true)}}>
                                 <FontAwesomeIcon icon={faGear}/>
                             </IconButton>
                             <IconButton sx={{ float: 'right' }} size={'medium'} onClick={this.expand}>
@@ -172,6 +202,31 @@ class AppHeader extends Component
                             <IconButton sx={{ float: 'right' }} size={'medium'} disabled={this.state.solarSystems?.length >= 4} onClick={this.createNewSolarSystem}>
                                 <FontAwesomeIcon icon={faPlusCircle}/>
                             </IconButton>
+                        </Grid>
+
+                        <Grid item container md={4} justifyContent={'center'} columnSpacing={2} rowSpacing={2} zeroMinWidth
+                            sx={{
+                                opacity: this.state.isExpanded ? 1 : 0,
+                                transition: 'all .2s ease-in-out',
+                                [this.theme.breakpoints.up('md')]: {
+                                    'display': 'none'
+                                }
+                            }}
+                        >
+                            {
+                                this.props.solarSystems.map((ss) => 
+                                    <Grid item>
+                                        <SolarSystemBtn 
+                                            systemName={ss.name}
+                                            isSelected={ss.selected}
+                                            isExpanded={this.state.isExpanded}
+                                            switchSolarSystem={() => this.switchSolarSystem(ss._id)}
+                                            changeSolarSystemName={name => this.renameSolarSystem(ss._id, name)}
+                                            removeSolarSystem={() => this.removeSolarSystem(ss._id)}
+                                        />
+                                    </Grid>
+                                )
+                            }
                         </Grid>
                     </Grid>
                 </Box>

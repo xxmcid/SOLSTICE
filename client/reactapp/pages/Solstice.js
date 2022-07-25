@@ -21,7 +21,7 @@ const SystemCard = ({solarSystem, navigation}) => (
                 navigation.push('solarsystem', { solarSystem: solarSystem });
         }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
-        <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : ""), borderStyle: "solid", borderWidth: 5, borderRadius: 5}}>
+        <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : "#808080"), borderStyle: "solid", borderWidth: 3, borderRadius: 5}}>
             <Title>{solarSystem.name}</Title>
         </Card.Content>
     </Card>
@@ -32,7 +32,7 @@ const PlanetCard = ({planet, navigation}) => (
             console.log('Clicked Planet: '+ planet.name);
             navigation.push('planet', { planet: planet, solarSystem: curSolarSystem });
         }}>
-        <Card.Content style={{borderColor: "#000", borderStyle: "solid", borderWidth: 1, borderRadius: 5}}>
+        <Card.Content style={{borderColor: "#808080", borderStyle: "solid", borderWidth: 1, borderRadius: 5}}>
             <Title style={{textAlign: "center"}}>{planet.name}</Title>
         </Card.Content>
         {/* <Card.Cover source={{uri: "https://http.cat/401"}} /> */}

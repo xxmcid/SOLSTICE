@@ -9,8 +9,10 @@ import iceTex from '../../assets/Ice.gif';
 import moonTex from '../../assets/Moon.gif';
 import waterTex from '../../assets/Water.gif';
 import sunTex from '../../assets/Sun.gif';
-import backgroundgif from '../../assets/BackgroundGif.gif';
+import background from '../../assets/Background.png';
 
+
+const textureMap = new Map();
 // THIS IS NOT A REACT SCRIPT!!!
 export default function sketch(p5) {
 
@@ -29,6 +31,7 @@ export default function sketch(p5) {
     let height;
 
     // Global State variables passed down from Solstice.js
+    let setHasLoaded;
     let setsizingparams;
     let expandsidepanel;
     let setselections;
@@ -47,6 +50,8 @@ export default function sketch(p5) {
         setselections = props.setselections;
         // Set sizing function in solstice.js
         setsizingparams = props.setsizingparams;
+        // Set hasLoaded for Memo
+        setHasLoaded = props.setHasLoaded;
 
         if (planetsArray.length > 0)
         {
@@ -99,8 +104,6 @@ export default function sketch(p5) {
         }
     }
 
-    const textureMap = new Map();
-
     // Sets up our main solar system canvas for drawing
     p5.setup = () => {
         // Update Dimensions based on viewport size.
@@ -108,18 +111,29 @@ export default function sketch(p5) {
         // Create Canvas
         canvas = p5.createCanvas(width, height, p5.WEBGL);
         canvas.parent("canvaswrapper");
+
+        setHasLoaded(true);
     }
 
     p5.preload = () => {
-        textureMap.set('earth', p5.loadImage(earthTex));
-        textureMap.set('dry', p5.loadImage(dryTex));
-        textureMap.set('gas1', p5.loadImage(GasTex));
-        textureMap.set('gas2', p5.loadImage(GasTex2));
-        textureMap.set('ice', p5.loadImage(iceTex));
-        textureMap.set('water', p5.loadImage(waterTex));
-        textureMap.set('moon', p5.loadImage(moonTex));
-        textureMap.set('sun', p5.loadImage(sunTex));
-        textureMap.set('background', p5.loadImage(backgroundgif));
+        if (!textureMap.has('earth'))
+            textureMap.set('earth', p5.loadImage(earthTex));
+        if (!textureMap.has('dry'))
+            textureMap.set('dry', p5.loadImage(dryTex));
+        if (!textureMap.has('gas1'))
+            textureMap.set('gas1', p5.loadImage(GasTex));
+        if (!textureMap.has('gas2'))
+            textureMap.set('gas2', p5.loadImage(GasTex2));
+        if (!textureMap.has('ice'))
+            textureMap.set('ice', p5.loadImage(iceTex));
+        if (!textureMap.has('water'))
+            textureMap.set('water', p5.loadImage(waterTex));
+        if (!textureMap.has('moon'))
+            textureMap.set('moon', p5.loadImage(moonTex));
+        if (!textureMap.has('sun'))
+            textureMap.set('sun', p5.loadImage(sunTex));
+        if (!textureMap.has('background'))
+            textureMap.set('background', p5.loadImage(background));
     }
 
     // This function is called repeatedly by P5 to give the illusion of
@@ -132,7 +146,6 @@ export default function sketch(p5) {
 
         p5.beginShape();
         p5.texture(textureMap.get('background'));
-        textureMap.get('background').delay(100);
         p5.rect(-width/2, -height/2, width, height);
         p5.endShape();
 
@@ -213,8 +226,9 @@ export default function sketch(p5) {
                 }
 
                 let name = moons[i]?.name;
-                let color = moons[i]?.color;
+                let color = moons[i]?.color || '#efefef';
                 let id = moons[i]?._id;
+                let texturePreset = moons[i]?.texturePreset || 'moon';
 
                 // Set moons parent to 'this' planet.
                 let parent = this;
@@ -231,7 +245,7 @@ export default function sketch(p5) {
                 moonVel.setMag(p5.sqrt(G * this.mass / moonPos.mag() ));
 
                 // Create internal P5 object
-                let moon = new Body(mass, moonPos, moonVel, 'moon', color, name, id, (230 * i), radius, parent, "moon");
+                let moon = new Body(mass, moonPos, moonVel, 'moon', color, name, id, (230 * i), radius, parent, texturePreset);
 
                 // Add moon to 'this' planets moon array.
                 this.moons.push(moon);
@@ -284,11 +298,15 @@ export default function sketch(p5) {
             let xOffset = p5.mouseX - (width/2);
             let yOffset = p5.mouseY - (height/2);
             let d = p5.dist(xOffset, yOffset, this.pos.x, this.pos.y)
-            if (d < this.mass)
+
+            // Sets correct aspect ratio
+            let offsetDist = (d * (width/height));
+            if (offsetDist < this.mass)
             {
                 // Update selected planet in solstice.
                 let moonId = (this.type == 'moon') ? this.id : null;
-                setselections(this.name, this.mass, G, this.r, this.type, this.color, moonId, this.id, this.parent, this.texturePreset);
+                setselections(this.name, this.mass, G, this.r, this.type, this.color, this.texturePreset, moonId, this.id, this.parent, this.texturePreset);
+                return;
             }
         }
 

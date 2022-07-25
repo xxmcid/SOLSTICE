@@ -1,21 +1,43 @@
-#masterContainer
-{
+#masterContainer {
     /* Structure to make sure header and actual canvas don't collide */
     display: flex;
     flex-direction: column;
 }
 
-#canvaswrapper
-{   
+#canvaswrapper {
     box-sizing: border-box;
     position: fixed;
     height: 100%;
     width: 100%;
     z-index: -2;
-    background-image: url(../assets/PixelStars.gif);
+    background-image: url(../assets/BackgroundGif.gif);
+    background-color: rgba(100, 50, 0, .35); /* Tint color */
+    background-blend-mode: multiply;
 }
 
-#sidepanel
-{
+#sidepanel {
     z-index: -1;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgb(50, 48, 49);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

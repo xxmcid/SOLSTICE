@@ -47,11 +47,12 @@ class Solstice extends Component
             // Selection States
             selectedPlanetId: '',
             selectedPlanetName: '',
-            selectedPlanetMass: 0,
+            selectedPlanetMass: 30,
             selectedPlanetGravity: 0,
-            selectedPlanetDistance: 0,
-            selectedPlanetType: '',
-            selectedPlanetColor: '',
+            selectedPlanetDistance: 200,
+            selectedPlanetType: 'planet',
+            selectedPlanetColor: '#FFFFFF',
+            selectedPlanetTexturePreset: 'earth',
             selectedPlanetMoonId: '',
             selectedPlanetParent: null,
 
@@ -99,6 +100,9 @@ class Solstice extends Component
                 const response = await axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
 
                 let solarSystems = response.data.solarSystems;
+                if (!solarSystems) {
+                    console.log('> Error fetching solar systems.'); return;
+                }
 
                 // Match each solar system's 'selected' status
                 solarSystems.forEach((solarSystem, solarSystemIndex) => {
@@ -120,14 +124,14 @@ class Solstice extends Component
                             planets: solarSystem.planets,
                             solarSystemId: solarSystem._id
                         });
-                        this.updateSelectedSolarSystem(solarSystem._id)
+                        this.updateSelectedSolarSystem(solarSystem._id, true);
                     }
                 });
-            } catch(err) { console.log(err?.response?.data) };
+            } catch(err) { if (err?.response?.data) { console.log(err?.response?.data) } else console.log(err) };
         }, BACKGROUND_REFRESH_DELAY);
     }
 
-    async updateSelectedSolarSystem(id) {
+    async updateSelectedSolarSystem(id, preventSelection) {
         try { // Fetch the user's solar systems.
             const response = await axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
 
@@ -141,20 +145,19 @@ class Solstice extends Component
             // Set our planets JSON to our state
             // P5 should see this change in sketch.js and update accordingly.
             solarSystems.forEach((solarSystem, solarSystemIndex) => {
-                if (solarSystem._id === id) {
+                if ((!id && solarSystemIndex == 0) || solarSystem._id === id) {
                     const planetsArray = solarSystem ? solarSystem.planets : [];
+                    if (!preventSelection) solarSystems[solarSystemIndex].selected = true;
+                    if (!id) return this.updateSelectedSolarSystem(solarSystem._id, false);
             
                     if (solarSystem && planetsArray) {
                         this.setState({
-                            solarSystems: solarSystems,
                             planets: planetsArray,
                             solarSystemId: solarSystem._id,
                         });
                     }
-
-                    return;
-                }
-            });
+                } else if (!preventSelection) solarSystems[solarSystemIndex].selected = false;
+            }); this.setState({solarSystems: solarSystems});
         } catch(err) { console.log(err?.response?.data) };
     }
 
@@ -167,12 +170,9 @@ class Solstice extends Component
 
             // Set our planets JSON to our state
             // P5 should see this change in sketch.js and update accordingly.
-            this.setState({
-                solarSystems: solarSystems,
-            });
+            this.setState({solarSystems: solarSystems});
         }).catch(err => {
-            console.log(err);
-            console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
+            console.log(err?.response?.data);
         });
     }
 
@@ -214,7 +214,7 @@ class Solstice extends Component
 
     // When a certain planet is selected, P5 will call this function
     // with all the information of the planet sent as params.
-    setselections(spn, spm, spg, spd, spt, spc, moonId, id, parent)
+    setselections(spn, spm, spg, spd, spt, spc, sptp, moonId, id, parent)
     {
         this.setState({
             iseditingplanet: true,
@@ -224,6 +224,7 @@ class Solstice extends Component
             selectedPlanetDistance: spd,
             selectedPlanetType: spt,
             selectedPlanetColor: spc,
+            selectedPlanetTexturePreset: sptp || 'earth',
             selectedPlanetMoonId: moonId,
             selectedPlanetId: id,
             selectedPlanetParent: parent
@@ -248,11 +249,12 @@ class Solstice extends Component
         this.setState({
             iseditingplanet: false,
             selectedPlanetName: '',
-            selectedPlanetMass: 0,
+            selectedPlanetMass: 30,
             selectedPlanetGravity: 0,
-            selectedPlanetDistance: 0,
-            selectedPlanetType: '',
-            selectedPlanetColor: '',
+            selectedPlanetDistance: 200,
+            selectedPlanetType: 'planet',
+            selectedPlanetColor: '#ffffff',
+            selectedPlanetTexturePreset: 'earth',
             selectedPlanetMoonId: '',
             selectedPlanetId: '',
             selectedPlanetParent: null
@@ -293,7 +295,7 @@ class Solstice extends Component
                 <ThemeProvider theme={getTheme()} id='masterContainer'>
                     <AppHeader 
                         solarSystems={this.state.solarSystems} 
-                        switchSolarSystem={id => this.updateSelectedSolarSystem(id)}
+                        switchSolarSystem={id => this.updateSelectedSolarSystem(id, false)}
                         clientSession={this.state.clientSession}
                         refreshSolarSystems={() => this.refreshSolarSystems()}
                     />
@@ -317,6 +319,7 @@ class Solstice extends Component
                         spd={this.state.selectedPlanetDistance}
                         spt={this.state.selectedPlanetType}
                         spc={this.state.selectedPlanetColor}
+                        sptp={this.state.selectedPlanetTexturePreset}
                         spp={this.state.selectedPlanetParent}
                         moonId={this.state.selectedPlanetMoonId}
                     /> 
@@ -338,10 +341,10 @@ class Solstice extends Component
                     <Memo 
                         setsizingparams={this.setsizingparams.bind(this)}
                         planets={this.state.planets}
-                        setselections={this.setselections.bind(this)} 
+                        setselections={this.setselections.bind(this)}
                     />
 
-                    <Link to='/logout'>
+                    {/* <Link to='/logout'>
                         <Button 
                             id='logoutbutton'
                             variant='contained' 
@@ -356,7 +359,7 @@ class Solstice extends Component
                         >
                             Log Out
                         </Button>
-                    </Link>
+                    </Link> */}
                 </ThemeProvider>
             );
         } else if (!this.state.clientSession) {

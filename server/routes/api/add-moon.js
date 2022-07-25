@@ -24,7 +24,7 @@ app.post('/', async function (req, res) {
         gravitationalPull: req.body.moon.gravitationalPull,
         distance: req.body.moon.distance,
         color: req.body.moon.color,
-        texturePreset: req.body.moon.texturePreset,
+        texturePreset: req.body.moon.texturePreset || 'moon',
         type: 'moon'
     });
     moon.moons = undefined;
