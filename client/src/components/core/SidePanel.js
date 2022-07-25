@@ -63,6 +63,7 @@ class SidePanel extends Component {
         // If we're editing an existing planet
         if (this.props.iseditingplanet == true) {
 
+            // Checks to see if selected body is a moon of some sort.
             if (this.props.spt == "moon") {
                 this.updateMoon(); return;
             }

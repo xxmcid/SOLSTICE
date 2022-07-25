@@ -291,11 +291,15 @@ export default function sketch(p5) {
             let xOffset = p5.mouseX - (width/2);
             let yOffset = p5.mouseY - (height/2);
             let d = p5.dist(xOffset, yOffset, this.pos.x, this.pos.y)
-            if (d < this.mass)
+
+            // Sets correct aspect ratio
+            let offsetDist = (d * (width/height));
+            if (offsetDist < this.mass)
             {
                 // Update selected planet in solstice.
                 let moonId = (this.type == 'moon') ? this.id : null;
                 setselections(this.name, this.mass, G, this.r, this.type, this.color, this.texturePreset, moonId, this.id, this.parent, this.texturePreset);
+                return;
             }
         }
 
