@@ -92,30 +92,31 @@ class SignupPage extends Component {
             
             // Display error messages in red text to users.
             // TODO: figure out why this errors (what are the ? for?):
-            const errMsg = err?.response?.data?.error?.toLowerCase(); // `TypeError: a.toLowerCase is not a function`
+            const errMsg = err?.response?.data?.error;
             if (errMsg) {
-                if (errMsg.includes('first name')) {
+                const errMsgLowerCase = err?.response?.data?.error?.toLowerCase();
+                if (errMsgLowerCase.includes('first name')) {
                     this.setState({
                         firstNameErr: true,
                         firstNameErrMsg: errMsg,
                     })
                 } 
                 
-                if (errMsg.includes('last name')) {
+                if (errMsgLowerCase.includes('last name')) {
                     this.setState({
                         lastNameErr: true,
                         lastNameErrMsg: errMsg,
                     })
                 } 
                 
-                if (errMsg.includes('email')) {
+                if (errMsgLowerCase.includes('email')) {
                     this.setState({
                         emailErr: true,
                         emailErrMsg: errMsg,
                     })
                 } 
                 
-                if (errMsg.includes('password')) {
+                if (errMsgLowerCase.includes('password')) {
                     this.setState({
                         passwordErr: true,
                         passwordErrMsg: errMsg,
