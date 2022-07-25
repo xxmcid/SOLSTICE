@@ -29,6 +29,7 @@ export default function sketch(p5) {
     let height;
 
     // Global State variables passed down from Solstice.js
+    let setHasLoaded;
     let setsizingparams;
     let expandsidepanel;
     let setselections;
@@ -47,6 +48,8 @@ export default function sketch(p5) {
         setselections = props.setselections;
         // Set sizing function in solstice.js
         setsizingparams = props.setsizingparams;
+        // Set hasLoaded for Memo
+        setHasLoaded = props.setHasLoaded;
 
         if (planetsArray.length > 0)
         {
@@ -108,6 +111,8 @@ export default function sketch(p5) {
         // Create Canvas
         canvas = p5.createCanvas(width, height, p5.WEBGL);
         canvas.parent("canvaswrapper");
+
+        setHasLoaded(true);
     }
 
     p5.preload = () => {
@@ -133,6 +138,7 @@ export default function sketch(p5) {
         p5.beginShape();
         p5.texture(textureMap.get('background'));
         textureMap.get('background').delay(100);
+        // p5.background(0, 0);
         p5.rect(-width/2, -height/2, width, height);
         p5.endShape();
 

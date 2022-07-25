@@ -14,9 +14,9 @@ export default class Positioner extends React.Component {
       <Box sx={{
           color: this.props.color ? this.props.color : "none",
           backgroundColor: this.props.backgroundColor ? this.props.backgroundColor : "none",
-          borderRadius: this.props.borderRadius ? this.props.borderRadius : 0,
+          borderRadius: this.props.isLoadingScreen ? "15px" : (this.props.borderRadius ? this.props.borderRadius : 0),
           width: "100%",
-          maxWidth: "min(400px, calc(100% - 40px))",
+          maxWidth: this.props.isLoadingScreen ? "min(275px, calc(100% - 40px))" : "min(400px, calc(100% - 40px))",
           position: 'fixed',
           top: '50%',
           left: (this.props.position === 'left') ? '300px' : '50%',

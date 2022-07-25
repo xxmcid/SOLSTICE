@@ -100,6 +100,9 @@ class Solstice extends Component
                 const response = await axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
 
                 let solarSystems = response.data.solarSystems;
+                if (!solarSystems) {
+                    console.log('> Error fetching solar systems.'); return;
+                }
 
                 // Match each solar system's 'selected' status
                 solarSystems.forEach((solarSystem, solarSystemIndex) => {
@@ -124,7 +127,7 @@ class Solstice extends Component
                         this.updateSelectedSolarSystem(solarSystem._id, true)
                     }
                 });
-            } catch(err) { console.log(err?.response?.data) };
+            } catch(err) { if (err?.response?.data) { console.log(err?.response?.data) } else console.log(err) };
         }, BACKGROUND_REFRESH_DELAY);
     }
 
@@ -339,7 +342,7 @@ class Solstice extends Component
                     <Memo 
                         setsizingparams={this.setsizingparams.bind(this)}
                         planets={this.state.planets}
-                        setselections={this.setselections.bind(this)} 
+                        setselections={this.setselections.bind(this)}
                     />
 
                     <Link to='/logout'>

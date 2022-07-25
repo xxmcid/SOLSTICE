@@ -10,7 +10,9 @@
     height: 100%;
     width: 100%;
     z-index: -2;
-    background-image: url(../assets/PixelStars.gif);
+    background-image: url(../assets/BackgroundGif.gif);
+    background-color: rgba(100, 50, 0, .35); /* Tint color */
+    background-blend-mode: multiply;
 }
 
 #sidepanel {

@@ -1,17 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
-//P5 Core
+// Styling Imports
+import { getTheme } from '../../styles/mainTheme';
+
+// Mui Components
+import { ThemeProvider, TextField, Button, Typography, Grid } from '@mui/material';
+import Positioner from '../Positioner';
+
+// P5 Core
 import { ReactP5Wrapper } from "react-p5-wrapper";
 import sketch from './sketch';
 
 function Memo(props) {
-    return(
+    const [hasLoaded, setHasLoaded] = useState(false)
+
+    return (
         <div id="canvaswrapper">
+            {!hasLoaded && (<ThemeProvider theme={getTheme()}>
+                <Positioner color='text.primary' backgroundColor='background.paper' borderRadius={2} isLoadingScreen={true}>
+                    <Grid container columns={4} rowSpacing={2} columnSpacing={2} padding='24px'>
+                        <Grid item xs={4}>
+                            <Typography sx={{marginBottom: "10px"}} align='center' fontWeight={'bold'} variant="h4">Loading</Typography>
+                            <LoadingSpinner />
+                        </Grid>
+                    </Grid>
+                </Positioner>
+            </ThemeProvider>)}
+
             <ReactP5Wrapper 
                 sketch={sketch} 
                 planets={props.planets}
                 setsizingparams={props.setsizingparams}
                 setselections={props.setselections}
+                setHasLoaded={setHasLoaded}
             ></ReactP5Wrapper>
         </div>
     )
