@@ -326,7 +326,9 @@ class SidePanel extends Component {
                         justifyContent='center' 
                         paddingBottom={3} 
                         maxHeight='100%' 
-                        sx={{ overflowY: 'scroll' }}
+                        sx={{
+                            overflowY: 'scroll'
+                        }}
                     >
                         <Grid item xs={9} marginTop={2}>
                             <TextField 
