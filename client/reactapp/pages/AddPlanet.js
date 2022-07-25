@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState, useReducer } from "react";
 
 import { planetPageStyle } from "./planetpagestyle";
-import { Button, Card, Paragraph, TextInput } from "react-native-paper";
+import { Button, Card, Paragraph, TextInput, List } from "react-native-paper";
 import { SafeAreaView, View } from 'react-native';
 
 function AddPlanet() {
@@ -15,8 +15,10 @@ function AddPlanet() {
 
     const [name, setName] = useState("Planet");
     const [mass, setMass] = useState(35);
-    const [distance, setDistance] = useState(10);
-    const [color, setColor] = useState("");
+    const [distance, setDistance] = useState(200);
+    const [color, setColor] = useState("#ffffff");
+    const [texturePreset, setTexturePreset] = useState('earth');
+    
     const [moons, setMoons] = useState([]);
 
     const addMoon = () => {
@@ -60,6 +62,7 @@ function AddPlanet() {
             distance: Number(distance),
             color: color,
             type: 'planet',
+            texturePreset: texturePreset,
             moons: moons
         }
 
@@ -72,8 +75,8 @@ function AddPlanet() {
         try {
             // Send data to the server.
             const response = await axios.post(
-            "https://solstice-project.herokuapp.com/api/add-planet",
-            data
+                "https://solstice-project.herokuapp.com/api/add-planet",
+                data
             );
 
             // Go to the main home screen
@@ -94,6 +97,17 @@ function AddPlanet() {
                             <TextInput onChangeText={setMass} value={mass.toString()} autoCapitalize='none' autoCorrect={false} label="Mass"></TextInput>
                             <TextInput onChangeText={setDistance} value={distance.toString()} autoCapitalize='none' autoCorrect={false} label="Distance"></TextInput>
                             <TextInput onChangeText={setColor} value={color} autoCapitalize='none' autoCorrect={false} label="Color"></TextInput>
+
+                            <List.Accordion style={{backgroundColor: "#cfcfcf"}} title="Texture Preset" left={props => <List.Icon {...props} icon="texture-box"/>}>
+                                <List.Item style={{backgroundColor: texturePreset == 'sun' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('sun')}} title="Sun" left={props => <List.Icon {...props} color="gold" icon="white-balance-sunny"/>}/>
+                                <List.Item style={{backgroundColor: texturePreset == 'earth' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('earth')}} title="Earth" left={props => <List.Icon {...props} color="green" icon="circle"/>}/>
+                                <List.Item style={{backgroundColor: texturePreset == 'moon' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('moon')}} title="Moon"  left={props => <List.Icon {...props} color="gray" icon="moon-waning-crescent"/>}/>
+                                <List.Item style={{backgroundColor: texturePreset == 'dry' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('dry')}} title="Dry"  left={props => <List.Icon {...props} color="#C2B280" icon="circle"/>}/>
+                                <List.Item style={{backgroundColor: texturePreset == 'gas2' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('gas2')}} title="Gas"  left={props => <List.Icon {...props} color="#A45729" icon="circle-outline"/>}/>
+                                <List.Item style={{backgroundColor: texturePreset == 'gas1' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('gas1')}} title="Gas (with rings)"  left={props => <List.Icon {...props} color="#A45729" icon="circle-off-outline"/>}/>
+                                <List.Item style={{backgroundColor: texturePreset == 'ice' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('ice')}} title="Ice"  left={props => <List.Icon {...props} color="skyblue" icon="square-rounded"/>}/>
+                                <List.Item style={{backgroundColor: texturePreset == 'water' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('water')}} title="Water"  left={props => <List.Icon {...props} color="blue" icon="wave"/>}/>
+                            </List.Accordion>
 
                             <Card.Title style={{marginLeft:"2%",marginRight:"-16%"}} title="Planet's Moons"
                             right={(props)=><Button onPress={addMoon} {...props} style={{marginRight: "20%", width:"55%"}} color="green" mode="contained">+ ADD</Button>}/>

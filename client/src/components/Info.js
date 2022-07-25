@@ -73,11 +73,7 @@ class Info extends Component
                         <Typography variant="h5">
                             Graphics
                         </Typography>
-
-                        <Typography>
-                            Background by <a target="_blank" href="https://www.artstation.com/artwork/8ePZ8O">ArtStation</a>.
-                        </Typography>
-
+                        
                         <Typography>
                             React components made using <a target="_blank" href="https://mui.com/">Material UI</a>.
                         </Typography>
