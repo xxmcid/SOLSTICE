@@ -288,7 +288,7 @@ export default function sketch(p5) {
             {
                 // Update selected planet in solstice.
                 let moonId = (this.type == 'moon') ? this.id : null;
-                setselections(this.name, this.mass, G, this.r, this.type, this.color, moonId, this.id, this.parent, this.texturePreset);
+                setselections(this.name, this.mass, G, this.r, this.type, this.color, this.texturePreset, moonId, this.id, this.parent, this.texturePreset);
             }
         }
 

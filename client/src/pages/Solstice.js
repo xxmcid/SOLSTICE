@@ -47,11 +47,12 @@ class Solstice extends Component
             // Selection States
             selectedPlanetId: '',
             selectedPlanetName: '',
-            selectedPlanetMass: 0,
+            selectedPlanetMass: 30,
             selectedPlanetGravity: 0,
-            selectedPlanetDistance: 0,
-            selectedPlanetType: '',
-            selectedPlanetColor: '',
+            selectedPlanetDistance: 200,
+            selectedPlanetType: 'planet',
+            selectedPlanetColor: 'earth',
+            selectedPlanetTexturePreset: 'earth',
             selectedPlanetMoonId: '',
             selectedPlanetParent: null,
 
@@ -211,7 +212,7 @@ class Solstice extends Component
 
     // When a certain planet is selected, P5 will call this function
     // with all the information of the planet sent as params.
-    setselections(spn, spm, spg, spd, spt, spc, moonId, id, parent)
+    setselections(spn, spm, spg, spd, spt, spc, sptp, moonId, id, parent)
     {
         this.setState({
             iseditingplanet: true,
@@ -221,6 +222,7 @@ class Solstice extends Component
             selectedPlanetDistance: spd,
             selectedPlanetType: spt,
             selectedPlanetColor: spc,
+            selectedPlanetTexturePreset: sptp || 'earth',
             selectedPlanetMoonId: moonId,
             selectedPlanetId: id,
             selectedPlanetParent: parent
@@ -245,11 +247,12 @@ class Solstice extends Component
         this.setState({
             iseditingplanet: false,
             selectedPlanetName: '',
-            selectedPlanetMass: 0,
+            selectedPlanetMass: 30,
             selectedPlanetGravity: 0,
-            selectedPlanetDistance: 0,
-            selectedPlanetType: '',
-            selectedPlanetColor: '',
+            selectedPlanetDistance: 200,
+            selectedPlanetType: 'planet',
+            selectedPlanetColor: '#ffffff',
+            selectedPlanetTexturePreset: 'earth',
             selectedPlanetMoonId: '',
             selectedPlanetId: '',
             selectedPlanetParent: null
@@ -314,6 +317,7 @@ class Solstice extends Component
                         spd={this.state.selectedPlanetDistance}
                         spt={this.state.selectedPlanetType}
                         spc={this.state.selectedPlanetColor}
+                        sptp={this.state.selectedPlanetTexturePreset}
                         spp={this.state.selectedPlanetParent}
                         moonId={this.state.selectedPlanetMoonId}
                     /> 

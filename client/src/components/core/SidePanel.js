@@ -11,15 +11,17 @@ import { ReactP5Wrapper } from "react-p5-wrapper";
 import miniSketch from './miniSketch';
 
 // MUI Components
-import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button, Slider } from '@mui/material';
+import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button, Slider, List, ListItemButton, ListItemText, ListItemIcon, Collapse } from '@mui/material';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 // Misc Components
 import { HexColorPicker } from "react-colorful";
 
 // Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faCircleXmark, faMoon} from '@fortawesome/free-solid-svg-icons';
-
+import { faSave, faCircleXmark, faBarsStaggered, faSun, faEarth, faMoon, faCircle, faBan, faSquare, faWater} from '@fortawesome/free-solid-svg-icons';
+import { faCircle as farCircle } from '@fortawesome/free-regular-svg-icons';
 
 
 class SidePanel extends Component {
@@ -31,7 +33,9 @@ class SidePanel extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.addMoon = this.addMoon.bind(this);
 
-        this.state = {};
+        this.state = {
+            texturePresetListOpened: false
+        };
     }
 
     // getDerivedStateFromProps exists for only one purpose. 
@@ -47,6 +51,7 @@ class SidePanel extends Component {
             selectedPlanetDistance: nextProps.spd,
             selectedPlanetType: nextProps.spt,
             selectedPlanetColor: nextProps.spc,
+            selectedPlanetTexturePreset: nextProps.sptp || 'earth',
             selectedPlanetParent: nextProps.spp,
             selectedPlanetMoonId: nextProps.moonId,
         }
@@ -58,10 +63,8 @@ class SidePanel extends Component {
         // If we're editing an existing planet
         if (this.props.iseditingplanet == true) {
 
-            if (this.props.spt == "moon")
-            {
-                this.updateMoon();
-                return;
+            if (this.props.spt == "moon") {
+                this.updateMoon(); return;
             }
 
             // Update the current planet.
@@ -78,7 +81,7 @@ class SidePanel extends Component {
                     "gravitationalPull": Number(this.props.spg),
                     "distance": Number(this.props.spd),
                     "type": this.props.spt || 'planet', // 'planet' as default type to prevent errors
-                    "texturePreset": "earth",
+                    "texturePreset": this.props.sptp || 'earth',
                     "color": this.props.spc || '#FFFFFF'
                 }
             }
@@ -110,7 +113,7 @@ class SidePanel extends Component {
                     "gravitationalPull": Number(this.props.spg),
                     "distance": Number(this.props.spd),
                     "type": this.props.spt || 'planet', // 'planet' as default type to prevent errors
-                    "texturePreset": "earth",
+                    "texturePreset": this.props.sptp || 'earth',
                     "color": this.props.spc || '#FFFFFF'
                 }
             }
@@ -388,6 +391,82 @@ class SidePanel extends Component {
                                     />
                             </Grid>
                         </Fragment>}
+
+                        <List
+                            sx={{ width: '100%', marginTop: "10px", maxWidth: 360, bgcolor: 'background.paper' }}
+                            component="nav"
+                        >
+                            <ListItemButton onClick={() => {this.setState({texturePresetListOpened: !this.state.texturePresetListOpened})}}>
+                                <ListItemIcon>
+                                    <FontAwesomeIcon icon={faBarsStaggered} />
+                                </ListItemIcon>
+                                <ListItemText primary="Texture Preset" />
+                                {this.state.texturePresetListOpened ? <ExpandLess /> : <ExpandMore />}
+                            </ListItemButton>
+                            <Collapse in={this.state.texturePresetListOpened} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    <ListItemButton onClick={() => this.props.editselection('selectedPlanetTexturePreset', 'water')} sx={{ pl: 4, backgroundColor: this.props.sptp == 'sun' ? "#606060" : "rgb(255,255,255,0.1)" }}>
+                                        <ListItemIcon>
+                                            <FontAwesomeIcon icon={faSun} color="gold" />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Sun" />
+                                    </ListItemButton>
+                                    <ListItemButton onClick={() => this.props.editselection('selectedPlanetTexturePreset', 'earth')} sx={{ pl: 4, backgroundColor: this.props.sptp == 'earth' ? "#606060" : "rgb(255,255,255,0.1)" }}>
+                                        <ListItemIcon>
+                                            <FontAwesomeIcon icon={faEarth} color="green"/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Earth" />
+                                    </ListItemButton>
+                                    <ListItemButton onClick={() => this.props.editselection('selectedPlanetTexturePreset', 'moon')} sx={{ pl: 4, backgroundColor: this.props.sptp == 'moon' ? "#606060" : "rgb(255,255,255,0.1)" }}>
+                                        <ListItemIcon>
+                                            <FontAwesomeIcon icon={faMoon} color="gray"/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Moon" />
+                                    </ListItemButton>
+                                    <ListItemButton onClick={() => this.props.editselection('selectedPlanetTexturePreset', 'dry')} sx={{ pl: 4, backgroundColor: this.props.sptp == 'dry' ? "#606060" : "rgb(255,255,255,0.1)" }}>
+                                        <ListItemIcon>
+                                            <FontAwesomeIcon icon={faCircle} color="#C2B280"/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Dry" />
+                                    </ListItemButton>
+                                    <ListItemButton onClick={() => this.props.editselection('selectedPlanetTexturePreset', 'gas2')} sx={{ pl: 4, backgroundColor: this.props.sptp == 'gas2' ? "#606060" : "rgb(255,255,255,0.1)" }}>
+                                        <ListItemIcon>
+                                            <FontAwesomeIcon icon={farCircle} color="#A45729"/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Gas" />
+                                    </ListItemButton>
+                                    <ListItemButton onClick={() => this.props.editselection('selectedPlanetTexturePreset', 'gas1')} sx={{ pl: 4, backgroundColor: this.props.sptp == 'gas1' ? "#606060" : "rgb(255,255,255,0.1)" }}>
+                                        <ListItemIcon>
+                                            <FontAwesomeIcon icon={faBan} color="#A45729"/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Gas (with rings)" />
+                                    </ListItemButton>
+                                    <ListItemButton onClick={() => this.props.editselection('selectedPlanetTexturePreset', 'ice')} sx={{ pl: 4, backgroundColor: this.props.sptp == 'ice' ? "#606060" : "rgb(255,255,255,0.1)" }}>
+                                        <ListItemIcon>
+                                            <FontAwesomeIcon icon={faSquare} color="skyblue"/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Ice" />
+                                    </ListItemButton>
+                                    <ListItemButton onClick={() => this.props.editselection('selectedPlanetTexturePreset', 'water')} sx={{ pl: 4, backgroundColor: this.props.sptp == 'water' ? "#606060" : "rgb(255,255,255,0.1)" }}>
+                                        <ListItemIcon>
+                                            <FontAwesomeIcon icon={faWater} color="blue"/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Water" />
+                                    </ListItemButton>
+                                </List>
+                            </Collapse>
+                        </List>
+
+                        {/* <List.Accordion style={{backgroundColor: "#cfcfcf"}} title="Texture Preset" left={props => <List.Icon {...props} icon="texture-box"/>}>
+                            <List.Item style={{backgroundColor: texturePreset == 'sun' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('sun')}} title="Sun" left={props => <List.Icon {...props} color="gold" icon="white-balance-sunny"/>}/>
+                            <List.Item style={{backgroundColor: texturePreset == 'earth' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('earth')}} title="Earth" left={props => <List.Icon {...props} color="green" icon="circle"/>}/>
+                            <List.Item style={{backgroundColor: texturePreset == 'moon' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('moon')}} title="Moon"  left={props => <List.Icon {...props} color="gray" icon="moon-waning-crescent"/>}/>
+                            <List.Item style={{backgroundColor: texturePreset == 'dry' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('dry')}} title="Dry"  left={props => <List.Icon {...props} color="#C2B280" icon="circle"/>}/>
+                            <List.Item style={{backgroundColor: texturePreset == 'gas2' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('gas2')}} title="Gas"  left={props => <List.Icon {...props} color="#A45729" icon="circle-outline"/>}/>
+                            <List.Item style={{backgroundColor: texturePreset == 'gas1' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('gas1')}} title="Gas (with rings)"  left={props => <List.Icon {...props} color="#A45729" icon="circle-off-outline"/>}/>
+                            <List.Item style={{backgroundColor: texturePreset == 'ice' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('ice')}} title="Ice"  left={props => <List.Icon {...props} color="skyblue" icon="square-rounded"/>}/>
+                            <List.Item style={{backgroundColor: texturePreset == 'water' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('water')}} title="Water"  left={props => <List.Icon {...props} color="blue" icon="wave"/>}/>
+                        </List.Accordion> */}
 
                         <Grid item xs={9} marginTop={2}>
                             <Typography variant='h7' align='left'>Color</Typography>
