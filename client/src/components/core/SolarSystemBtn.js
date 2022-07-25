@@ -2,7 +2,7 @@
 import { React, Component } from 'react';
 
 // Image 
-import image from '../../assets/PixelSolarSystem.jpg'
+import image from '../../assets/MainBackground.gif'
 
 // MUI Components
 import { Button, ButtonGroup, TextField, Typography } from '@mui/material';
