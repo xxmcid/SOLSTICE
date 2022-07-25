@@ -41,7 +41,7 @@ app.post('/', async function (req, res) {
                 mass: 25,
                 gravitationalPull: 1,
                 distance: 150,
-                color: "#7FE54C",
+                color: "#FFFFFF",
                 type: 'planet',
                 texturePreset: 'earth',
                 moons: [
@@ -50,7 +50,7 @@ app.post('/', async function (req, res) {
                         mass: 15,
                         gravitationalPull: 1,
                         distance: 0,
-                        color: "#808080",
+                        color: "#efefef",
                         type: 'moon',
                         texturePreset: 'moon'
                     }
