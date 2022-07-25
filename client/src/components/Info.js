@@ -57,7 +57,7 @@ class Info extends Component
                             <Grid item>
                                 <IconButton id='closebutton' 
                                     onClick={this.props.onClose}
-                                    color="red"
+                                    color="error"
                                     sx={{
                                         borderRadius: 2,
                                         height: 'fit-content',
