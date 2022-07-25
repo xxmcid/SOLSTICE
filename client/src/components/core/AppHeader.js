@@ -147,7 +147,8 @@ class AppHeader extends Component
                                 this.props.solarSystems.map((ss) => 
                                     <Grid item>
                                         <SolarSystemBtn 
-                                            systemName={ss.name} 
+                                            systemName={ss.name}
+                                            isSelected={ss.selected}
                                             isExpanded={this.state.isExpanded}
                                             switchSolarSystem={() => this.switchSolarSystem(ss._id)}
                                             changeSolarSystemName={name => this.renameSolarSystem(ss._id, name)}

@@ -15,7 +15,7 @@ function EmailVerification(){
       }
     return(
         <ImageBackground
-        source ={require('.././assets/solar_mobile.png')}
+        source ={require('.././assets/MainBackgroundMobile.gif')}
         style={{width:'100%', height: '100%'}}>
             <SafeAreaView>
                 <View>
@@ -33,7 +33,8 @@ function EmailVerification(){
                                 You may need to check your spam/promotions folder.
                             </Paragraph>
                             <Button onPress={redirectHome} uppercase={false} color="black" mode="outlined">
-                            <Ionicons name="ios-home" size={15} color="black" />                               
+                                <Ionicons name="ios-home" size={15} color="black"/>
+                                ‎‎‎
                                 Go to Sign In
                             </Button>
                         </Card.Content>

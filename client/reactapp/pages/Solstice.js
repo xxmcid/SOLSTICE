@@ -120,7 +120,7 @@ function Solstice() {
 
     return (
         <ImageBackground
-            source ={require('.././assets/solar_mobile.png')}
+            source ={require('.././assets/MainBackgroundMobile.gif')}
             style={{width:'100%', height: '100%'}}>
           <SafeAreaView>
             <View>

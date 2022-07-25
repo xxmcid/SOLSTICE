@@ -2,7 +2,7 @@
 import { React, Component } from 'react';
 
 // Image 
-import image from '../../assets/PixelSolarSystem.jpg'
+import image from '../../assets/MainBackground.gif'
 
 // MUI Components
 import { Button, ButtonGroup, TextField, Typography } from '@mui/material';
@@ -60,14 +60,17 @@ class SolarSystemBtn extends Component {
           height: this.props.isExpanded ? '140px' : '28px', 
           boxShadow: this.props.isExpanded ? '' : 'none', 
           backgroundColor: "background.default",
-          transition: 'all .2s ease-in-out'
+          transition: 'all .2s ease-in-out',
+          outlineColor: this.props.isSelected ? "#4490DF" : "#808080",
+          outlineStyle: "solid",
+          outlineWidth: 3
         }}
       >
         {
           <Box sx={{
             width: "100%",
             height: this.props.isExpanded ? '132px' : '20px',
-            transition: 'all .2s ease-in-out',
+            transition: 'all .2s ease-in-out'
           }}>
             {(this.state.isEditingName && this.props.isExpanded) ?
               <TextField 
@@ -110,15 +113,17 @@ class SolarSystemBtn extends Component {
                 color={'error'} 
                 onClick={e => this.removeSolarSystem(e)} 
                 disableRipple={true}
+                disabled={!this.props.isExpanded}
               >
-                remove
+                Remove
               </Button>
               <Button 
                 color={'success'} 
                 onClick={e => this.editName(e)}
                 disableRipple={true}
+                disabled={!this.props.isExpanded}
               >
-                {this.state.isEditingName ? "save" : "edit"}
+                {this.state.isEditingName ? "Save" : "Edit"}
               </Button>
             </ButtonGroup>
           </Box >

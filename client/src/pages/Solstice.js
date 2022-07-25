@@ -23,6 +23,8 @@ import { ThemeProvider } from '@emotion/react';
 import { getTheme } from '../styles/mainTheme';
 import AppHeader from '../components/core/AppHeader';
 
+const BACKGROUND_REFRESH_DELAY = 1000;
+
 class Solstice extends Component
 {
     constructor(props)
@@ -64,39 +66,96 @@ class Solstice extends Component
 
         // Fetch the user's solar systems.
         axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
-        .then(response => {
+            .then(response => {
+                let solarSystems = response.data.solarSystems;
+                let planetsArray = solarSystems[0].planets;
+                console.log("Retrieved solar system!");
+                console.log(solarSystems);
+            
+                // Mark the first solar system as selected
+                solarSystems.forEach((solarSystem, solarSystemIndex) => {
+                    solarSystems[solarSystemIndex].selected = solarSystemIndex == 0 ? true : false;
+                });
+
+                // Set our planets JSON to our state
+                // P5 should see this change in sketch.js and update accordingly.
+                this.setState({
+                    solarSystems: solarSystems,
+                    planets: planetsArray,
+                    solarSystemId: solarSystems[0]?._id
+                });
+                
+                this.beginBackgroundSolarSystemRefresh();
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    beginBackgroundSolarSystemRefresh = () => {
+        setInterval(async () => {
+            console.log('Checking for Mismatched Solar Systems...');
+            try { // Fetch the user's solar systems.
+                const response = await axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
+
+                let solarSystems = response.data.solarSystems;
+
+                // Match each solar system's 'selected' status
+                solarSystems.forEach((solarSystem, solarSystemIndex) => {
+                    solarSystems[solarSystemIndex].selected = this.state.solarSystems[solarSystemIndex].selected;
+                });
+                
+                // Check for mismatching data
+                if (JSON.stringify(solarSystems) == JSON.stringify(this.state.solarSystems))
+                    return;
+                else
+                    console.log('> Found Mismatched Solar Systems! Re-rendering...');
+    
+                // Set our planets JSON to our state
+                // P5 should see this change in sketch.js and update accordingly.
+                this.setState({solarSystems: solarSystems});
+                this.state.solarSystems.forEach((solarSystem) => {
+                    if (solarSystem.selected) {
+                        this.setState({
+                            planets: solarSystem.planets,
+                            solarSystemId: solarSystem._id
+                        });
+                        this.updateSelectedSolarSystem(solarSystem._id)
+                    }
+                });
+            } catch(err) { console.log(err?.response?.data) };
+        }, BACKGROUND_REFRESH_DELAY);
+    }
+
+    async updateSelectedSolarSystem(id) {
+        try { // Fetch the user's solar systems.
+            const response = await axios.get(`${window.location.protocol}//${window.location.host}/api/fetch-solar-systems/${this.state.clientSession}`)
+
             let solarSystems = response.data.solarSystems;
-            let planetsArray = solarSystems[0].planets;
-            console.log("Retrieved solar system!");
-            console.log(solarSystems);
+
+            // Match each solar system's 'selected' status
+            solarSystems.forEach((solarSystem, solarSystemIndex) => {
+                solarSystems[solarSystemIndex].selected = this.state.solarSystems[solarSystemIndex].selected;
+            });
 
             // Set our planets JSON to our state
             // P5 should see this change in sketch.js and update accordingly.
-            this.setState({
-                solarSystems: solarSystems,
-                planets: planetsArray,
-                solarSystemId: solarSystems[0]?._id
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            console.log('COULD NOT FIND ANY SOLAR SYSTEMS FOR THE USER!!!');
-        });
-    }
+            solarSystems.forEach((solarSystem, solarSystemIndex) => {
+                if (solarSystem._id === id) {
+                    const planetsArray = solarSystem ? solarSystem.planets : [];
+            
+                    if (solarSystem && planetsArray) {
+                        this.setState({
+                            solarSystems: solarSystems,
+                            planets: planetsArray,
+                            solarSystemId: solarSystem._id,
+                        });
+                    }
 
-    updateSelectedSolarSystem(id) {
-        this.state.solarSystems.forEach(solarSystem => {
-            if (solarSystem._id === id) {
-                const planetsArray = solarSystem ? solarSystem.planets : null;
-        
-                if (solarSystem && planetsArray) {
-                    this.setState({
-                        planets: planetsArray,
-                        solarSystemId: solarSystem._id,
-                    });
+                    return;
                 }
-            }
-        });
+            });
+        } catch(err) { console.log(err?.response?.data) };
     }
 
     refreshSolarSystems() {
