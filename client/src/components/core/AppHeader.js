@@ -52,8 +52,8 @@ class AppHeader extends Component
         // Fetch the user's solar systems.
         try {
             const response = await axios.post(url, data);
-
             this.props.refreshSolarSystems();
+            this.props.switchSolarSystem(response?.data?.solarSystem?._id, false);
         } catch (err) {
             console.log(err);
         }
@@ -72,6 +72,7 @@ class AppHeader extends Component
         try {
             const response = await axios.post(url, data);
 
+            this.switchSolarSystem();
             this.props.refreshSolarSystems();
         } catch (err) {
             console.log(err);

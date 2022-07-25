@@ -124,7 +124,7 @@ class Solstice extends Component
                             planets: solarSystem.planets,
                             solarSystemId: solarSystem._id
                         });
-                        this.updateSelectedSolarSystem(solarSystem._id, true)
+                        this.updateSelectedSolarSystem(solarSystem._id, true);
                     }
                 });
             } catch(err) { if (err?.response?.data) { console.log(err?.response?.data) } else console.log(err) };
@@ -145,9 +145,10 @@ class Solstice extends Component
             // Set our planets JSON to our state
             // P5 should see this change in sketch.js and update accordingly.
             solarSystems.forEach((solarSystem, solarSystemIndex) => {
-                if (solarSystem._id === id) {
+                if ((!id && solarSystemIndex == 0) || solarSystem._id === id) {
                     const planetsArray = solarSystem ? solarSystem.planets : [];
                     if (!preventSelection) solarSystems[solarSystemIndex].selected = true;
+                    if (!id) return this.updateSelectedSolarSystem(solarSystem._id, false);
             
                     if (solarSystem && planetsArray) {
                         this.setState({
@@ -156,9 +157,7 @@ class Solstice extends Component
                         });
                     }
                 } else if (!preventSelection) solarSystems[solarSystemIndex].selected = false;
-            });
-
-            this.setState({solarSystems: solarSystems});
+            }); this.setState({solarSystems: solarSystems});
         } catch(err) { console.log(err?.response?.data) };
     }
 
