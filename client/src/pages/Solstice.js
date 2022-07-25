@@ -69,6 +69,15 @@ class Solstice extends Component
             let planetsArray = solarSystems[0].planets;
             console.log("Retrieved solar system!");
             console.log(solarSystems);
+        
+            // Mark the first solar system as selected
+            solarSystems.forEach((solarSystem, solarSystemIndex) => {
+                if (solarSystemIndex == 0)
+                    solarSystems[solarSystemIndex].selected = true;
+                else
+                    solarSystems[solarSystemIndex].selected = false;
+            });
+
 
             // Set our planets JSON to our state
             // P5 should see this change in sketch.js and update accordingly.
@@ -85,9 +94,10 @@ class Solstice extends Component
     }
 
     updateSelectedSolarSystem(id) {
-        this.state.solarSystems.forEach(solarSystem => {
+        this.state.solarSystems.forEach((solarSystem, solarSystemIndex) => {
             if (solarSystem._id === id) {
                 const planetsArray = solarSystem ? solarSystem.planets : null;
+                this.state.solarSystems[solarSystemIndex].selected = true;
         
                 if (solarSystem && planetsArray) {
                     this.setState({
@@ -95,6 +105,8 @@ class Solstice extends Component
                         solarSystemId: solarSystem._id,
                     });
                 }
+            } else {
+                this.state.solarSystems[solarSystemIndex].selected = false;
             }
         });
     }
