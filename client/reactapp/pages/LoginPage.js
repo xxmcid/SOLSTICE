@@ -72,7 +72,7 @@ function LoginPage() {
                       emailErr: true,
                       emailErrMsg: error
                   });
-              } 
+              }
               
               if (error2.includes('password')) {
                     setError({
@@ -99,7 +99,7 @@ function LoginPage() {
               <Card style={loginpageStyle.card}>
                   <Card.Title titleStyle={{textAlign:"center"}} title="Sign In"></Card.Title>
                   <Card.Content>
-                      <TextInput activeOutlineColor="blue" outlineColor="black" onChangeText={setEmail} placeholderTextColor='red' autoCapitalize='none' autoCorrect={false} mode="outlined" autoCompleteType='email' label="Email" keyboardType="email-address"></TextInput>
+                  <TextInput activeOutlineColor="blue" outlineColor="black" onChangeText={setEmail} placeholderTextColor='red' autoCapitalize='none' autoCorrect={false} mode="outlined" autoCompleteType='email' label="Email" keyboardType="email-address"></TextInput>
                       <HelperText visible={error.emailErr} style={{textAlign: "center"}} type="error">{error.emailErrMsg}</HelperText>
                       <TextInput activeOutlineColor="blue" outlineColor="black" onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} label="Password" secureTextEntry={true}></TextInput>
                       <HelperText visible={error.passwordErr} style= {{textAlign: "center"}} type="error">{error.passwordErrMsg}</HelperText>
