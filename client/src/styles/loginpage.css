@@ -11,9 +11,24 @@ body {
     /* Need this animation for initial startup */
     animation: fadeInAnimation ease 500ms;
     animation-iteration-count: 1;
-
     width: 100%;
     height: 100%;
+
+    /* Load STATIC background first to fix slow gif loading on slow internet speeds */
+    background-image: url(../assets/MainBackgroundStatic.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#root {
+    /* Force root to spread across whole screen */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    /* Load main background image */
     background-image: url(../assets/MainBackground.gif);
     background-position: center;
     background-size: cover;
