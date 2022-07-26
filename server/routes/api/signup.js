@@ -82,7 +82,7 @@ app.post('/', async function (req, res) {
                                 distance: 0,
                                 color: "#FFEA00",
                                 type: 'sun',
-                                texturePreset: 'earth',
+                                texturePreset: 'sun',
                                 moons: []
                             },
                             {

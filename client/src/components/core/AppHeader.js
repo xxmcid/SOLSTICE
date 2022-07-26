@@ -7,7 +7,7 @@ import Info from '../Info';
 import SolarSystemBtn from './SolarSystemBtn';
 
 // MUI Components
-import { Button, Grid, IconButton, ThemeProvider, Typography } from '@mui/material';
+import { Grid, IconButton, ThemeProvider, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
 // Font Awesome
@@ -126,6 +126,7 @@ class AppHeader extends Component
     toggleInfoPage(isSettingsPage) {
         console.log("Info page visible: " + !this.state.infopagevisible);
 
+        this.props.handlerMuted()
         this.setState({infopagevisible: !this.state.infopagevisible});
 
         if (isSettingsPage === false || isSettingsPage === true)

@@ -62,9 +62,9 @@ class SignupPage extends Component {
         this.setState({confirmPasswordErrorMsg: ''});
         
         const signup = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
+            firstName: this.state.firstName.trim(),
+            lastName: this.state.lastName.trim(),
+            email: this.state.email.trim(),
             password: this.state.password
         };
 

@@ -35,7 +35,7 @@ function LoginPage() {
     e.preventDefault();
     
     const login = {
-        email: email,
+        email: email.trim(),
         password: password
     }; 
     try {
