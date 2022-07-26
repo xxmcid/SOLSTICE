@@ -11,7 +11,7 @@ import { ReactP5Wrapper } from "react-p5-wrapper";
 import miniSketch from './miniSketch';
 
 // MUI Components
-import { Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button, Slider, List, ListItemButton, ListItemText, ListItemIcon, Collapse } from '@mui/material';
+import { Box, Drawer, Paper, Typography, ThemeProvider, Grid, TextField, Button, Slider, List, ListItemButton, ListItemText, ListItemIcon, Collapse } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
@@ -32,10 +32,12 @@ class SidePanel extends Component {
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.toggleConfirmationBanner = this.toggleConfirmationBanner.bind(this);
         this.addMoon = this.addMoon.bind(this);
 
         this.state = {
-            texturePresetListOpened: false
+            texturePresetListOpened: false,
+            confirmationBannerVisible: false
         };
     }
 
@@ -178,6 +180,8 @@ class SidePanel extends Component {
 
         } catch (err) { console.log(err?.response?.data); }
 
+        // Close confirmation banner
+        this.toggleConfirmationBanner();
         // Clears our selected planet from the state.
         this.props.clearselection();
         // Closes the sidepanel
@@ -274,18 +278,28 @@ class SidePanel extends Component {
 
         } catch (err) { console.log(err?.response?.data); }
 
+        // Close confirmation banner
+        this.toggleConfirmationBanner();
         // Clears our selected moon from the state.
         this.props.clearselection();
         // Closes the sidepanel
         this.props.close();
     }
 
+    toggleConfirmationBanner()
+    {
+        this.setState({
+            confirmationBannerVisible: !this.state.confirmationBannerVisible
+        });
+    }
+
     render() {
         return(
-            <ThemeProvider theme={getTheme()}>
+            <ThemeProvider theme={getTheme()}>                    
                 <Drawer 
                     open={this.props.open}
                     onClose={this.handleCancel.bind(this)}
+                    hideBackdrop
                     PaperProps={{ 
                         style: { 
                             display: 'flex',
@@ -544,10 +558,10 @@ class SidePanel extends Component {
                         </Grid>
 
                         {/* Makes Sure that the delete button is only available for existing planets. */}
-                        { !(this.state.selectedPlanetType == 'planet' || this.state.selectedPlanetType == 'moon') ? null :
+                        { !(this.state.selectedPlanetType == 'planet' || this.state.selectedPlanetType == 'moon' || this.state.confirmationBannerVisible) ? null :
                             <Grid item xs={9}>
                                 <Button
-                                    onClick={this.handleDelete}
+                                    onClick={this.toggleConfirmationBanner}
                                     variant='contained'
                                     id='DeletePlanetButton'
                                     color={'error'}
@@ -563,6 +577,31 @@ class SidePanel extends Component {
                                 >
                                     Delete Forever
                                 </Button>
+                            </Grid>
+                        }
+                        {!(this.state.confirmationBannerVisible) ? null :
+                            <Grid container paddingTop={2} align="center" spacing={1}>
+                                <Grid item xs={12}>
+                                    <Typography variant='h4' align="center" paddingTop={2}>Are you sure?</Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Button
+                                        align={'center'}
+                                        variant='contained'
+                                        sx={{ backgroundColor: 'red' }}
+                                        onClick={this.handleDelete}>
+                                            Yes
+                                    </Button>
+                                </Grid>
+        
+                                <Grid item xs={6}>
+                                    <Button
+                                        align={'center'}
+                                        variant='contained'
+                                        onClick={this.toggleConfirmationBanner}>
+                                            No
+                                    </Button>
+                                </Grid>
                             </Grid>
                         }
                     </Grid>

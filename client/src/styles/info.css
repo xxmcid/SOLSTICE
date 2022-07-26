@@ -15,6 +15,7 @@
 
 #confirmDeleteContainer
 {
+    z-index: 3;
     animation: fadeInAnimation ease 500ms;
     animation-iteration-count: 1;
 }
