@@ -341,7 +341,7 @@ export default function sketch(p5) {
         {
             let xOffset = p5.mouseX - (width/2);
             let yOffset = p5.mouseY - (height/2);
-            let d = p5.dist(xOffset, yOffset, this.pos.x, this.pos.y)
+            let d = p5.dist(xOffset, yOffset, this.pos.x, this.pos.y) * (width/height);
             if (d < this.mass)
             {
                 // Update selected planet in solstice.
