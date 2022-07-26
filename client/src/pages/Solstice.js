@@ -341,6 +341,7 @@ class Solstice extends Component
                     <Memo 
                         setsizingparams={this.setsizingparams.bind(this)}
                         planets={this.state.planets}
+                        selectedSolarSystemId={this.state.solarSystemId}
                         setselections={this.setselections.bind(this)}
                     />
 

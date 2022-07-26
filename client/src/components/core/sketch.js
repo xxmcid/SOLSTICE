@@ -36,6 +36,8 @@ export default function sketch(p5) {
     let setsizingparams;
     let expandsidepanel;
     let setselections;
+    let prevSelectedSolarSystemId;
+    let selectedSolarSystemId;
 
     // Wrapper component in Solstice.js passes the planets recieved from
     // database into the global planets array for the canvas renderer.
@@ -53,12 +55,17 @@ export default function sketch(p5) {
         setsizingparams = props.setsizingparams;
         // Set hasLoaded for Memo
         setHasLoaded = props.setHasLoaded;
+        // Set the selected Solar System Id
+        prevSelectedSolarSystemId = selectedSolarSystemId
+        selectedSolarSystemId = props.selectedSolarSystemId
 
-        if (planetsArray.length > 0)
-        {
+        if (planetsArray.length > 0) {
+            // Cache previous solar system state
+            const oldBodies = [...bodies];
+
             // Makes sure that previous state of solar system is reset
             // before adding another set of planets.
-            bodies.length = 0;
+            bodies = [];
 
             for (let i = 0; i < planetsArray.length; i++) {
                 let name = planetsArray[i]?.name;
@@ -80,16 +87,29 @@ export default function sketch(p5) {
                 }
 
                 // Setting planet position
+                let position;
+                let angle = 0
                 let radius = (distance == 0) ? (distance + defaultSun.mass) : (distance);
-                let theta = p5.random(p5.TWO_PI);
-                let randomPos = p5.createVector(radius * p5.cos(theta), radius * p5.sin(theta));
+                if (prevSelectedSolarSystemId === selectedSolarSystemId) {
+                    oldBodies.forEach(body => {
+                        if (body.id === id && body.type !== 'moon' && body.type !== 'sun') {
+                            position = body.pos;
+                            angle = body.angle;
+                        }
+                    })
+                } 
+                
+                if (!position) {
+                    let theta = p5.random(p5.TWO_PI);
+                    position = p5.createVector(radius * p5.cos(theta), radius * p5.sin(theta));
+                }
 
                 // Setting velocity vector for planet to travel in.
-                let planetVel = randomPos.copy();
+                let planetVel = position.copy();
                 planetVel.rotate(p5.HALF_PI);
-                planetVel.setMag( p5.sqrt(G * defaultSun.mass / randomPos.mag()) );
+                planetVel.setMag( p5.sqrt(G * defaultSun.mass / position.mag()) );
 
-                bodies.push(new Body(mass, randomPos, planetVel, type, color, name, id, 0, radius, defaultSun, texturePreset));
+                bodies.push(new Body(mass, position, planetVel, type, color, name, id, angle, radius, defaultSun, texturePreset));
 
                 if (moons.length > 0)
                 {

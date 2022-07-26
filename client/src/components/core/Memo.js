@@ -31,6 +31,7 @@ function Memo(props) {
             <ReactP5Wrapper 
                 sketch={sketch} 
                 planets={props.planets}
+                selectedSolarSystemId={props.selectedSolarSystemId}
                 setsizingparams={props.setsizingparams}
                 setselections={props.setselections}
                 setHasLoaded={setHasLoaded}
