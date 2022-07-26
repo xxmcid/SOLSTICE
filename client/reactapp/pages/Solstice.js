@@ -11,14 +11,21 @@ import { solsticeStyle } from "./solsticeStyle";
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 var curSolarSystem;
+var bruteForceSolarSystems = [];
+const BACKGROUND_REFRESH_DELAY = 1000;
+var backgroundRefreshInterval;
 
 const SystemCard = ({solarSystem, navigation}) => (
     <Card style={{margin: 5, justifyContent: 'center'}} onPress={() => {
             console.log('Clicked Solar System: ' + solarSystem.name);
-            if (!solarSystem.selected)
+            if (!solarSystem.selected) {
+                if (backgroundRefreshInterval) clearInterval(backgroundRefreshInterval);
                 navigation.push('solstice', { solarSystem: solarSystem });
-            else
+            }
+            else {
+                if (backgroundRefreshInterval) clearInterval(backgroundRefreshInterval);
                 navigation.push('solarsystem', { solarSystem: solarSystem });
+            }
         }}>
         {/* <Card.Cover source={{uri: "https://http.cat/200"}} /> */}
         <Card.Content style={{borderColor: (solarSystem.selected ? "#4490DF" : "#808080"), borderStyle: "solid", borderWidth: 3, borderRadius: 5}}>
@@ -30,6 +37,7 @@ const SystemCard = ({solarSystem, navigation}) => (
 const PlanetCard = ({planet, navigation}) => ( 
     <Card style={{width: "40%", margin: 5}} onPress={() => {
             console.log('Clicked Planet: '+ planet.name);
+            if (backgroundRefreshInterval) clearInterval(backgroundRefreshInterval);
             navigation.push('planet', { planet: planet, solarSystem: curSolarSystem });
         }}>
         <Card.Content style={{borderColor: "#808080", borderStyle: "solid", borderWidth: 1, borderRadius: 5}}>
@@ -68,10 +76,47 @@ function Solstice() {
     const navigation = useNavigation();
     const route = useRoute();
 
-    const doLogout = async () => {  
+    const doLogout = async () => {
+        if (backgroundRefreshInterval) clearInterval(backgroundRefreshInterval);
         await AsyncStorage.clear();
         setLogoutModalVisibility(false);
         navigation.push('login');
+    }
+
+    const beginBackgroundSolarSystemRefresh = async () => {
+        backgroundRefreshInterval = setInterval(async () => {
+            console.log('Checking for Mismatched Solar Systems...');
+            try { // Fetch the user's solar systems.
+                const response = await axios.get(`https://solstice-project.herokuapp.com/api/fetch-solar-systems/${await AsyncStorage.getItem('clientSession')}`)
+
+                let solarSystems_response = response.data.solarSystems;
+                if (!solarSystems_response) {
+                    console.log('> Error fetching solar systems.'); return;
+                }
+
+                // Match each solar system's 'selected' status
+                solarSystems_response.forEach((solarSystem, solarSystemIndex) => {
+                    solarSystems_response[solarSystemIndex].selected = bruteForceSolarSystems[solarSystemIndex].selected;
+                });
+                
+                // Check for mismatching data
+                if (JSON.stringify(solarSystems_response) == JSON.stringify(bruteForceSolarSystems))
+                    return;
+                else
+                    console.log('> Found Mismatched Solar Systems! Re-rendering...');
+
+                bruteForceSolarSystems = [...solarSystems_response];
+    
+                // Set our planets JSON to our state
+                // P5 should see this change in sketch.js and update accordingly.
+                setSolarSystems(solarSystems_response);
+                solarSystems_response.forEach((solarSystem) => {
+                    if (solarSystem.selected) {
+                        setPlanets(solarSystem.planets); return;
+                    }
+                });
+            } catch(err) { if (err?.response?.data) { console.log(err?.response?.data) } else console.log(err) };
+        }, BACKGROUND_REFRESH_DELAY);
     }
 
     useEffect(() => {
@@ -84,6 +129,8 @@ function Solstice() {
                 // Fetch the user's solar systems.
                 axios.get(`https://solstice-project.herokuapp.com/api/fetch-solar-systems/${clientSession}`)
                     .then(response => {
+                        // console.log('inital solar systems: ');
+                        // console.log(response.data.solarSystems.length);
                         for (let i = 0; i < response.data.solarSystems.length; i++) {
                             // Detect which solar system to select from redirect.
                             response.data.solarSystems[i].selected = false;
@@ -103,14 +150,21 @@ function Solstice() {
                         }
 
                         setSolarSystems(response.data.solarSystems);
+                        bruteForceSolarSystems = [...response.data.solarSystems];
+                        // console.log('response data solarSystems length: ' + response.data.solarSystems.length);
+                        // console.log('state\'s solar system length: ' + solarSystems.length);
+                        // shouldBackgroundRefresh = true;
+                        beginBackgroundSolarSystemRefresh();
                     })
                     .catch(async err => {
                         // Logout & redirect to Sign In
+                        if (backgroundRefreshInterval) clearInterval(backgroundRefreshInterval);
                         await AsyncStorage.clear();
                         navigation.navigate('login');
                     });
             } else if (!clientSession) {
                 // Redirect to Sign In
+                if (backgroundRefreshInterval) clearInterval(backgroundRefreshInterval);
                 navigation.navigate('login');
             }
         }
@@ -138,7 +192,7 @@ function Solstice() {
                             {populateSolarSystems(solarSystems, navigation)}
                         </ScrollView>
                         <Card.Actions style={{justifyContent: 'center'}}>
-                            <Button onPress={() => {navigation.push('solarsystem', { solarSystem: undefined })}} color="black" mode="contained">ADD SOLAR SYSTEM</Button>
+                            <Button onPress={() => {if (backgroundRefreshInterval) clearInterval(backgroundRefreshInterval); navigation.push('solarsystem', { solarSystem: undefined })}} color="black" mode="contained">ADD SOLAR SYSTEM</Button>
                         </Card.Actions>
                         <ScrollView style={{maxHeight: 240}}>
                             <View style={{flexDirection: "row", flexWrap: "wrap", justifyContent: 'center', marginBottom: 0}}>
@@ -146,7 +200,7 @@ function Solstice() {
                             </View>
                         </ScrollView>
                         <Card.Actions style={{justifyContent: 'center'}}>
-                            <Button onPress={() => {navigation.push('addplanet', { solarSystem: curSolarSystem })}} color="green" mode="contained">ADD PLANET</Button>
+                            <Button onPress={() => {if (backgroundRefreshInterval) clearInterval(backgroundRefreshInterval); navigation.push('addplanet', { solarSystem: curSolarSystem })}} color="green" mode="contained">ADD PLANET</Button>
                         </Card.Actions>
                     </Card.Content>
                 </Card>
