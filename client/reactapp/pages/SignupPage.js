@@ -39,9 +39,9 @@ export default function LoginPage() {
     e.preventDefault();
     
     const signup = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim(),
         password: password
     };
 

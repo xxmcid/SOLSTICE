@@ -20,7 +20,7 @@ function ForgotPassword(){
         e.preventDefault();
         
         const data = {
-            email: email
+            email: email.trim()
         };
 
         try {

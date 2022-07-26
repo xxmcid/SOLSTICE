@@ -78,7 +78,7 @@ class LoginPage extends Component {
         e.preventDefault();
         
         const login = {
-            email: this.state.email,
+            email: this.state.email.trim(),
             password: this.state.password
         };
 

@@ -37,7 +37,7 @@ class ForgotPass extends React.Component {
         this.setState({errMsg: ''});
         
         const data = {
-            email: this.state.email
+            email: this.state.email.trim()
         };
 
         try {
