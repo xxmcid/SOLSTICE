@@ -17,6 +17,9 @@ const textureMap = new Map();
 // THIS IS NOT A REACT SCRIPT!!!
 export default function sketch(p5) {
 
+    // Prevents interaction with canvas when settings panel is open.
+    let handlerMuted;
+
     // Universal Variables controlling literally space and time
     // Gravitional Constant
     let G = 10;
@@ -34,7 +37,6 @@ export default function sketch(p5) {
     // Global State variables passed down from Solstice.js
     let setHasLoaded;
     let setsizingparams;
-    let expandsidepanel;
     let setselections;
     let prevSelectedSolarSystemId;
     let selectedSolarSystemId;
@@ -45,8 +47,9 @@ export default function sketch(p5) {
     // the props from the parent change OR when the component rerenders.
     p5.updateWithProps = props => {
 
-        // Link all local states to solstice.js states
-        expandsidepanel = props.expandsidepanel;
+        // Sets whether our planets will respond to clicks (This is set to true when we dont want the user interacting with P5..)
+        // Such as when an info panel is open.
+        handlerMuted = props.handlerMuted;
         // Planets Array also needs to be set up here via props.
         planetsArray = props.planets;
         // Selection states to populate sidepanel when a planet is clicked.
@@ -122,6 +125,13 @@ export default function sketch(p5) {
             const maxdist = Number((height/2));
             const maxPlanetSize = defaultSun.mass;
             setsizingparams(mindist, maxdist, maxPlanetSize);
+
+            // Resumes looping of draw function (this is usually the case when someone closes out of the settings menu)
+            if (!handlerMuted)
+            {
+                console.log("Detected an exit from settings menu. Resuming P5 draw loop.")
+                p5.loop();
+            }
         }
     }
 
@@ -162,6 +172,13 @@ export default function sketch(p5) {
     // This function is called repeatedly by P5 to give the illusion of
     // an animation.
     p5.draw = () => {
+
+        // Conserves Memory and optimzes performance when settings menu is in use.
+        if (handlerMuted)
+        {
+            console.log("Settings page open.. Pausing P5 draw function from looping.")
+            p5.noLoop();
+        }
         // ensure canvas fits window (could be more efficient)
         updateCanvasDimensions();
         p5.resizeCanvas(width, height);
@@ -336,6 +353,12 @@ export default function sketch(p5) {
     // of a planet. That's why this global function calls
     // another function inside of the body object
     p5.mousePressed = function() {
+
+        // Ignore any clicks on canvas when the handler is muted.
+        if (handlerMuted)
+        {
+            return;
+        }
         // This for loop goes through all the planets
         // and checks where the mouse was clicked and which
         // planet the x and y coordinates are within bounds.

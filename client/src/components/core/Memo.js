@@ -5,7 +5,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import { getTheme } from '../../styles/mainTheme';
 
 // Mui Components
-import { ThemeProvider, TextField, Button, Typography, Grid } from '@mui/material';
+import { ThemeProvider, Typography, Grid } from '@mui/material';
 import Positioner from '../Positioner';
 
 // P5 Core
@@ -29,6 +29,7 @@ function Memo(props) {
             </ThemeProvider>)}
 
             <ReactP5Wrapper 
+                handlerMuted={props.handlerMuted}
                 sketch={sketch} 
                 planets={props.planets}
                 selectedSolarSystemId={props.selectedSolarSystemId}
@@ -42,7 +43,7 @@ function Memo(props) {
 
 function areEqual(prevProps, nextProps) 
 {
-    return (prevProps.planets == nextProps.planets);
+    return ((prevProps.planets == nextProps.planets) && (prevProps.handlerMuted == nextProps.handlerMuted));
 }
 
 export default React.memo(Memo, areEqual);

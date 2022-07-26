@@ -35,7 +35,7 @@ class Clock extends Component {
       "July", "August", "September", "October", "November", "December"];
 
       let month = this.state.date.getUTCMonth();
-      let day = this.state.date.getUTCDate();
+      let day = this.state.date.getUTCDate() - 1;
       let year = this.state.date.getUTCFullYear();
 
       return (
