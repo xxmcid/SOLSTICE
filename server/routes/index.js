@@ -25,6 +25,7 @@ app.use('/api/update-planet', require('./api/update-planet'));
 app.use('/api/update-moon', require('./api/update-moon'));
 
 app.use('/api/fetch-solar-systems', require('./api/fetch-solar-systems'));
+app.use('/api/fetch-planets', require('./api/fetch-planets'));
 app.use('/api/fetch-user', require('./api/fetch-user'));
 
 // Handle non-matching requests from the client.
