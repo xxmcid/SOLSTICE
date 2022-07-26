@@ -19,11 +19,23 @@ class Info extends Component
     constructor(props) {
         super(props)
         this.state = {
+
             infopageHandler: this.props.onClick,
-            isSettingsPage: this.props.isSettingsPage
-        }
+            isSettingsPage: this.props.isSettingsPage,
+
+            // Info-page specific states
+            confirmationBannerVisible: false
+        }  
 
         this.handleDeleteUser = this.handleDeleteUser.bind(this);
+        this.toggleConfirmationBanner = this.toggleConfirmationBanner.bind(this);
+    }
+
+    toggleConfirmationBanner()
+    {
+        this.setState({
+            confirmationBannerVisible: !this.state.confirmationBannerVisible
+        });
     }
 
     async handleDeleteUser(e) {
@@ -51,6 +63,47 @@ class Info extends Component
     render() {
         return(
             <ThemeProvider theme={getTheme()}>
+                {(this.state.confirmationBannerVisible) ? 
+                <Box
+                    id="confirmDeleteContainer"
+                    color={'text.primary'} 
+                    sx={{
+                        position: "fixed",
+                        top: "50%",
+                        left: "50%",
+                        transform: 'translate(-50%, -50%)',
+                        width: '300px',
+                        height: '150px',
+                        backgroundColor: 'background.paper',
+                        borderRadius: 2,
+                        boxShadow: 8,
+                        zIndex: 2,
+                    }}>
+                    <Typography variant='h4' align="center" paddingTop={2}>Are you sure?</Typography>
+                    <Grid container paddingTop={2} align="center" spacing={1}>
+                        <Grid item xs={6}>
+                            <Button
+                                align={'center'}
+                                variant='contained'
+                                sx={{ backgroundColor: 'red' }}
+                                onClick={this.handleDeleteUser}>
+                                    Yes
+                            </Button>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <Button
+                                align={'center'}
+                                variant='contained'
+                                onClick={this.toggleConfirmationBanner}>
+                                    No
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    
+                </Box>
+                : null}
+
                 <Box 
                     id="infoContainer"
                     sx={{
@@ -117,6 +170,7 @@ class Info extends Component
                             Authors
                         </Typography>
 
+                        {/* Credits: Solstice Team | COP4331C | Large Project | Summer 2022 */}
                         <Typography> • Isaac Liljeros (Project Manager & Front-End)</Typography>
                         <Typography> • Michael Vuolo (API & Mobile) </Typography>
                         <Typography> • Humza Rahman (Front-End) </Typography>
@@ -158,7 +212,7 @@ class Info extends Component
                                         align={'center'}
                                         variant='contained'
                                         size='large'
-                                        onClick={this.handleDeleteUser}
+                                        onClick={this.toggleConfirmationBanner}
                                         sx={{ 
                                             textTransform: 'none', 
                                             borderRadius: 2, 

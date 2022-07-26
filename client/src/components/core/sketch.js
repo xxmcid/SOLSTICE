@@ -10,6 +10,7 @@ import moonTex from '../../assets/Moon.gif';
 import waterTex from '../../assets/Water.gif';
 import sunTex from '../../assets/Sun.gif';
 import background from '../../assets/Background.png';
+import blackholeTex from '../../assets/Blackhole.gif';
 
 
 const textureMap = new Map();
@@ -134,6 +135,8 @@ export default function sketch(p5) {
             textureMap.set('sun', p5.loadImage(sunTex));
         if (!textureMap.has('background'))
             textureMap.set('background', p5.loadImage(background));
+        if (!textureMap.has('blackhole'))
+            textureMap.set('blackhole', p5.loadImage(blackholeTex));
     }
 
     // This function is called repeatedly by P5 to give the illusion of
@@ -166,7 +169,7 @@ export default function sketch(p5) {
                 }
             }
         }
-        defaultSun?.setTexture(textureMap.get('sun'));
+        defaultSun?.setTexture(textureMap.get(defaultSun?.texturePreset || 'sun'));
         defaultSun?.setTint();
         defaultSun?.reveal();
     }
@@ -298,15 +301,11 @@ export default function sketch(p5) {
             let xOffset = p5.mouseX - (width/2);
             let yOffset = p5.mouseY - (height/2);
             let d = p5.dist(xOffset, yOffset, this.pos.x, this.pos.y)
-
-            // Sets correct aspect ratio
-            let offsetDist = (d * (width/height));
-            if (offsetDist < this.mass)
+            if (d < this.mass)
             {
                 // Update selected planet in solstice.
                 let moonId = (this.type == 'moon') ? this.id : null;
                 setselections(this.name, this.mass, G, this.r, this.type, this.color, this.texturePreset, moonId, this.id, this.parent, this.texturePreset);
-                return;
             }
         }
 

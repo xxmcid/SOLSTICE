@@ -18,8 +18,7 @@ export default class Positioner extends React.Component {
           width: "100%",
           maxWidth: this.props.isLoadingScreen ? "min(275px, calc(100% - 40px))" : "min(400px, calc(100% - 40px))",
           position: 'fixed',
-          top: '50%',
-          marginTop: this.props.isSettingsPage ? "15%" : "",
+          top: (this.props.isSettingsPage) ? "70%" : "50%",
           left: (this.props.position === 'left') ? '300px' : '50%',
           transform: 'translate(-50%, -50%)',
           [this.theme.breakpoints.down('sm')]: {
