@@ -126,7 +126,7 @@ function Solstice() {
             <View>
                 <Title style={{marginTop:"20%", color:"white", textAlign:"center", fontWeight:"bold", fontSize: 30 }}>SOLSTICE</Title>
                 
-                <Ionicons onPress={() => {setLogoutModalVisibility(true)}} style={{marginLeft: "87%", marginTop: -38, marginBottom: 45}} name="ios-settings-sharp" size={32} color="white"/>
+                <Ionicons onPress={() => {setLogoutModalVisibility(true)}} style={{marginLeft: "82%", marginTop: -38, marginBottom: 45}} name="ios-settings-sharp" size={32} color="white"/>
             </View>
           </SafeAreaView>
 

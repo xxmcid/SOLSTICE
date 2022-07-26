@@ -15,6 +15,8 @@ export default function LoginPage() {
   const [lastName, setlastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
+
   const [error, setError] = useState({
         firstNameErr: false,
         firstNameErrMsg: "",
@@ -24,6 +26,8 @@ export default function LoginPage() {
         emailErrMsg: "",
         passwordErr: false,
         passwordErrMsg: "",
+        confirmPasswordErrorMsg: false,
+        confirmPasswordError: "",
   });
 
   const navigation = useNavigation();
@@ -40,6 +44,23 @@ export default function LoginPage() {
         email: email,
         password: password
     };
+
+    if (password !== confirmPass){
+      setError({
+        firstNameErr: false,
+        firstNameErrMsg: "",
+        lastNameErr: false,
+        lastNameErrMsg: "",
+        emailErr: false,
+        emailErrMsg: "",
+        passwordErr: false,
+        passwordErrMsg: "",
+        confirmPasswordErrorMsg: "The passwords do not match!",
+        confirmPasswordError: true,
+    })
+      return;
+    }
+            
 
     try {
       console.log("goes here");
@@ -61,6 +82,8 @@ export default function LoginPage() {
         emailErrMsg: "",
         passwordErr: false,
         passwordErrMsg: "",
+        confirmPasswordErrorMsg: false,
+        confirmPasswordError: "",
     })
     
     // Display error messages in red text to users.
@@ -119,6 +142,8 @@ export default function LoginPage() {
                       <HelperText visible={error.emailErr} style={{textAlign: "center"}} type="error">{error.emailErrMsg}</HelperText>
                       <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} label="Password" secureTextEntry={true}></TextInput>
                       <HelperText visible={error.passwordErr} style={{textAlign: "center"}} type="error">{error.passwordErrMsg}</HelperText>                     
+                      <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setConfirmPass} autoCapitalize='none' autoCorrect={false} label="Confirm Password" secureTextEntry={true}></TextInput>
+                      <HelperText visible={error.confirmPasswordError} style={{textAlign: "center"}} type="error">{error.confirmPasswordErrorMsg}</HelperText>
                       <Card.Actions>
                         <Button onPress={redirectLogin} style={signuppageStyle.button} color="blue" uppercase={false}>Go Back</Button>
                         <Button onPress={handleSubmit}color="grey" mode="contained">Register</Button>

@@ -93,10 +93,10 @@ function AddPlanet() {
                     <Card.Title style={{marginLeft:"2%",marginRight:"-16%"}} title="Add Planet"/>              
                     <ScrollView>
                         <Card.Content>
-                            <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setName} value={name} autoCapitalize='none' autoCorrect={false} label="Name"></TextInput>
-                            <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setMass} value={mass.toString()} autoCapitalize='none' autoCorrect={false} label="Mass"></TextInput>
-                            <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setDistance} value={distance.toString()} autoCapitalize='none' autoCorrect={false} label="Distance"></TextInput>
-                            <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setColor} value={color} autoCapitalize='none' autoCorrect={false} label="Color"></TextInput>
+                            <TextInput style={{marginBottom:5}} activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setName} value={name} autoCapitalize='none' autoCorrect={false} label="Name"></TextInput>
+                            <TextInput style={{marginBottom:5}} activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setMass} value={mass.toString()} autoCapitalize='none' autoCorrect={false} label="Mass"></TextInput>
+                            <TextInput style={{marginBottom:5}} activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setDistance} value={distance.toString()} autoCapitalize='none' autoCorrect={false} label="Distance"></TextInput>
+                            <TextInput style={{marginBottom:10}} activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setColor} value={color} autoCapitalize='none' autoCorrect={false} label="Color"></TextInput>
 
                             <List.Accordion style={{backgroundColor: "#cfcfcf"}} title="Texture Preset" left={props => <List.Icon {...props} icon="texture-box"/>}>
                                 <List.Item style={{backgroundColor: texturePreset == 'sun' ? "#dfdfdf" : "#efefef"}} onPress={() => {setTexturePreset('sun')}} title="Sun" left={props => <List.Icon {...props} color="gold" icon="white-balance-sunny"/>}/>
