@@ -93,7 +93,12 @@ export default function sketch(p5) {
                 if (prevSelectedSolarSystemId === selectedSolarSystemId) {
                     oldBodies.forEach(body => {
                         if (body.id === id && body.type !== 'moon' && body.type !== 'sun') {
-                            position = body.pos;
+                            const up = p5.createVector(0, 1);
+
+                            console.log(up.angleBetween(body.pos))
+                            
+                            let theta = (up.angleBetween(body.pos) + p5.HALF_PI) % p5.TWO_PI
+                            position = p5.createVector(radius * p5.cos(theta), radius * p5.sin(theta));
                             angle = body.angle;
                         }
                     })
