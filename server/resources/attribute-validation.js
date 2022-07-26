@@ -17,7 +17,7 @@ exports.validate = function(user, attributes) {
                 // Test the pattern.
                 let pattern_firstName = /^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\.?)$/;
                 if (!pattern_firstName.test(user.firstName))
-                    return "Your first name must only contain letters.";
+                    return "Your first name must only contain letters and begin with an uppercase letter.";
 
                 break;
             case 'lastName':
@@ -36,7 +36,7 @@ exports.validate = function(user, attributes) {
                 // Test the pattern.
                 let pattern_lastName = /^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\.?)$/;
                 if (!pattern_lastName.test(user.lastName))
-                    return "Your last name must only contain letters.";
+                    return "Your last name must only contain letters and begin with an uppercase letter.";
 
                 break;
             case 'email':
