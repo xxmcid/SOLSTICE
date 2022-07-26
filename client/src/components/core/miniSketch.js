@@ -7,6 +7,7 @@ import moonTex from '../../assets/Moon.gif';
 import waterTex from '../../assets/Water.gif';
 import sunTex from '../../assets/Sun.gif';
 import background from '../../assets/Background.png';
+import blackholeTex from '../../assets/Blackhole.gif';
 
 const textureMap = new Map();
 // This is the P5 script for rendering the clicked planet in the side panel.
@@ -41,6 +42,8 @@ export default function miniSketch(p5) {
             textureMap.set('sun', p5.loadImage(sunTex));
         if (!textureMap.has('background'))
             textureMap.set('background', p5.loadImage(background));
+        if (!textureMap.has('blackhole'))
+            textureMap.set('blackhole', p5.loadImage(blackholeTex));
     }
 
     p5.updateWithProps = props => {

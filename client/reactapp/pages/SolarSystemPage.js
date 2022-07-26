@@ -35,6 +35,7 @@ function Planet(props) {
                     "distance": 0,
                     "color": "#FFEA00",
                     "type": "sun",
+                    "texturePreset": "sun",
                     "moons": []
                 },
                 {
@@ -44,6 +45,7 @@ function Planet(props) {
                     "distance": 150,
                     "color": "#7FE54C",
                     "type": "planet",
+                    "texturePreset": "earth",
                     "moons": [
                         {
                             "name": "Moon",
@@ -52,6 +54,7 @@ function Planet(props) {
                             "distance": 0,
                             "color": "#EFEFEF",
                             "type": "moon",
+                            "texturePreset": "moon",
                             "_id": "moon_1:1234567891234567"
                         }
                     ]
@@ -141,7 +144,7 @@ function Planet(props) {
                 
                     <ScrollView>
                         <Card.Content>
-                            <TextInput onChangeText={setName} value={name} autoCapitalize='none' autoCorrect={false} label="Name"></TextInput>
+                            <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setName} value={name} autoCapitalize='none' autoCorrect={false} label="Name"></TextInput>
 
                             <Card.Actions style={{justifyContent: "center"}}>
                                 <Button onPress={() => {navigation.push('solstice', {solarSystem: route.params.solarSystem})}} width="25%" color="white" mode="contained">Cancel</Button>

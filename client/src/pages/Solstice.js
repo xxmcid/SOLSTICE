@@ -344,7 +344,7 @@ class Solstice extends Component
                         setselections={this.setselections.bind(this)}
                     />
 
-                    <Link to='/logout'>
+                    {/* <Link to='/logout'>
                         <Button 
                             id='logoutbutton'
                             variant='contained' 
@@ -359,7 +359,7 @@ class Solstice extends Component
                         >
                             Log Out
                         </Button>
-                    </Link>
+                    </Link> */}
                 </ThemeProvider>
             );
         } else if (!this.state.clientSession) {

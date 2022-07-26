@@ -111,14 +111,14 @@ export default function LoginPage() {
               <Card style={signuppageStyle.card}>
                   <Card.Title titleStyle={{textAlign:"center"}} title="Sign Up"></Card.Title>
                   <Card.Content>
-                      <TextInput onChangeText={setfirstName} autoCapitalize='none' autoCorrect={false} label="First Name"></TextInput>
+                      <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setfirstName} autoCapitalize='none' autoCorrect={false} label="First Name"></TextInput>
                       <HelperText visible={error.firstNameErr} style={{textAlign: "center"}} type="error">{error.firstNameErrMsg}</HelperText>
-                      <TextInput onChangeText={setlastName} autoCapitalize='none' autoCorrect={false} label="Last Name"></TextInput>
+                      <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setlastName} autoCapitalize='none' autoCorrect={false} label="Last Name"></TextInput>
                       <HelperText visible={error.lastNameErr} style={{textAlign: "center"}} type="error">{error.lastNameErrMsg}</HelperText>
-                      <TextInput onChangeText={setEmail} autoCapitalize='none' autoCorrect={false} label="Email" autoCompleteType='email' keyboardType="email-address"></TextInput>
+                      <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setEmail} autoCapitalize='none' autoCorrect={false} label="Email" autoCompleteType='email' keyboardType="email-address"></TextInput>
                       <HelperText visible={error.emailErr} style={{textAlign: "center"}} type="error">{error.emailErrMsg}</HelperText>
-                      <TextInput onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} label="Password" secureTextEntry={true}></TextInput>
-                      <HelperText visible={error.passwordErr} style={{textAlign: "center"}} type="error">{error.passwordErrMsg}</HelperText>
+                      <TextInput activeOutlineColor="blue" outlineColor="black" mode="outlined" onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} label="Password" secureTextEntry={true}></TextInput>
+                      <HelperText visible={error.passwordErr} style={{textAlign: "center"}} type="error">{error.passwordErrMsg}</HelperText>                     
                       <Card.Actions>
                         <Button onPress={redirectLogin} style={signuppageStyle.button} color="blue" uppercase={false}>Go Back</Button>
                         <Button onPress={handleSubmit}color="grey" mode="contained">Register</Button>
