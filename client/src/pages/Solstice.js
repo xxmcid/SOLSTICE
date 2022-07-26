@@ -2,9 +2,6 @@
 import { React, Component } from 'react';
 import axios from "axios";
 
-// Routing Imports
-import { Link } from 'react-router-dom';
-
 // Styling Imports
 import '../styles/solstice.css';
 
@@ -31,7 +28,11 @@ class Solstice extends Component
     {
         super(props);
 
-        this.state = {            
+        this.state = {   
+
+            // Master Control State
+            handlerMuted: false,
+
             // Page and Panel visibility states
             infopagevisible: false,
             sidepanelexpanded: false,
@@ -196,20 +197,19 @@ class Solstice extends Component
 
     }
 
-    setvisibility()
-    {
-        console.log("Info page visible: " + !this.state.infopagevisible);
-        this.setState({
-            infopagevisible: !this.state.infopagevisible
-        });
-    }
-
     expandsidepanel()
     {
         console.log((this.state.sidepanelexpanded ? "Closing" : "Expanding") + " Side Panel!");
         this.setState({
             sidepanelexpanded: !this.state.sidepanelexpanded
         });
+    }
+
+    toggleMute()
+    {
+        this.setState({
+            handlerMuted: !this.state.handlerMuted
+        })
     }
 
     // When a certain planet is selected, P5 will call this function
@@ -294,6 +294,7 @@ class Solstice extends Component
             return (
                 <ThemeProvider theme={getTheme()} id='masterContainer'>
                     <AppHeader 
+                        handlerMuted={this.toggleMute.bind(this)}
                         solarSystems={this.state.solarSystems} 
                         switchSolarSystem={id => this.updateSelectedSolarSystem(id, false)}
                         clientSession={this.state.clientSession}
@@ -339,6 +340,7 @@ class Solstice extends Component
 
                     {/* Wrapped P5 inside of React.memo to prevent unnecessary rerenders */}
                     <Memo 
+                        handlerMuted={this.state.handlerMuted}
                         setsizingparams={this.setsizingparams.bind(this)}
                         planets={this.state.planets}
                         selectedSolarSystemId={this.state.solarSystemId}
