@@ -1,3 +1,4 @@
+// Texture imports 
 import earthTex from '../../assets/Earth.gif';
 import dryTex from '../../assets/Dry.gif';
 import GasTex from '../../assets/Gas.gif';

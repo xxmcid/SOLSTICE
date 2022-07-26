@@ -1,6 +1,5 @@
 // Main Boilerplate for how a generic solar system needs to look like
 // All code in here will be from the P5 dependency
-import { text } from '@fortawesome/fontawesome-svg-core';
 import earthTex from '../../assets/Earth.gif';
 import dryTex from '../../assets/Dry.gif';
 import GasTex from '../../assets/Gas.gif';
