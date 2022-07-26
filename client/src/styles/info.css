@@ -12,3 +12,9 @@
     animation: fadeInAnimation ease 500ms;
     animation-iteration-count: 1;
 }
+
+#confirmDeleteContainer
+{
+    animation: fadeInAnimation ease 500ms;
+    animation-iteration-count: 1;
+}
