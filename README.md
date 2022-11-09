@@ -8,6 +8,7 @@ Michael Vuolo (Full Stack)
 Jonathan Gilbert (Full Stack)
 Carlos Bermudez (API & Database)
 ```
+```Application Link: https://solstice-project.herokuapp.com/ ```
 
 ### Basic Features
 * Solar-System Manager
