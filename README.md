@@ -1,4 +1,6 @@
 # SOLSTICE
+**Application Link:** [https://solstice-project.herokuapp.com/](https://solstice-project.herokuapp.com/)
+
 ## Authored By:
 ```
 Issac Lijeros (Project Manager & Front-End)
@@ -8,7 +10,7 @@ Michael Vuolo (Full Stack)
 Jonathan Gilbert (Full Stack)
 Carlos Bermudez (API & Database)
 ```
-```Application Link: https://solstice-project.herokuapp.com/ ```
+
 
 ### Basic Features
 * Solar-System Manager
