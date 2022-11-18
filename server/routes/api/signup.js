@@ -60,7 +60,10 @@ app.post('/', async function (req, res) {
                 to: user.email,
                 from: 'noreply.solstice@gmail.com',
                 subject: 'Verify Your Account',
-                html: email_verification_html.replaceAll('{{TOKEN}}', tokenObj.token)
+                html: email_verification_html
+                    .replaceAll('{{TOKEN}}', tokenObj.token)
+                    .replaceAll('{{SECURITY}}', process.env.SECURITY ?? 'https')
+                    .replaceAll('{{DOMAIN}}', process.env.DOMAIN ?? 'solstice-project.herokuapp.com')
             }
 
             // Send E-Mail.
