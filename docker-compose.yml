@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: solstice
+      MONGO_INITDB_ROOT_PASSWORD: LongTestPassword2022!
+
+  solstice:
+    image: solstice/solstice
+    restart: always
+    ports:
+      - 8081:8080

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/server.js",
     "build": "cd server && npm install && cd .. && cd client && npm install && npm run build",
-    "build_start": "npm run build && npm start"
+    "build_start": "npm run build && npm start",
+    "docker_deploy": "docker build . -t solstice/solstice && docker-compose up -d"
   },
   "repository": {
     "type": "git",
